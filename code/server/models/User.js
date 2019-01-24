@@ -10,7 +10,7 @@ var userSchema = new schema({
     idToken:{
         type:String,
         required:true,
-    }
+    },
     email:{
         type:String,
         required:true,
