@@ -10,30 +10,30 @@ router.get('/auth', function(req, res, next) {
 
 router.post('/login', function(req, res) {
     var body = req.body;
-    email = req.email;
-    token = req.idToken;
+    email = req.body.email;
+    token = req.body.id_token;
     console.log(body)
-    User.findone({email=email},function(err,doc)){
-      if(err) {return res.status(500).send('error occured')}
+    User.findOne({email:email},function(err,doc){
+      if(err) {return res.status(500).json({message:'error occured'})}
       else {
         if(doc) {
-          return res.status(201).send('user already exsits')
+          return res.status(201).json({message:'user already exsits'})
         }
         else {
           var record = new User()
           record.email = email;
-          record.idToken = idToken;
-          record.save(fuction(err,user){
+          record.idToken = token;
+          record.save(function(err,user) {
             if(err){
-              return res.status(500).send('db error')
+              return res.status(500).json({message: 'db error'});
             } else {
               return res.send(user)
             }
           }
-        }
+          )}
       }
     }
-  });
+  );
 })
 
 
