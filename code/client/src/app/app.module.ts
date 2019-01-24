@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -10,12 +12,9 @@ import {
   GoogleLoginProvider
 } from "angular-6-social-login-v2";
 
-import { SigninComponent } from './signin/signin.component';
+import { AppRoutingModule }  from './app-routing.module';
 
-const appRoutes: Routes = [
-  { path: 'signin', component: SigninComponent},
-  { path: '', component: AppComponent}
-]
+import { SigninComponent } from './signin/signin.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -37,9 +36,9 @@ export function getAuthServiceConfigs() {
   imports: [
     BrowserModule,
     SocialLoginModule,
-    RouterModule.forRoot(
-      appRoutes
-    )
+    AppRoutingModule,
+    HttpClientModule,
+    HttpModule,
   ],
   providers: [{
     provide: AuthServiceConfig,
