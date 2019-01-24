@@ -7,12 +7,15 @@ router.get('/auth', function(req, res, next) {
   res.render('index', { title: 'Auth' });
 });
 
-router.post('/auth/login', fuction(req, res) {
-    var body = req.body,
-    email = req.email,
-    token = req.idToken,
+router.post('/login', function(req, res) {
+    var body = req.body;
+    email = req.email;
+    token = req.idToken;
     console.log(body)
-    res.status(200).send('yayayay')
+    return res.status(200).json({
+      token: "test",
+      expiresIn: 45328,
+    });
 })
 
 
