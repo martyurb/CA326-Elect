@@ -21,7 +21,6 @@ router.post('/login', function(req, res) {
       
       const payload = ticket.getPayload();
       const aud = payload['aud'];
-      const idToken = token;
 
       if(aud != process.env.CLIENT_ID){
         return false;
@@ -46,7 +45,7 @@ router.post('/login', function(req, res) {
             if(doc) {
               user = doc;
               const retToken = jwt.sign({email: user.email, userid: user.userid}, secret, { expiresIn: "1h"});
-              res.status(200).json({
+              return res.status(200).json({
                 token: retToken,
                 expiresIn: 3600,
                 userid: user.userid
@@ -63,7 +62,13 @@ router.post('/login', function(req, res) {
                 if(err){
                   return res.status(500).json({message: 'db error'});
                 } else {
-                  return res.status(201).json({message: "User created"})
+                  const retToken = jwt.sign({email:user.email, userid: user.userid }, secret, { expiresIn: "1h" });
+                  return res.status(200).json({
+                    token: retToken,
+                    expiresIn: 3600,
+                    userid: user.userid
+                  })
+                  //return res.status(201).json({message: "User created"})
                 }
               });
             }
