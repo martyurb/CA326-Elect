@@ -16,9 +16,9 @@ export class AuthenticationService {
         private _router: Router,
     ) {}
 
-    login(email: string, id_token: string) {
-        const loginCredentials = {email, id_token};
-        this._http.post<{token: string, expiresIn: number}>(this._apiAuth + this._apiLogin, loginCredentials)
+    login(email: string, id_token: string, userid:string) {
+        const loginCredentials = {email, id_token, userid};
+        this._http.post<{token: string, expiresIn: number, userid: string}>(this._apiAuth + this._apiLogin, loginCredentials)
             .subscribe(response => {
                 console.log(response);
             });

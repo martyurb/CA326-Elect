@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/User')
+var User = require('../models/User');
+
+const jwt = require('jsonwebtoken');
+
+const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
+
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
@@ -15,11 +20,7 @@ router.post('/login', function(req, res) {
       const ticket = await client.verifyIdToken({idToken: token, audience: process.env.CLIENT_ID});
       
       const payload = ticket.getPayload();
-      const userid = payload['sub'];
       const aud = payload['aud'];
-      const name = payload['name'];
-      const photo = payload['picture'];
-      const email = payload['email'];
       const idToken = token;
 
       if(aud != process.env.CLIENT_ID){
@@ -33,16 +34,27 @@ router.post('/login', function(req, res) {
    
     email = req.body.email;
     token = req.body.id_token;
+    userid = req.body.userid;
 
     if (result != false) {
+
+      let user;
+
       User.findOne({email: email},function(err,doc){
           if(err) {return res.status(500).json({message:'error occured'})}
           else {
             if(doc) {
-              return res.status(201).json({message:'user already exsits'})
+              user = doc;
+              const retToken = jwt.sign({email: user.email, userid: user.userid}, secret, { expiresIn: "1h"});
+              res.status(200).json({
+                token: retToken,
+                expiresIn: 3600,
+                userid: user.userid
+              });
             }
             else {
               var record = new User({
+                userid: userid,
                 idToken: token,
                 email: email
               });
