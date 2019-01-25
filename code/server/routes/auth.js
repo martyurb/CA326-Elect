@@ -67,8 +67,7 @@ router.post('/login', function(req, res) {
                     token: retToken,
                     expiresIn: 3600,
                     userid: user.userid
-                  })
-                  //return res.status(201).json({message: "User created"})
+                  });
                 }
               });
             }
