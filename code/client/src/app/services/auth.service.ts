@@ -52,6 +52,21 @@ export class AuthenticationService {
             });
     }
 
+    autoAuthUser() {
+        const authInformation = this.getAuthenticationData();
+        if (!authInformation) {
+            return;
+        }
+        const now = new Date();
+        const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+        if (expiresIn > 0) {
+            this._token = authInformation.token;
+            this._isAuthenticated = true;
+            this.setAuthTimer(expiresIn/1000);
+            this._authenticationStatusListener.next(true);
+        }
+    }
+
     logout() {
         this._token = null;
         this._isAuthenticated = false;
@@ -77,5 +92,17 @@ export class AuthenticationService {
         localStorage.removeItem('token');
         localStorage.removeItem('expiration');
         localStorage.removeItem('uid');
+    }
+
+    private getAuthenticationData() {
+        const token = localStorage.getItem('token');
+        const expirationDate = localStorage.getItem('expiration');
+        if (!token || !expirationDate) {
+            return;
+        }
+        return {
+            token: token,
+            expirationDate: new Date(expirationDate)
+        };
     }
 }
