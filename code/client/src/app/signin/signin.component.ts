@@ -5,7 +5,8 @@ import { AuthenticationService } from '../services/auth.service';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+  styleUrls: ['./signin.component.css'],
+  providers: [AuthenticationService],
 })
 export class SigninComponent implements OnInit {
 
@@ -26,7 +27,7 @@ export class SigninComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform+" sign in data : ", userData);
-        this.authService.login(userData.email, userData.idToken, userData.id);
+        this.authService.login(userData.email, userData.name, userData.image, userData.idToken, userData.id);
       }
     )
   }

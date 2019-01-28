@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ export class AuthenticationService {
     private _apiLogin = AppConfig.apiLogin;
     private _apiSignup = AppConfig.apiSignup;
     private _apiAuth = AppConfig.apiAuth;
+    private _apiAccount = AppConfig.apiAccount;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -20,6 +21,11 @@ export class AuthenticationService {
         private _http: HttpClient,
         private _router: Router,
     ) {}
+
+    getProfile(){
+        let token = this._token;
+        return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount,{token})
+    }
 
     getToken() {
         return this._token;
@@ -33,8 +39,8 @@ export class AuthenticationService {
         return this._authenticationStatusListener.asObservable();
     }
 
-    login(email: string, id_token: string, userid:string) {
-        const loginCredentials = {email, id_token, userid};
+    login(email: string, name: string, image:string, id_token: string, userid:string) {
+        const loginCredentials = {email, name, image, id_token, userid};
         this._http.post<{token: string, expiresIn: number, userid: string}>(this._apiAuth + this._apiLogin, loginCredentials)
             .subscribe(response => {
                 console.log(response);

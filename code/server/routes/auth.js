@@ -14,6 +14,24 @@ router.get('/auth', function(req, res, next) {
   res.render('index', { title: 'Auth' });
 });
 
+function verifyToken(token){
+  return jwt.verify(token, secret);
+}
+
+router.post('/account', function(req, res) {
+  let token = req.body.token;
+
+  let verifiedToken = verifyToken(token);
+  
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    console.log(user);
+    if (err) return res.status(400).json({message:"Cant find user"});
+    else{
+      return res.status(200).json({email: user.email, name: user.fullname, photo: user.photo});
+    }
+  });
+})
+
 router.post('/login', function(req, res) {
     // Verify Google OAuth Token
     async function verify(token) {
@@ -32,6 +50,8 @@ router.post('/login', function(req, res) {
     result = verify(req.body.id_token);
    
     email = req.body.email;
+    name = req.body.name;
+    image = req.body.image;
     token = req.body.id_token;
     userid = req.body.userid;
 
@@ -55,8 +75,12 @@ router.post('/login', function(req, res) {
               var record = new User({
                 userid: userid,
                 idToken: token,
-                email: email
+                email: email,
+                photo: image,
+                fullname: name,
               });
+
+              console.log(record);
 
               record.save(function(err,user) {
                 if(err){
@@ -75,7 +99,6 @@ router.post('/login', function(req, res) {
         }
       );
     }
-    
 })
 
 

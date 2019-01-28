@@ -9,7 +9,7 @@ var userSchema = new schema({
     },
     fullname:{
         type:String,
-        required:false,
+        required:true,
     },
     idToken:{
         type:String,
@@ -21,7 +21,7 @@ var userSchema = new schema({
     },
     photo:{
         type:String,
-        required:false,
+        required:true,
     }
 })
 

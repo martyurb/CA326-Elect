@@ -15,6 +15,7 @@ import {
 import { AppRoutingModule }  from './app-routing.module';
 
 import { SigninComponent } from './signin/signin.component';
+import { AccountComponent } from './account/account.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -32,6 +33,7 @@ export function getAuthServiceConfigs() {
   declarations: [
     AppComponent,
     SigninComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
