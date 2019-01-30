@@ -22,6 +22,10 @@ var userSchema = new schema({
     photo:{
         type:String,
         required:true,
+    },
+    publicKey:{
+        type:String,
+        required:false
     }
 })
 

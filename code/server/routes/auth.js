@@ -18,13 +18,46 @@ function verifyToken(token){
   return jwt.verify(token, secret);
 }
 
+router.post('/keys/upload', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  console.log("HELLO", verifiedToken);
+  let publicKey = req.body.publicKey;
+  User.findOneAndUpdate({userid:verifiedToken.userid}, {publicKey:publicKey})
+    .then((updatedUser) => {
+      if (updatedUser) {
+        return res.status(201).json({message: true});
+      }
+      else{
+        return res.status(401).json({message:false});
+      }
+    })
+})
+
+router.post('/keys', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(200).json({message: "Can't find user"});
+    else {
+      if (user) {
+        if (user.publicKey) {
+          return res.status(200).json({isKeySet: true, key: user.publicKey});
+        } else {
+          return res.status(200).json({isKeySet: false});
+        }
+      }
+    }
+  })
+})
+
 router.post('/account', function(req, res) {
   let token = req.body.token;
 
   let verifiedToken = verifyToken(token);
-  
+
   User.findOne({userid:verifiedToken.userid}, function(err, user) {
-    console.log(user);
     if (err) return res.status(400).json({message:"Cant find user"});
     else{
       return res.status(200).json({email: user.email, name: user.fullname, photo: user.photo});

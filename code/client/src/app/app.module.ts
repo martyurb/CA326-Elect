@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 
@@ -16,6 +18,7 @@ import { AppRoutingModule }  from './app-routing.module';
 
 import { SigninComponent } from './signin/signin.component';
 import { AccountComponent } from './account/account.component';
+import { ManageKeysComponent } from './manage-keys/manage-keys.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -34,6 +37,7 @@ export function getAuthServiceConfigs() {
     AppComponent,
     SigninComponent,
     AccountComponent,
+    ManageKeysComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +45,8 @@ export function getAuthServiceConfigs() {
     AppRoutingModule,
     HttpClientModule,
     HttpModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [{
     provide: AuthServiceConfig,

@@ -11,6 +11,8 @@ export class AuthenticationService {
     private _apiSignup = AppConfig.apiSignup;
     private _apiAuth = AppConfig.apiAuth;
     private _apiAccount = AppConfig.apiAccount;
+    private _apiKeys = AppConfig.apiKeys;
+    private _apiSetKey = AppConfig.apiSetKey;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -24,7 +26,7 @@ export class AuthenticationService {
 
     getProfile(){
         let token = this._token;
-        return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount,{token})
+        return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount,{token});
     }
 
     getToken() {
@@ -37,6 +39,22 @@ export class AuthenticationService {
 
     getAuthStatusListener() {
         return this._authenticationStatusListener.asObservable();
+    }
+
+    isKeySet() {
+        let token = this._token;
+        return this._http.post<{isKeySet: boolean, key: string}>(this._apiAuth + this._apiKeys, {token});
+    }
+
+    setKey(publicKey: String){
+        let token = this._token;
+        let keyInfo = { token, publicKey}
+        this._http.post<{message: String}>(this._apiAuth + this._apiSetKey, keyInfo)
+            .subscribe((response) => {
+                if (response.message) {
+                    this._router.navigate(['/users/keys']);
+                }
+            })
     }
 
     login(email: string, name: string, image:string, id_token: string, userid:string) {

@@ -4,4 +4,6 @@ export const AppConfig = {
     apiSignup: '/signup',
     apiLogin: '/login',
     apiAccount: '/account',
+    apiKeys: '/keys',
+    apiSetKey: '/keys/upload'
 }
