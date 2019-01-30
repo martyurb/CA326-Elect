@@ -5,5 +5,6 @@ export const AppConfig = {
     apiLogin: '/login',
     apiAccount: '/account',
     apiKeys: '/keys',
-    apiSetKey: '/keys/upload'
+    apiSetKey: '/keys/upload',
+    apiKeyGen: '/keys/generate'
 }

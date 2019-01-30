@@ -14,8 +14,11 @@
 
     <form [formGroup]="keysForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
         <label>
-            <input placeholder="Paste your RSA public key here.." type="text" formControlName="publicKey">
+            <textarea placeholder="Paste your RSA public key here.." type="text" formControlName="publicKey"></textarea>
           </label>
-        
     </form>
+    <br>
+    <h4>OR</h4>
+    <br>
+    <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
 </div>

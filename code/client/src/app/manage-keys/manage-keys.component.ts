@@ -49,6 +49,13 @@ export class ManageKeysComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
   }
 
+  generateKey() {
+    this.authService.generateKey(this.authService.getToken())
+      .subscribe(privatekey => {
+        console.log(privatekey);
+      })
+  }
+
   onSubmit(keyForm) {
     this.isLoading = true;
 

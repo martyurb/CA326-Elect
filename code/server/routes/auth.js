@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var pgp = require('openpgp');
 
 const jwt = require('jsonwebtoken');
 
@@ -17,6 +18,36 @@ router.get('/auth', function(req, res, next) {
 function verifyToken(token){
   return jwt.verify(token, secret);
 }
+
+router.post('/keys/generate', function(req, res) {
+  console.log("HERE");
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  console.log("HELLO");
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(401).json({message: "User not found"});
+    else if (user) {
+      var options = {
+        userIds: [{userid: verifiedToken.userid, }],
+        numBits: 1024,
+        passphrase: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks"
+      }
+      console.log("here")
+      pgp.generateKey(options).then(function(key) {
+        var privKey = key.privateKeyArmored;
+        var publicKey = key.publicKeyArmored;
+        User.findOneAndUpdate({userid:verifiedToken.userid}, {publicKey:publicKey})
+          .then((updatedUser) => {
+            if (updatedUser) {
+              return res.status(201).json({message: true, privKey: privKey});
+            } else {
+              return res.status(500).json({message: "error"});
+            }
+          })
+      });
+    }
+  })
+})
 
 router.post('/keys/upload', function(req, res) {
   let token = req.body.token;

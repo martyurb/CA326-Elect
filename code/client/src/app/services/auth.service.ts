@@ -13,8 +13,9 @@ export class AuthenticationService {
     private _apiAccount = AppConfig.apiAccount;
     private _apiKeys = AppConfig.apiKeys;
     private _apiSetKey = AppConfig.apiSetKey;
+    private _apiKeyGen = AppConfig.apiKeyGen;
 
-    private _isAuthenticated = false;
+    private _isAuthenticated = false; 
     private _token: string;
     private _tokenTimer: any;
     private _authenticationStatusListener = new Subject<boolean>();
@@ -55,6 +56,10 @@ export class AuthenticationService {
                     this._router.navigate(['/users/keys']);
                 }
             })
+    }
+
+    generateKey(token: string) {
+        return this._http.post<{message:boolean, privatekey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
     }
 
     login(email: string, name: string, image:string, id_token: string, userid:string) {
