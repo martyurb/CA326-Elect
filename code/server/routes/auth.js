@@ -15,15 +15,18 @@ router.get('/auth', function(req, res, next) {
   res.render('index', { title: 'Auth' });
 });
 
+// Verify the JWT
 function verifyToken(token){
   return jwt.verify(token, secret);
 }
 
+
+// Generate a PGP key pair for given user
 router.post('/keys/generate', function(req, res) {
   console.log("HERE");
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
-  console.log("HELLO");
+
   User.findOne({userid:verifiedToken.userid}, function(err, user) {
     if (err) return res.status(401).json({message: "User not found"});
     else if (user) {
@@ -32,7 +35,7 @@ router.post('/keys/generate', function(req, res) {
         numBits: 1024,
         passphrase: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks"
       }
-      console.log("here")
+
       pgp.generateKey(options).then(function(key) {
         var privKey = key.privateKeyArmored;
         var publicKey = key.publicKeyArmored;
@@ -49,10 +52,11 @@ router.post('/keys/generate', function(req, res) {
   })
 })
 
+// Handle user uploaded public key
 router.post('/keys/upload', function(req, res) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
-  console.log("HELLO", verifiedToken);
+
   let publicKey = req.body.publicKey;
   User.findOneAndUpdate({userid:verifiedToken.userid}, {publicKey:publicKey})
     .then((updatedUser) => {
@@ -62,9 +66,10 @@ router.post('/keys/upload', function(req, res) {
       else{
         return res.status(401).json({message:false});
       }
-    })
+    });
 })
 
+// Return account key information
 router.post('/keys', function(req, res) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
@@ -83,6 +88,7 @@ router.post('/keys', function(req, res) {
   })
 })
 
+// Return a users account information
 router.post('/account', function(req, res) {
   let token = req.body.token;
 
@@ -96,6 +102,8 @@ router.post('/account', function(req, res) {
   });
 })
 
+
+// Log the user in or create an account then log in
 router.post('/login', function(req, res) {
     // Verify Google OAuth Token
     async function verify(token) {
