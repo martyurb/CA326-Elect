@@ -24,10 +24,13 @@ export class ManageKeysComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+
+    // Initialise the RSA Key upload form
     this.keysForm = this.formBuilder.group({
       publicKey: ['']
     });
 
+    // Check if the users key is set
     this.authService.isKeySet()
       .subscribe((response) => {
         if (response.isKeySet) {
@@ -38,24 +41,21 @@ export class ManageKeysComponent implements OnInit {
       })
   }
 
+  // Display the users key
   displayKey() {
     this.showKey = true;
     this.keyText = this.key;
   }
 
-  copyToClipboard(inputElement) {
-    inputElement.select();
-    document.execCommand('copy');
-    inputElement.setSelectionRange(0, 0);
-  }
-
+  // Call authentication service to generate encryption key pair
   generateKey() {
     this.authService.generateKey(this.authService.getToken())
-      .subscribe(privatekey => {
-        console.log(privatekey);
+      .subscribe(response => {
+        console.log(response.message);
       })
   }
 
+  // Set public key when form is submitted
   onSubmit(keyForm) {
     this.isLoading = true;
 

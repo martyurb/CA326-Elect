@@ -18,6 +18,7 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Login/Signup the user via Google OAuth API
   public socialSignIn(socialPlatform: string){
     let socialPlatformProvider;
     if(socialPlatform == "google"){

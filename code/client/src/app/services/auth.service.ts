@@ -25,28 +25,34 @@ export class AuthenticationService {
         private _router: Router,
     ) {}
 
+    // Get user profile information
     getProfile(){
         let token = this._token;
         return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount,{token});
     }
 
+    // Get the users authentication token
     getToken() {
         return this._token;
     }
     
+    // Return if user is authenticated
     getIsAuthenticated() {
         return this._isAuthenticated;
     }
 
+    // Return the authentication status listener as observable object
     getAuthStatusListener() {
         return this._authenticationStatusListener.asObservable();
     }
 
+    // Get whether user encryption keys are set
     isKeySet() {
         let token = this._token;
         return this._http.post<{isKeySet: boolean, key: string}>(this._apiAuth + this._apiKeys, {token});
     }
 
+    // Set the users encryption keys
     setKey(publicKey: String){
         let token = this._token;
         let keyInfo = { token, publicKey}
@@ -58,10 +64,12 @@ export class AuthenticationService {
             })
     }
 
+    // Generate users encryption key pair
     generateKey(token: string) {
         return this._http.post<{message:boolean, privatekey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
     }
 
+    // Login user
     login(email: string, name: string, image:string, id_token: string, userid:string) {
         const loginCredentials = {email, name, image, id_token, userid};
         this._http.post<{token: string, expiresIn: number, userid: string}>(this._apiAuth + this._apiLogin, loginCredentials)
@@ -81,6 +89,8 @@ export class AuthenticationService {
             });
     }
 
+    // Automatically authenticate the user
+    // if they return to the site but session not expired
     autoAuthUser() {
         const authInformation = this.getAuthenticationData();
         if (!authInformation) {
@@ -96,6 +106,7 @@ export class AuthenticationService {
         }
     }
 
+    // Log the user out and end the session
     logout() {
         this._token = null;
         this._isAuthenticated = false;
@@ -105,24 +116,29 @@ export class AuthenticationService {
     }
 
 
+    // Set the authentication timer
     private setAuthTimer(duration: number) {
         this._tokenTimer = setTimeout(() => {
             this.logout();
         }, duration * 1000);
     }
 
+
+    // Save authentication data to browser local storage
     private saveAuthenticationData(token: string, expirationDate: Date, id: string) {
         localStorage.setItem('token', token);
         localStorage.setItem('expiration', expirationDate.toISOString());
         localStorage.setItem('uid', id);
     }
 
+    // Clear the users authentication data from browser local storage
     private clearAuthenticationData() {
         localStorage.removeItem('token');
         localStorage.removeItem('expiration');
         localStorage.removeItem('uid');
     }
 
+    // Get the users authentication data from browser local storage
     private getAuthenticationData() {
         const token = localStorage.getItem('token');
         const expirationDate = localStorage.getItem('expiration');

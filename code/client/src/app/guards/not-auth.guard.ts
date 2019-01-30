@@ -11,6 +11,7 @@ export class NotAuthGuard implements CanActivate {
         private router: Router
     ) {}
 
+    // Authentication Guard to protect routes when user is signed in
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
         const isAuth = this.authService.getIsAuthenticated();
         if (isAuth) {

@@ -14,12 +14,12 @@ export class AccountComponent implements OnInit {
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit() {
+    // Get the users profile
     this.authService.getProfile()
       .subscribe((userData) => {
         console.log(userData);
         this.userData = userData;
-      });
-    
+      }); 
   }
 
 }
