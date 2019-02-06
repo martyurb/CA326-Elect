@@ -19,6 +19,7 @@ import { AppRoutingModule }  from './app-routing.module';
 import { SigninComponent } from './signin/signin.component';
 import { AccountComponent } from './account/account.component';
 import { ManageKeysComponent } from './manage-keys/manage-keys.component';
+import { HeaderComponent } from './header/header.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -38,6 +39,7 @@ export function getAuthServiceConfigs() {
     SigninComponent,
     AccountComponent,
     ManageKeysComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

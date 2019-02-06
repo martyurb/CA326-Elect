@@ -80,6 +80,7 @@ export class AuthenticationService {
                 if (token) {
                     const expiresInDuration = response.expiresIn;
                     this.setAuthTimer(expiresInDuration);
+                    this._isAuthenticated = true;
                     this._authenticationStatusListener.next(true);
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
