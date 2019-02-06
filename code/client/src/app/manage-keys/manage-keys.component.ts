@@ -11,12 +11,12 @@ export class ManageKeysComponent implements OnInit {
 
   isLoading = false;
   publicKeyEnding = '';
-  keyText = "";
+  keyText = '';
   keysForm: FormGroup;
   showKey = false;
   public isKeySet;
   private key;
-  
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,9 +36,9 @@ export class ManageKeysComponent implements OnInit {
         if (response.isKeySet) {
           this.isKeySet = true;
           this.key = response.key;
-          this.publicKeyEnding = "****" + response.key.slice(response.key.length-4, response.key.length);
+          this.publicKeyEnding = '****' + response.key.slice(response.key.length - 4, response.key.length);
         }
-      })
+      });
   }
 
   // Display the users key
@@ -52,15 +52,15 @@ export class ManageKeysComponent implements OnInit {
     this.authService.generateKey(this.authService.getToken())
       .subscribe(response => {
         console.log(response.message);
-      })
+      });
   }
 
   // Set public key when form is submitted
   onSubmit(keyForm) {
     this.isLoading = true;
 
-    if (this.keysForm.get("publicKey").value != "") {
-      this.authService.setKey(this.keysForm.get("publicKey").value);
+    if (this.keysForm.get('publicKey').value !== '') {
+      this.authService.setKey(this.keysForm.get('publicKey').value);
     }
   }
 

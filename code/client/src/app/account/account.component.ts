@@ -19,7 +19,7 @@ export class AccountComponent implements OnInit {
       .subscribe((userData) => {
         console.log(userData);
         this.userData = userData;
-      }); 
+      });
   }
 
 }

@@ -15,7 +15,7 @@ export class AuthenticationService {
     private _apiSetKey = AppConfig.apiSetKey;
     private _apiKeyGen = AppConfig.apiKeyGen;
 
-    private _isAuthenticated = false; 
+    private _isAuthenticated = false;
     private _token: string;
     private _tokenTimer: any;
     private _authenticationStatusListener = new Subject<boolean>();
@@ -26,16 +26,16 @@ export class AuthenticationService {
     ) {}
 
     // Get user profile information
-    getProfile(){
-        let token = this._token;
-        return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount,{token});
+    getProfile() {
+        const token = this._token;
+        return this._http.post<{userData: any}>(this._apiAuth + this._apiAccount, {token});
     }
 
     // Get the users authentication token
     getToken() {
         return this._token;
     }
-    
+
     // Return if user is authenticated
     getIsAuthenticated() {
         return this._isAuthenticated;
@@ -48,29 +48,29 @@ export class AuthenticationService {
 
     // Get whether user encryption keys are set
     isKeySet() {
-        let token = this._token;
+        const token = this._token;
         return this._http.post<{isKeySet: boolean, key: string}>(this._apiAuth + this._apiKeys, {token});
     }
 
     // Set the users encryption keys
     setKey(publicKey: String){
         let token = this._token;
-        let keyInfo = { token, publicKey}
+        const keyInfo = {token, publicKey};
         this._http.post<{message: String}>(this._apiAuth + this._apiSetKey, keyInfo)
             .subscribe((response) => {
                 if (response.message) {
                     this._router.navigate(['/users/keys']);
                 }
-            })
+            });
     }
 
     // Generate users encryption key pair
     generateKey(token: string) {
-        return this._http.post<{message:boolean, privatekey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
+        return this._http.post<{message: boolean, privatekey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
     }
 
     // Login user
-    login(email: string, name: string, image:string, id_token: string, userid:string) {
+    login(email: string, name: string, image: string, id_token: string, userid: string) {
         const loginCredentials = {email, name, image, id_token, userid};
         this._http.post<{token: string, expiresIn: number, userid: string}>(this._apiAuth + this._apiLogin, loginCredentials)
             .subscribe(response => {
@@ -85,7 +85,7 @@ export class AuthenticationService {
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                     this.saveAuthenticationData(token, expirationDate, response.userid);
-                    this._router.navigate(["/"]);
+                    this._router.navigate(['/']);
                 }
             });
     }
@@ -102,7 +102,7 @@ export class AuthenticationService {
         if (expiresIn > 0) {
             this._token = authInformation.token;
             this._isAuthenticated = true;
-            this.setAuthTimer(expiresIn/1000);
+            this.setAuthTimer(expiresIn / 1000);
             this._authenticationStatusListener.next(true);
         }
     }

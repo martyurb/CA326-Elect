@@ -9,11 +9,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('SigninComponent', () => {
   let component: SigninComponent;
   let fixture: ComponentFixture<SigninComponent>;
-  let testService: AuthenticationService;
+  // let testService: AuthenticationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [AuthenticationService, HttpClient, HttpHandler, AuthService, ],
+      providers: [AuthenticationService, HttpClient, HttpHandler, AuthService],
       declarations: [ SigninComponent ],
       imports: [RouterTestingModule]
     })

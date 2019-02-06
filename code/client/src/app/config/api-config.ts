@@ -8,4 +8,4 @@ export const AppConfig = {
     apiKeys: '/keys',
     apiSetKey: '/keys/upload',
     apiKeyGen: '/keys/generate'
-}
+};

@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor( 
+  constructor(
     private socialAuthService: AuthService,
     private authService: AuthenticationService
   ) { }
@@ -19,18 +19,18 @@ export class SigninComponent implements OnInit {
   }
 
   // Login/Signup the user via Google OAuth API
-  public socialSignIn(socialPlatform: string){
+  public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
-    if(socialPlatform == "google"){
+    if(socialPlatform === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log(socialPlatform+" sign in data : ", userData);
+        console.log(socialPlatform + ' sign in data : ', userData);
         this.authService.login(userData.email, userData.name, userData.image, userData.idToken, userData.id);
       }
-    )
+    );
   }
 
 }
