@@ -53,8 +53,8 @@ export class AuthenticationService {
     }
 
     // Set the users encryption keys
-    setKey(publicKey: String){
-        let token = this._token;
+    setKey(publicKey: String) {
+        const token = this._token;
         const keyInfo = {token, publicKey};
         this._http.post<{message: String}>(this._apiAuth + this._apiSetKey, keyInfo)
             .subscribe((response) => {

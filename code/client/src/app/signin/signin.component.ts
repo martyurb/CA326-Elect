@@ -21,7 +21,7 @@ export class SigninComponent implements OnInit {
   // Login/Signup the user via Google OAuth API
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
-    if(socialPlatform === 'google') {
+    if (socialPlatform === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
 
