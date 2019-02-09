@@ -11,10 +11,11 @@ export class AuthGuard implements CanActivate {
         private router: Router
     ) {}
 
+    // Authentication guard to protect routes relying on authenticated users
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
         const isAuth = this.authService.getIsAuthenticated();
         if (!isAuth) {
-            this.router.navigate(['/signin'])
+            this.router.navigate(['/signin']);
         }
         return isAuth;
     }

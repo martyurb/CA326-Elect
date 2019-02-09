@@ -1,0 +1,15 @@
+image: node:8.10.0
+
+cache:
+  paths:
+    - code/client/node_modules/
+
+stages:
+  - lint
+
+lint:
+  stage: lint
+  script:
+    - cd code/client
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng lint

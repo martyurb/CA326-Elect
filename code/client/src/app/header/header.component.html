@@ -1,0 +1,13 @@
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/img/logo.png" width="120px" height="34px" alt="">
+    </a>
+    <ul class="nav">
+            <li class="nav-item" *ngIf="userIsAuthenticated">
+              <a class="nav-link" (click)="onLogout()">Logout</a>
+            </li>
+            <li class="nav-item" *ngIf="!userIsAuthenticated">
+              <a class="nav-link" routerLink="/signin">Sign In</a>
+            </li>
+          </ul>
+</nav>

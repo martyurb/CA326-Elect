@@ -1,0 +1,24 @@
+<h1>Manage Your PGP Keys</h1>
+
+<div *ngIf="isKeySet">
+    <h4>You have set your PGP encryption keys</h4>
+    <button class="btn btn-primary" (click)="displayKey()">Show Key</button>
+    <br><br>
+    <p [textContent]="keyText"></p>
+</div>
+
+
+<div *ngIf="!isKeySet">
+    <h4>Set up your PGP encryption keys</h4>
+    <p>This must be done in order to use Extra-Secure voting</p>
+
+    <form [formGroup]="keysForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+        <label>
+            <textarea placeholder="Paste your PGP RSA public key here.." type="text" formControlName="publicKey"></textarea>
+          </label>
+    </form>
+    <br>
+    <h4>OR</h4>
+    <br>
+    <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
+</div>

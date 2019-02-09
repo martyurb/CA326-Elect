@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var pgp = require('openpgp');
 
 const jwt = require('jsonwebtoken');
 
@@ -14,6 +15,95 @@ router.get('/auth', function(req, res, next) {
   res.render('index', { title: 'Auth' });
 });
 
+// Verify the JWT
+function verifyToken(token){
+  return jwt.verify(token, secret);
+}
+
+
+// Generate a PGP key pair for given user
+router.post('/keys/generate', function(req, res) {
+  console.log("HERE");
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(401).json({message: "User not found"});
+    else if (user) {
+      var options = {
+        userIds: [{userid: verifiedToken.userid, }],
+        numBits: 1024,
+        passphrase: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks"
+      }
+
+      pgp.generateKey(options).then(function(key) {
+        var privKey = key.privateKeyArmored;
+        var publicKey = key.publicKeyArmored;
+        User.findOneAndUpdate({userid:verifiedToken.userid}, {publicKey:publicKey})
+          .then((updatedUser) => {
+            if (updatedUser) {
+              return res.status(201).json({message: true, privKey: privKey});
+            } else {
+              return res.status(500).json({message: "error"});
+            }
+          })
+      });
+    }
+  })
+})
+
+// Handle user uploaded public key
+router.post('/keys/upload', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+
+  let publicKey = req.body.publicKey;
+  User.findOneAndUpdate({userid:verifiedToken.userid}, {publicKey:publicKey})
+    .then((updatedUser) => {
+      if (updatedUser) {
+        return res.status(201).json({message: true});
+      }
+      else{
+        return res.status(401).json({message:false});
+      }
+    });
+})
+
+// Return account key information
+router.post('/keys', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(200).json({message: "Can't find user"});
+    else {
+      if (user) {
+        if (user.publicKey) {
+          return res.status(200).json({isKeySet: true, key: user.publicKey});
+        } else {
+          return res.status(200).json({isKeySet: false});
+        }
+      }
+    }
+  })
+})
+
+// Return a users account information
+router.post('/account', function(req, res) {
+  let token = req.body.token;
+
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid:verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(400).json({message:"Cant find user"});
+    else{
+      return res.status(200).json({email: user.email, name: user.fullname, photo: user.photo});
+    }
+  });
+})
+
+
+// Log the user in or create an account then log in
 router.post('/login', function(req, res) {
     // Verify Google OAuth Token
     async function verify(token) {
@@ -32,6 +122,8 @@ router.post('/login', function(req, res) {
     result = verify(req.body.id_token);
    
     email = req.body.email;
+    name = req.body.name;
+    image = req.body.image;
     token = req.body.id_token;
     userid = req.body.userid;
 
@@ -55,8 +147,12 @@ router.post('/login', function(req, res) {
               var record = new User({
                 userid: userid,
                 idToken: token,
-                email: email
+                email: email,
+                photo: image,
+                fullname: name,
               });
+
+              console.log(record);
 
               record.save(function(err,user) {
                 if(err){
@@ -75,7 +171,6 @@ router.post('/login', function(req, res) {
         }
       );
     }
-    
 })
 
 
