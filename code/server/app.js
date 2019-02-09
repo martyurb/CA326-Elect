@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var pollRouter = require('./routes/polls');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
