@@ -4,8 +4,8 @@ var schema = mongoose.Schema;
 
 var userSchema = new schema({
     userid:{
-        type: String,
-        required: true
+        type:String,
+        required:true
     },
     fullname:{
         type:String,
