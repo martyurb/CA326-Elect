@@ -86,8 +86,8 @@ router.post('/close'), function(req, res) {
     else if (user) {
       Poll.findOne({pollid:pollid}, function(err, poll) {
         if (err) return res.status(401).json({message: "Poll not found"});
-        else if poll.author === user.userid {
-          Poll.findOneAndUpdate({pollid:pollid}, {isOpen: false});
+        else if (poll.author === user.userid) {
+          Poll.findOneAndUpdate({pollid:pollid}, {isOpen: false})
             .then((updatedPoll) => {
               if (updatedPoll) {
                 return res.status(201).json({message: true, isOpen: false});
