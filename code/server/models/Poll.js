@@ -3,25 +3,27 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
 var pollSchema = new schema({
-    authorId:{
+    pollid:{
         type:String,
-        required:true,
+        required:true
+    },
+    author:{
+      type:String,
+      required:false
     },
     title:{
         type:String,
         required:true,
     },
-    type:{
-        type:String,
+    options:{
+        type:[String],
         required:true,
     },
-    voteOptions:{
-        type:[{
-          type: String
-        }],
-        required:true,
+    isOpen:{
+      type:Boolean,
+      required:true,
     }
 })
 
 
-module.exports = mongoose.model('polls',userSchema,'polls');
+module.exports = mongoose.model('polls',pollSchema,'polls');
