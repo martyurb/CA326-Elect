@@ -78,14 +78,16 @@ export class AuthenticationService {
                 const token = response.token;
                 this._token = token;
                 if (token) {
-                    const expiresInDuration = response.expiresIn;
-                    this.setAuthTimer(expiresInDuration);
                     this._isAuthenticated = true;
                     this._authenticationStatusListener.next(true);
+                    const expiresInDuration = response.expiresIn;
+                    
+                    this.setAuthTimer(expiresInDuration);
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                     this.saveAuthenticationData(token, expirationDate, response.userid);
                     this._router.navigate(['/']);
+                    window.location.reload();
                 }
             });
     }
@@ -112,6 +114,7 @@ export class AuthenticationService {
         this._token = null;
         this._isAuthenticated = false;
         this._authenticationStatusListener.next(false);
+        this._router.navigate(['/']);
         this.clearAuthenticationData();
         clearTimeout(this._tokenTimer);
     }
