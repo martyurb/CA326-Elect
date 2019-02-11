@@ -17,7 +17,7 @@ var pollSchema = new schema({
     },
     options:{
         type:[String],
-        required:true,
+        required:false,
     },
     isOpen:{
       type:Boolean,

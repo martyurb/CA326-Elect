@@ -15,20 +15,20 @@ function verifyToken(token){
 
 //Dynamic poll route
 router.get('/:id', function(req , res){
-  Poll.findOne({pollid: req.params.id}, function(err, poll) {
+  Poll.findOne({pollid: req.body.id}, function(err, poll) {
     //To do - add redirect to 404
     if (err) res.render('404 Poll not found');
     else if (poll) {
       res.render(poll.title)
     }
   })
-  res.render('poll' + req.params.id);
+  res.render('poll' + req.body.id);
 
 })
 
 
 // Create New poll
-router.post('/new'), function(req, res) {
+router.post('/new', function(req, res) {
   //check if a valid user is creating a new poll
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
@@ -40,7 +40,8 @@ router.post('/new'), function(req, res) {
       const pollid = randomstring.generate(7);
 
       Poll.findOne({pollid: pollid},function(err,doc){
-          if(err) {
+          if (err) { return res.status(500).json({message: "An error occured when searching for the user"}); }
+          if(!doc) {
             title = req.body.title;
             options = req.body.options;
             isOpen = true;
@@ -55,13 +56,12 @@ router.post('/new'), function(req, res) {
 
             console.log(record);
 
-            record.save(function(err,poll) {
+            record.save( (err, poll) => {
               if(err){
+                console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
-                const url1 = "/poll/"
-                const redirecturl = url1.concat(poll.pollid);
-                return res.redirect(300, redirecturl);
+                return res.status(201).json({message: "added new poll"})
               }
             });
           }
@@ -69,11 +69,12 @@ router.post('/new'), function(req, res) {
             if(doc) {
               //temp - add logic for when dublicate pollid is generated
               return res.status(500).json({message: "error"});
-          }}
+            }
+          }
         });
       }
     });
-}
+});
 
 // Close a poll
 router.post('/close'), function(req, res) {
