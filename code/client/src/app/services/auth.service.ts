@@ -122,6 +122,7 @@ export class AuthenticationService {
 
     createPoll(poll: any) {
         let token = this._token;
+        console.log(poll);
         let pollObj = {
             poll:poll,
             token:token,

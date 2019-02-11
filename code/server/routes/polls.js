@@ -26,15 +26,16 @@ router.get('/:id', function(req , res){
 
 })
 
-router.post('/create', function(req, res) {
-  let token = req.body.token;
-  let poll = req.body.poll;
-  console.log(token, poll);
-})
+// router.post('/create', function(req, res) {
+//   let token = req.body.token;
+//   let poll = req.body.poll;
+//   console.log(token, poll);
+// })
 
 // Create New poll
-router.post('/new', function(req, res) {
+router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
+  console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -47,13 +48,16 @@ router.post('/new', function(req, res) {
       Poll.findOne({pollid: pollid},function(err,doc){
           if (err) { return res.status(500).json({message: "An error occured when searching for the user"}); }
           if(!doc) {
-            title = req.body.title;
-            options = req.body.options;
+
+            title = req.body.poll.title;
+            options = req.body.poll.options;
+            type = req.body.poll.type;
             isOpen = true;
 
             var record = new Poll({
               pollid: pollid,
               author: user.userid,
+              voteType: type,
               title: title,
               options: options,
               isOpen: isOpen

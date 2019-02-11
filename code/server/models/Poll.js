@@ -15,9 +15,19 @@ var pollSchema = new schema({
         type:String,
         required:true,
     },
+    voteType: {
+            code: {
+                type: Number,
+                required: true
+            },
+            name: {
+                type: String,
+                required: true
+            },
+    },
     options:{
         type:[String],
-        required:false,
+        required:true,
     },
     isOpen:{
       type:Boolean,
