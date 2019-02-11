@@ -1,0 +1,17 @@
+<form [formGroup]="pollForm">
+  <input formControlName="title"><br>
+  <select formControlName="type">
+    <option [value]="type" *ngFor="let type of voteTypes">{{type.name}}</option>
+  </select>
+  <div formArrayName="options">
+    <h3>Options</h3> <button (click)="addOption()">Add Option</button>
+
+    <div *ngFor="let option of options.controls; let i=index">
+      <label>
+        Option:
+        <input type="text" [formControlName]="i">
+      </label>
+    </div>
+  </div>
+  <button (click)="submit()">Submit</button>
+ </form>

@@ -86,8 +86,8 @@ export class AuthenticationService {
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                     this.saveAuthenticationData(token, expirationDate, response.userid);
-                    this._router.navigate(['/']);
                     window.location.reload();
+                    this._router.navigate(['/']);
                 }
             });
     }
