@@ -26,6 +26,11 @@ router.get('/:id', function(req , res){
 
 })
 
+router.post('/create', function(req, res) {
+  let token = req.body.token;
+  let poll = req.body.poll;
+  console.log(token, poll);
+})
 
 // Create New poll
 router.post('/new', function(req, res) {

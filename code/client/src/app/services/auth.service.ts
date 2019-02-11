@@ -6,7 +6,7 @@ import { AppConfig } from '../config/api-config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private _baseUrl = AppConfig.apiAuth;
+    private _baseUrl = AppConfig.apiUrl;
     private _apiLogin = AppConfig.apiLogin;
     private _apiSignup = AppConfig.apiSignup;
     private _apiAuth = AppConfig.apiAuth;
@@ -14,6 +14,7 @@ export class AuthenticationService {
     private _apiKeys = AppConfig.apiKeys;
     private _apiSetKey = AppConfig.apiSetKey;
     private _apiKeyGen = AppConfig.apiKeyGen;
+    private _apiPollCreate = AppConfig.apiPollCreate;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -119,6 +120,16 @@ export class AuthenticationService {
         clearTimeout(this._tokenTimer);
     }
 
+    createPoll(poll: any) {
+        let token = this._token;
+        let pollObj = {
+            poll:poll,
+            token:token,
+        }
+        this._http.post<{success:boolean}>(this._baseUrl + this._apiPollCreate, pollObj).subscribe((response) => {
+            console.log(response);
+        })
+    }
 
     // Set the authentication timer
     private setAuthTimer(duration: number) {

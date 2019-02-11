@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { AuthenticationService } from '../services/auth.service';
 
 @Component({
   selector: 'app-poll',
@@ -15,10 +16,11 @@ export class PollComponent implements OnInit {
     name: 'Straw Poll'
   }]
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.pollForm = this.fb.group({
+      timestamp: [''],
       title: [''],
       type: [this.voteTypes[0]],
       options: this.fb.array([
@@ -36,8 +38,30 @@ export class PollComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.pollForm);
-    console.log(this.pollForm.controls);
+    this.pollForm.controls['timestamp'].patchValue(Date.now());
+    let timestamp = this.pollForm.controls.timestamp.value;
+    let title = this.pollForm.controls.title.value;
+    let type = this.pollForm.controls.type.value;
+    let options = this.pollForm.controls.options.value;
+
+    let newOptions = [];
+    let i = 0;
+    while (i < options.length) {
+      if (options[i] !== "") {
+        newOptions.push(options[i]);
+      }
+      i++;
+    }
+    options = newOptions;
+    
+    const poll = {
+      timestamp: timestamp,
+      title: title,
+      type: type,
+      options: options
+    };
+
+    this.authService.createPoll(poll);
   }
 
 
