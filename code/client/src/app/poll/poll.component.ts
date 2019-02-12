@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { AuthenticationService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll',
@@ -16,7 +17,9 @@ export class PollComponent implements OnInit {
     name: 'Straw Poll'
   }]
 
-  constructor(private fb: FormBuilder, private authService: AuthenticationService) { }
+  constructor(private fb: FormBuilder,
+              private authService: AuthenticationService,
+              private _router: Router) { }
 
   ngOnInit() {
     this.pollForm = this.fb.group({
@@ -61,7 +64,12 @@ export class PollComponent implements OnInit {
       options: options
     };
 
-    this.authService.createPoll(poll);
+    this.authService.createPoll(poll)
+      .subscribe((response) => {
+        if (response.message === true) {
+          this._router.navigate(['/poll/', response.pollid]);
+        }
+      });
   }
 
 

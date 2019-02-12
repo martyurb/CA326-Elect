@@ -15,6 +15,7 @@ export class AuthenticationService {
     private _apiSetKey = AppConfig.apiSetKey;
     private _apiKeyGen = AppConfig.apiKeyGen;
     private _apiPollCreate = AppConfig.apiPollCreate;
+    private _apiPollFetch = AppConfig.apiPollFetch;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -127,9 +128,15 @@ export class AuthenticationService {
             poll:poll,
             token:token,
         }
-        this._http.post<{success:boolean}>(this._baseUrl + this._apiPollCreate, pollObj).subscribe((response) => {
-            console.log(response);
-        })
+        return this._http.post<{message:boolean, pollid: String}>(this._baseUrl + this._apiPollCreate, pollObj);
+    }
+
+    getPollInformation(id: string) {
+        const pollInfo = {
+            token: this._token,
+            pollid: id
+        } 
+        return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
     }
 
     // Set the authentication timer

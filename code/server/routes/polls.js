@@ -50,11 +50,13 @@ router.post('/create', function(req, res) {
           if(!doc) {
 
             title = req.body.poll.title;
+            timestamp = req.body.poll.timestamp;
             options = req.body.poll.options;
             type = req.body.poll.type;
             isOpen = true;
 
             var record = new Poll({
+              created_at: timestamp,
               pollid: pollid,
               author: user.userid,
               voteType: type,
@@ -70,7 +72,7 @@ router.post('/create', function(req, res) {
                 console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
-                return res.status(201).json({message: "added new poll"})
+                return res.status(201).json({message: true, pollid: pollid})
               }
             });
           }
@@ -85,8 +87,36 @@ router.post('/create', function(req, res) {
     });
 });
 
+router.post('/fetch', function(req, res) {
+  let token = req.body.token;
+  let pollid = req.body.pollid;
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid: verifiedToken.userid}, function(err, user) {
+    if (err) { throw err; }
+    if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+        if (err) { throw err; }
+
+        if (poll) {
+          const title = poll.title;
+          const options = poll.options;
+          const id = poll.pollid;
+          return res.status(200).json({title: title, options: options, id: id})
+        }
+        else {
+          
+          return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+        }
+      })
+    } else {
+      return res.status(500).json({message: "Something went wrong"});
+    }
+  })
+})
+
 // Close a poll
-router.post('/close'), function(req, res) {
+router.post('/close'), function(req, pollInfores) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.pollid;

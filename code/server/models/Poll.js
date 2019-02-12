@@ -3,6 +3,10 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
 var pollSchema = new schema({
+    created_at: {
+        type: Number,
+        required: true
+    },
     pollid:{
         type:String,
         required:true
