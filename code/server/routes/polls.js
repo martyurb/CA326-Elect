@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var randomstring = require("randomstring");
+var _ = require('lodash');
 var Poll = require('../models/Poll');
 var User = require('../models/User');
+var Vote = require('../models/Vote')
 const jwt = require('jsonwebtoken');
+
 
 const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
 
@@ -66,7 +69,6 @@ router.post('/create', function(req, res) {
               voteType: type,
               title: title,
               options: options,
-              isOpen: isOpen,
               close_at: closeTimestamp
             });
 
@@ -153,6 +155,31 @@ router.post('/close'), function(req, pollInfores) {
       })
     }
   })
+}
+
+
+
+router.get('/:id/result', function(req , res) {
+    Poll.findOne({pollid: req.body.id}, function(err, poll) {
+      if (err) { throw err;}
+      if (poll) {
+        vote.find({pollid: req.body.id}.toArray(function(err, result) {
+          if (err) {throw err;}
+          if (result) {
+            var grouped = _.groupBy(result, 'option')
+
+            Object.keys(grouped).map(function (key, index) {
+              grouped[key] = grouped[key].length;
+            });
+            return res.render(grouped);
+          }
+        }
+      ));
+      }
+      else {
+        return res.status(404).json({message: "error"});
+      }
+    }
 }
 
 
