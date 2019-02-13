@@ -49,11 +49,15 @@ router.post('/create', function(req, res) {
           if (err) { return res.status(500).json({message: "An error occured when searching for the user"}); }
           if(!doc) {
 
+            //change timestamps - time should be acquired from server instead of client for security and consistency
+            //timestamp = req.body.poll.timestamp;
+            date = new Date();
+            timestamp = date.getTime();
             title = req.body.poll.title;
-            timestamp = req.body.poll.timestamp;
             options = req.body.poll.options;
             type = req.body.poll.type;
-            isOpen = true;
+            closingTimestamp = req.body.poll.closeTimestamp
+            //isOpen = true;
 
             var record = new Poll({
               created_at: timestamp,
@@ -62,7 +66,8 @@ router.post('/create', function(req, res) {
               voteType: type,
               title: title,
               options: options,
-              isOpen: isOpen
+              isOpen: isOpen,
+              close_at: closeTimestamp
             });
 
             console.log(record);
@@ -92,25 +97,32 @@ router.post('/fetch', function(req, res) {
   let pollid = req.body.pollid;
   let verifiedToken = verifyToken(token);
 
-  User.findOne({userid: verifiedToken.userid}, function(err, user) {
+  Poll.findOne({pollid: pollid}, function(err, poll) {
     if (err) { throw err; }
-    if (user) {
-      Poll.findOne({pollid: pollid}, function(err, poll) {
-        if (err) { throw err; }
+    if (poll) {
+      const closeTimestamp = poll.close_at
+      const date = new Date();
+      const nowTimestamp = date.getTime();
 
-        if (poll) {
-          const title = poll.title;
-          const options = poll.options;
-          const id = poll.pollid;
-          return res.status(200).json({title: title, options: options, id: id})
-        }
-        else {
-          
-          return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
-        }
-      })
-    } else {
-      return res.status(500).json({message: "Something went wrong"});
+      //check if current time is past close time. If true then poll is over and redirect to result page
+      if (nowTimestamp > closeTimestamp) {
+        return res.redirect('result');
+      } else {
+        User.findOne({userid: verifiedToken.userid}, function(err, user) {
+          if (err) { throw err; }
+          if (user) {
+            const title = poll.title;
+            const options = poll.options;
+            const id = poll.pollid;
+            return res.status(200).json({title: title, options: options, id: id});
+          } else {
+            return res.status(500).json({message: "Something went wrong"});
+            }
+        })
+      }
+    }
+    else {
+      return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
     }
   })
 })
@@ -127,10 +139,12 @@ router.post('/close'), function(req, pollInfores) {
       Poll.findOne({pollid:pollid}, function(err, poll) {
         if (err) return res.status(401).json({message: "Poll not found"});
         else if (poll.author === user.userid) {
-          Poll.findOneAndUpdate({pollid:pollid}, {isOpen: false})
+          const date = new Date();
+          const nowTimestamp = date.getTime();
+          Poll.findOneAndUpdate({pollid:pollid}, {close_at:nowTimestamp})
             .then((updatedPoll) => {
               if (updatedPoll) {
-                return res.status(201).json({message: true, isOpen: false});
+                return res.status(201).json({success: true});
               } else {
                 return res.status(500).json({message: "error"});
               }

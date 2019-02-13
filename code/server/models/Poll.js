@@ -33,9 +33,9 @@ var pollSchema = new schema({
         type:[String],
         required:true,
     },
-    isOpen:{
-      type:Boolean,
-      required:true,
+    close_at: {
+      type: Number,
+      requreired:false
     }
 })
 
