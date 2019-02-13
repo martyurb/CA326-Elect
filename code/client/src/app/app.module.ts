@@ -20,6 +20,8 @@ import { SigninComponent } from './signin/signin.component';
 import { AccountComponent } from './account/account.component';
 import { ManageKeysComponent } from './manage-keys/manage-keys.component';
 import { HeaderComponent } from './header/header.component';
+import { PollComponent } from './poll/poll.component';
+import { ViewPollComponent } from './view-poll/view-poll.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -40,6 +42,8 @@ export function getAuthServiceConfigs() {
     AccountComponent,
     ManageKeysComponent,
     HeaderComponent,
+    PollComponent,
+    ViewPollComponent,
   ],
   imports: [
     BrowserModule,

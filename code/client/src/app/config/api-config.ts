@@ -7,5 +7,7 @@ export const AppConfig = {
     apiAccount: '/account',
     apiKeys: '/keys',
     apiSetKey: '/keys/upload',
-    apiKeyGen: '/keys/generate'
+    apiKeyGen: '/keys/generate',
+    apiPollCreate: '/poll/create',
+    apiPollFetch: '/poll/fetch'
 };

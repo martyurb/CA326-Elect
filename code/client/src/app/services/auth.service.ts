@@ -6,7 +6,7 @@ import { AppConfig } from '../config/api-config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private _baseUrl = AppConfig.apiAuth;
+    private _baseUrl = AppConfig.apiUrl;
     private _apiLogin = AppConfig.apiLogin;
     private _apiSignup = AppConfig.apiSignup;
     private _apiAuth = AppConfig.apiAuth;
@@ -14,6 +14,8 @@ export class AuthenticationService {
     private _apiKeys = AppConfig.apiKeys;
     private _apiSetKey = AppConfig.apiSetKey;
     private _apiKeyGen = AppConfig.apiKeyGen;
+    private _apiPollCreate = AppConfig.apiPollCreate;
+    private _apiPollFetch = AppConfig.apiPollFetch;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -78,13 +80,15 @@ export class AuthenticationService {
                 const token = response.token;
                 this._token = token;
                 if (token) {
-                    const expiresInDuration = response.expiresIn;
-                    this.setAuthTimer(expiresInDuration);
                     this._isAuthenticated = true;
                     this._authenticationStatusListener.next(true);
+                    const expiresInDuration = response.expiresIn;
+                    
+                    this.setAuthTimer(expiresInDuration);
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                     this.saveAuthenticationData(token, expirationDate, response.userid);
+                    window.location.reload();
                     this._router.navigate(['/']);
                 }
             });
@@ -112,10 +116,28 @@ export class AuthenticationService {
         this._token = null;
         this._isAuthenticated = false;
         this._authenticationStatusListener.next(false);
+        this._router.navigate(['/']);
         this.clearAuthenticationData();
         clearTimeout(this._tokenTimer);
     }
 
+    createPoll(poll: any) {
+        let token = this._token;
+        console.log(poll);
+        let pollObj = {
+            poll:poll,
+            token:token,
+        }
+        return this._http.post<{message:boolean, pollid: String}>(this._baseUrl + this._apiPollCreate, pollObj);
+    }
+
+    getPollInformation(id: string) {
+        const pollInfo = {
+            token: this._token,
+            pollid: id
+        } 
+        return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
+    }
 
     // Set the authentication timer
     private setAuthTimer(duration: number) {

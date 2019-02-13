@@ -15,21 +15,27 @@ function verifyToken(token){
 
 //Dynamic poll route
 router.get('/:id', function(req , res){
-  Poll.findOne({pollid: req.params.id}, function(err, poll) {
+  Poll.findOne({pollid: req.body.id}, function(err, poll) {
     //To do - add redirect to 404
     if (err) res.render('404 Poll not found');
     else if (poll) {
       res.render(poll.title)
     }
   })
-  res.render('poll' + req.params.id);
+  res.render('poll' + req.body.id);
 
 })
 
+// router.post('/create', function(req, res) {
+//   let token = req.body.token;
+//   let poll = req.body.poll;
+//   console.log(token, poll);
+// })
 
 // Create New poll
-router.post('/new'), function(req, res) {
+router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
+  console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -40,14 +46,20 @@ router.post('/new'), function(req, res) {
       const pollid = randomstring.generate(7);
 
       Poll.findOne({pollid: pollid},function(err,doc){
-          if(err) {
-            title = req.body.title;
-            options = req.body.options;
+          if (err) { return res.status(500).json({message: "An error occured when searching for the user"}); }
+          if(!doc) {
+
+            title = req.body.poll.title;
+            timestamp = req.body.poll.timestamp;
+            options = req.body.poll.options;
+            type = req.body.poll.type;
             isOpen = true;
 
             var record = new Poll({
+              created_at: timestamp,
               pollid: pollid,
               author: user.userid,
+              voteType: type,
               title: title,
               options: options,
               isOpen: isOpen
@@ -55,13 +67,12 @@ router.post('/new'), function(req, res) {
 
             console.log(record);
 
-            record.save(function(err,poll) {
+            record.save( (err, poll) => {
               if(err){
+                console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
-                const url1 = "/poll/"
-                const redirecturl = url1.concat(poll.pollid);
-                return res.redirect(300, redirecturl);
+                return res.status(201).json({message: true, pollid: pollid})
               }
             });
           }
@@ -69,14 +80,43 @@ router.post('/new'), function(req, res) {
             if(doc) {
               //temp - add logic for when dublicate pollid is generated
               return res.status(500).json({message: "error"});
-          }}
+            }
+          }
         });
       }
     });
-}
+});
+
+router.post('/fetch', function(req, res) {
+  let token = req.body.token;
+  let pollid = req.body.pollid;
+  let verifiedToken = verifyToken(token);
+
+  User.findOne({userid: verifiedToken.userid}, function(err, user) {
+    if (err) { throw err; }
+    if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+        if (err) { throw err; }
+
+        if (poll) {
+          const title = poll.title;
+          const options = poll.options;
+          const id = poll.pollid;
+          return res.status(200).json({title: title, options: options, id: id})
+        }
+        else {
+          
+          return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+        }
+      })
+    } else {
+      return res.status(500).json({message: "Something went wrong"});
+    }
+  })
+})
 
 // Close a poll
-router.post('/close'), function(req, res) {
+router.post('/close'), function(req, pollInfores) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.pollid;

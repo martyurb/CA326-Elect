@@ -154,7 +154,7 @@ router.post('/login', function(req, res) {
 
               console.log(record);
 
-              record.save(function(err,user) {
+              record.save( (err,user) => {
                 if(err){
                   return res.status(500).json({message: 'db error'});
                 } else {

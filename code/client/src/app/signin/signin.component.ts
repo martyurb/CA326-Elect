@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login-v2';
 import { AuthenticationService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -12,7 +13,8 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private socialAuthService: AuthService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,7 @@ export class SigninComponent implements OnInit {
       (userData) => {
         console.log(socialPlatform + ' sign in data : ', userData);
         this.authService.login(userData.email, userData.name, userData.image, userData.idToken, userData.id);
+        
       }
     );
   }

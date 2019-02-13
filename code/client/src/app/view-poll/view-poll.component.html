@@ -1,0 +1,5 @@
+<p *ngIf="pollFound">{{title}}</p>
+<div *ngIf="pollFound">
+  <div *ngFor="let option of options"><p>{{option}}</p></div>
+</div>
+<p *ngIf="pollFound">{{id}}</p>
