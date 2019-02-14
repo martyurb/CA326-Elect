@@ -19,7 +19,7 @@ export class ViewPollComponent implements OnInit {
             ) { }
 
   ngOnInit() {
-    let pollid = this.route.snapshot.paramMap.get('id');
+    const pollid = this.route.snapshot.paramMap.get('id');
     console.log(pollid);
     this.authService.getPollInformation(pollid)
       .subscribe((response) => {
