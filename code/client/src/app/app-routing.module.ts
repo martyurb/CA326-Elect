@@ -7,8 +7,10 @@ import { AccountComponent } from './account/account.component';
 import { ManageKeysComponent } from './manage-keys/manage-keys.component';
 import { PollComponent } from './poll/poll.component';
 import { ViewPollComponent } from './view-poll/view-poll.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
+    { path: '', component: HomeComponent },
     { path: 'signin', component: SigninComponent, canActivate: [NotAuthGuard] },
     { path: 'user/account', component: AccountComponent, canActivate: [AuthGuard] },
     { path: 'users/keys', component: ManageKeysComponent, canActivate: [AuthGuard] },
