@@ -18,16 +18,6 @@ var voteSchema = new schema({
     option:{
         type:String,
         required:true,
-    },
-    voteType: {
-            code: {
-                type: Number,
-                required: true
-            },
-            name: {
-                type: String,
-                required: true
-            },
     }
 })
 

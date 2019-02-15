@@ -148,6 +148,9 @@ router.post('/all', function(req, res) {
     } else {
       return res.status(401).json({message: false});
     }
+    else {
+      return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+    }
   })
 });
 
@@ -179,6 +182,11 @@ router.post('/close'), function(req, pollInfores) {
   })
 }
 
+router.post('/cast', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let pollid = req.body.pollid;
+  let option = req.body.option;
 
 
 router.get('/:id/result', function(req , res) {
