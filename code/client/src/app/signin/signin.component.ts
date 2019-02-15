@@ -31,7 +31,6 @@ export class SigninComponent implements OnInit {
       (userData) => {
         console.log(socialPlatform + ' sign in data : ', userData);
         this.authService.login(userData.email, userData.name, userData.image, userData.idToken, userData.id);
-        
       }
     );
   }

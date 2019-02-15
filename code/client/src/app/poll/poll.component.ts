@@ -15,7 +15,7 @@ export class PollComponent implements OnInit {
   voteTypes = [{
     code: 1,
     name: 'Straw Poll'
-  }]
+  }];
 
   constructor(private fb: FormBuilder,
               private authService: AuthenticationService,
@@ -29,34 +29,34 @@ export class PollComponent implements OnInit {
       options: this.fb.array([
         this.fb.control('')
       ])
-    })
+    });
   }
 
   get options() {
     return this.pollForm.get('options') as FormArray;
   }
 
-  addOption(name: string) {
+  addOption() {
     this.options.push(this.fb.control(''));
   }
 
   submit() {
     this.pollForm.controls['timestamp'].patchValue(Date.now());
-    let timestamp = this.pollForm.controls.timestamp.value;
-    let title = this.pollForm.controls.title.value;
-    let type = this.pollForm.controls.type.value;
+    const timestamp = this.pollForm.controls.timestamp.value;
+    const title = this.pollForm.controls.title.value;
+    const type = this.pollForm.controls.type.value;
     let options = this.pollForm.controls.options.value;
 
-    let newOptions = [];
+    const newOptions = [];
     let i = 0;
     while (i < options.length) {
-      if (options[i] !== "") {
+      if (options[i] !== '') {
         newOptions.push(options[i]);
       }
       i++;
     }
     options = newOptions;
-    
+
     const poll = {
       timestamp: timestamp,
       title: title,

@@ -16,6 +16,8 @@ export class AuthenticationService {
     private _apiKeyGen = AppConfig.apiKeyGen;
     private _apiPollCreate = AppConfig.apiPollCreate;
     private _apiPollFetch = AppConfig.apiPollFetch;
+    private _apiAllPolls = AppConfig.apiAllPolls;
+    private _apiPollCast = AppConfig.apiPollCast;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -83,7 +85,6 @@ export class AuthenticationService {
                     this._isAuthenticated = true;
                     this._authenticationStatusListener.next(true);
                     const expiresInDuration = response.expiresIn;
-                    
                     this.setAuthTimer(expiresInDuration);
                     const now = new Date();
                     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
@@ -122,21 +123,32 @@ export class AuthenticationService {
     }
 
     createPoll(poll: any) {
-        let token = this._token;
+        const token = this._token;
         console.log(poll);
-        let pollObj = {
-            poll:poll,
-            token:token,
-        }
-        return this._http.post<{message:boolean, pollid: String}>(this._baseUrl + this._apiPollCreate, pollObj);
+        const pollObj = {
+            poll: poll,
+            token: token,
+        };
+        return this._http.post<{message: boolean, pollid: String}>(this._baseUrl + this._apiPollCreate, pollObj);
     }
 
     getPollInformation(id: string) {
         const pollInfo = {
             token: this._token,
             pollid: id
-        } 
+        };
         return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
+    }
+
+    castVote(voteObject: any) {
+        this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, voteObject)
+            .subscribe((response) => {
+                console.log(response);
+            });
+    }
+
+    getPolls() {
+        return this._http.post<{message: boolean, polls: any}>(this._baseUrl + this._apiAllPolls, {token: this._token})
     }
 
     // Set the authentication timer

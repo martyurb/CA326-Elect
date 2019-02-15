@@ -127,7 +127,29 @@ router.post('/fetch', function(req, res) {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
     }
   })
-})
+});
+
+router.post('/all', function(req, res) {
+  let token = req.body.token;
+  console.log("Here");
+  let verifiedToken = verifyToken(token);
+  User.findOne({userid: verifiedToken.userid}, function(err, user) {
+    if (err) return res.status(401).json({message: false});
+    else if (user) {
+      Poll.find({author: verifiedToken.userid}, function(err, polls) {
+        if (err) return res.status(401).json({message: false});
+        else if (polls) {
+          console.log(polls)
+          return res.status(200).json({message: true, polls: polls});
+        } else {
+          return res.status(401).json({message: false});
+        }
+      });
+    } else {
+      return res.status(401).json({message: false});
+    }
+  })
+});
 
 // Close a poll
 router.post('/close'), function(req, pollInfores) {

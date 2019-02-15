@@ -1,7 +1,8 @@
-  .form-container {
+.form-container {
     margin: 4rem;
     width: 40%;
   }
+  
   
   .card-signin {
     border: 0;
@@ -36,7 +37,7 @@
     position: absolute;
     background-color: rgb(51, 167, 245);
     width: 100%;
-    bottom: 0;
+  
     top: 60px;
   }
   

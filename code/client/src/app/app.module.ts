@@ -22,6 +22,9 @@ import { ManageKeysComponent } from './manage-keys/manage-keys.component';
 import { HeaderComponent } from './header/header.component';
 import { PollComponent } from './poll/poll.component';
 import { ViewPollComponent } from './view-poll/view-poll.component';
+import { HomeComponent } from './home/home.component';
+import { UserPollsComponent } from './user-polls/user-polls.component';
+import { CastVoteComponent } from './cast-vote/cast-vote.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -44,6 +47,9 @@ export function getAuthServiceConfigs() {
     HeaderComponent,
     PollComponent,
     ViewPollComponent,
+    HomeComponent,
+    UserPollsComponent,
+    CastVoteComponent,
   ],
   imports: [
     BrowserModule,
