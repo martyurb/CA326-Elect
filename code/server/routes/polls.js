@@ -125,6 +125,7 @@ router.post('/fetch', function(req, res) {
     }
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+<<<<<<< Updated upstream
     }
   })
 });
@@ -150,6 +151,8 @@ router.post('/all', function(req, res) {
     }
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+=======
+>>>>>>> Stashed changes
     }
   })
 });
@@ -188,8 +191,41 @@ router.post('/cast', function(req, res) {
   let pollid = req.body.pollid;
   let option = req.body.option;
 
+<<<<<<< Updated upstream
 
 router.get('/:id/result', function(req , res) {
+=======
+  User.findOne({userid:verifiedToken.userId}, function(err, user){
+    if (err) return res.status(401).json({message: "User not found"});
+    else if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+      if (err) return res.status(401).json({message: "Poll not found"});
+      else if (poll) {
+        const date = new Date();
+        const nowTimestamp = date.getTime();
+
+        var record = new Vote({
+          created_at: nowTimestamp,
+          pollid: pollid,
+          author: user.userid,
+          option: option
+        });
+
+        record.save( (err, vote) => {
+          if(err){
+            console.log(err);
+            return res.status(500).json({message: "db error"});
+          } else {
+            return res.status(201).json({message: true});
+          }
+        });
+      }
+    })
+  }})
+})
+
+router.get('/result', function(req , res) {
+>>>>>>> Stashed changes
     Poll.findOne({pollid: req.body.id}, function(err, poll) {
       if (err) { throw err;}
       if (poll) {
@@ -209,7 +245,11 @@ router.get('/:id/result', function(req , res) {
       else {
         return res.status(404).json({message: "error"});
       }
+<<<<<<< Updated upstream
     }
+=======
+    })
+>>>>>>> Stashed changes
 }
 
 
