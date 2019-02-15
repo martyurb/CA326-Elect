@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { ViewPollComponent } from './view-poll/view-poll.component';
 import { HomeComponent } from './home/home.component';
 import { UserPollsComponent } from './user-polls/user-polls.component';
 import { CastVoteComponent } from './cast-vote/cast-vote.component';
+import { ResultsComponent } from './results/results.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -50,11 +52,13 @@ export function getAuthServiceConfigs() {
     HomeComponent,
     UserPollsComponent,
     CastVoteComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,
     SocialLoginModule,
     AppRoutingModule,
+    ChartsModule,
     HttpClientModule,
     HttpModule,
     ReactiveFormsModule,

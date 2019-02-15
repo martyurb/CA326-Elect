@@ -18,6 +18,7 @@ export class AuthenticationService {
     private _apiPollFetch = AppConfig.apiPollFetch;
     private _apiAllPolls = AppConfig.apiAllPolls;
     private _apiPollCast = AppConfig.apiPollCast;
+    private _apiResult = AppConfig.apiResult;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -138,6 +139,14 @@ export class AuthenticationService {
             pollid: id
         };
         return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
+    }
+
+    getResults(pollid: string) {
+        const vote = {
+            id: pollid,
+            token:this._token
+        }
+        return this._http.post<{grouped: any}>(this._baseUrl + this._apiResult, vote);
     }
 
     castVote(voteObject: any) {

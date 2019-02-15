@@ -218,18 +218,20 @@ router.post('/cast', function(req, res) {
 })
 
 router.post('/result', function(req , res) {
-    console.log(req);
+
     Poll.findOne({pollid: req.body.id}, function(err, poll) {
       if (err) { throw err;}
       if (poll) {
         Vote.find({pollid: req.body.id}, function(err, result) {
-          console.log(result);
+
           if (err) {throw err;}
           if (result) {
             var grouped = _.groupBy(result, 'option')
+            console.log(grouped);
             Object.keys(grouped).map(function (key, index) {
               grouped[key] = grouped[key].length;
             });
+            console.log(grouped);
             return res.status(200).json({grouped: grouped});
           }
         }
