@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <div class="account-container">
     <img *ngIf="userData.photo" src="{{userData.photo}}" alt="">
 
@@ -8,4 +8,27 @@
     <h4 *ngIf="userData.email">{{userData.email}}</h4>
     <a routerLink="/users/keys">Manage Encryption Keys</a>
   </div>
+</div> -->
+
+<div class="page-container">
+  <div class="form-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">My Account</h5>
+            <img *ngIf="userData.photo" src="{{userData.photo}}" alt=""><br><br>
+            <label><strong>Name</strong></label>
+            <p *ngIf="userData.name">{{userData.name}}</p><hr>
+            <label><strong>Email</strong></label>
+            <p *ngIf="userData.email">{{userData.email}}</p><hr>
+            <label><strong>My Encryption Keys</strong></label><br>
+            <a routerLink="/users/keys">Manage Encryption Keys</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
