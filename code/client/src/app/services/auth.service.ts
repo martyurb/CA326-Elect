@@ -17,6 +17,7 @@ export class AuthenticationService {
     private _apiPollCreate = AppConfig.apiPollCreate;
     private _apiPollFetch = AppConfig.apiPollFetch;
     private _apiAllPolls = AppConfig.apiAllPolls;
+    private _apiPollCast = AppConfig.apiPollCast;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -137,6 +138,13 @@ export class AuthenticationService {
             pollid: id
         };
         return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
+    }
+
+    castVote(voteObject: any) {
+        this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, voteObject)
+            .subscribe((response) => {
+                console.log(response);
+            });
     }
 
     getPolls() {

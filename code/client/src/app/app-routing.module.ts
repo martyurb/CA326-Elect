@@ -9,6 +9,7 @@ import { PollComponent } from './poll/poll.component';
 import { ViewPollComponent } from './view-poll/view-poll.component';
 import { HomeComponent } from './home/home.component';
 import { UserPollsComponent } from './user-polls/user-polls.component';
+import { CastVoteComponent } from './cast-vote/cast-vote.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     { path: 'poll/create', component: PollComponent, canActivate: [AuthGuard] },
     { path: 'poll/:id', component: ViewPollComponent, canActivate: [AuthGuard] },
     { path: 'user/polls', component: UserPollsComponent, canActivate: [AuthGuard] },
+    { path: 'poll/:id/cast', component: CastVoteComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
