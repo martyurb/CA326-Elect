@@ -18,19 +18,6 @@ var voteSchema = new schema({
     option:{
         type:String,
         required:true,
-<<<<<<< Updated upstream
-    },
-    voteType: {
-            code: {
-                type: Number,
-                required: true
-            },
-            name: {
-                type: String,
-                required: true
-            },
-=======
->>>>>>> Stashed changes
     }
 })
 
