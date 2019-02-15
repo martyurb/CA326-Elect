@@ -126,6 +126,7 @@ router.post('/fetch', function(req, res) {
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     }
   })
 });
@@ -151,6 +152,8 @@ router.post('/all', function(req, res) {
     }
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     }
@@ -192,9 +195,12 @@ router.post('/cast', function(req, res) {
   let option = req.body.option;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 router.get('/:id/result', function(req , res) {
 =======
+=======
+>>>>>>> Stashed changes
   User.findOne({userid:verifiedToken.userId}, function(err, user){
     if (err) return res.status(401).json({message: "User not found"});
     else if (user) {
@@ -225,6 +231,9 @@ router.get('/:id/result', function(req , res) {
 })
 
 router.get('/result', function(req , res) {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     Poll.findOne({pollid: req.body.id}, function(err, poll) {
       if (err) { throw err;}
@@ -246,7 +255,11 @@ router.get('/result', function(req , res) {
         return res.status(404).json({message: "error"});
       }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     }
+=======
+    })
+>>>>>>> Stashed changes
 =======
     })
 >>>>>>> Stashed changes

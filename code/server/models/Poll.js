@@ -33,6 +33,12 @@ var pollSchema = new schema({
         type:[[Mixed]],
         required:true
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    },
+    votes: {
+      type: []
+>>>>>>> Stashed changes
 =======
     },
     votes: {
