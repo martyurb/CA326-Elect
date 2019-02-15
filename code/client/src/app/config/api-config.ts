@@ -9,5 +9,6 @@ export const AppConfig = {
     apiSetKey: '/keys/upload',
     apiKeyGen: '/keys/generate',
     apiPollCreate: '/poll/create',
-    apiPollFetch: '/poll/fetch'
+    apiPollFetch: '/poll/fetch',
+    apiAllPolls: '/poll/all'
 };

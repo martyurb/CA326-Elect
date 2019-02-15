@@ -36,7 +36,7 @@ export class PollComponent implements OnInit {
     return this.pollForm.get('options') as FormArray;
   }
 
-  addOption(name: string) {
+  addOption() {
     this.options.push(this.fb.control(''));
   }
 

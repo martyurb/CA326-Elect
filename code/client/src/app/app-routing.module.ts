@@ -8,6 +8,7 @@ import { ManageKeysComponent } from './manage-keys/manage-keys.component';
 import { PollComponent } from './poll/poll.component';
 import { ViewPollComponent } from './view-poll/view-poll.component';
 import { HomeComponent } from './home/home.component';
+import { UserPollsComponent } from './user-polls/user-polls.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -15,13 +16,14 @@ const appRoutes: Routes = [
     { path: 'user/account', component: AccountComponent, canActivate: [AuthGuard] },
     { path: 'users/keys', component: ManageKeysComponent, canActivate: [AuthGuard] },
     { path: 'poll/create', component: PollComponent, canActivate: [AuthGuard] },
-    { path: 'poll/:id', component: ViewPollComponent, canActivate: [AuthGuard] }
+    { path: 'poll/:id', component: ViewPollComponent, canActivate: [AuthGuard] },
+    { path: 'user/polls', component: UserPollsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
     imports: [
         RouterModule.forRoot(
-            appRoutes
+            appRoutes,
         )
     ],
     exports: [

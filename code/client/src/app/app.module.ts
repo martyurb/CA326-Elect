@@ -23,6 +23,7 @@ import { HeaderComponent } from './header/header.component';
 import { PollComponent } from './poll/poll.component';
 import { ViewPollComponent } from './view-poll/view-poll.component';
 import { HomeComponent } from './home/home.component';
+import { UserPollsComponent } from './user-polls/user-polls.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -46,6 +47,7 @@ export function getAuthServiceConfigs() {
     PollComponent,
     ViewPollComponent,
     HomeComponent,
+    UserPollsComponent,
   ],
   imports: [
     BrowserModule,
