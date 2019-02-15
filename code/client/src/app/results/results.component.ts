@@ -12,7 +12,7 @@ export class ResultsComponent implements OnInit {
   //Pie
   public pieChartLabels:string[] = [];
   public pieChartData:number[] = [];
-  public pieChartType:string = 'pie';
+  public pieChartType:string = 'doughnut';
   // events
   public chartClicked(e:any):void {
     console.log(e);
