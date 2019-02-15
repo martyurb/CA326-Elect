@@ -125,6 +125,7 @@ router.post('/fetch', function(req, res) {
     }
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
+<<<<<<< Updated upstream
     }
   })
 });
@@ -147,6 +148,8 @@ router.post('/all', function(req, res) {
       });
     } else {
       return res.status(401).json({message: false});
+=======
+>>>>>>> Stashed changes
     }
   })
 });
@@ -177,6 +180,64 @@ router.post('/close'), function(req, pollInfores) {
       })
     }
   })
+}
+
+router.post('/cast', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let pollid = req.body.pollid;
+  let option = req.body.option;
+
+  User.findOne({userid:verifiedToken.userId}, function(err, user){
+    if (err) return res.status(401).json({message: "User not found"});
+    else if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+      if (err) return res.status(401).json({message: "Poll not found"});
+      else if (poll) {
+        const date = new Date();
+        const nowTimestamp = date.getTime();
+
+        var record = new Vote({
+          created_at: nowTimestamp,
+          pollid: pollid,
+          author: user.userid,
+          option: option
+        });
+
+        record.save( (err, vote) => {
+          if(err){
+            console.log(err);
+            return res.status(500).json({message: "db error"});
+          } else {
+            return res.status(201).json({message: true});
+          }
+        });
+      }
+    })
+  }})
+})
+
+router.get('/result', function(req , res) {
+    Poll.findOne({pollid: req.body.id}, function(err, poll) {
+      if (err) { throw err;}
+      if (poll) {
+        vote.find({pollid: req.body.id}.toArray(function(err, result) {
+          if (err) {throw err;}
+          if (result) {
+            var grouped = _.groupBy(result, 'option')
+
+            Object.keys(grouped).map(function (key, index) {
+              grouped[key] = grouped[key].length;
+            });
+            return res.render(grouped);
+          }
+        }
+      ));
+      }
+      else {
+        return res.status(404).json({message: "error"});
+      }
+    })
 }
 
 
