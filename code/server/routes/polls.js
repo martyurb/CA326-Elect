@@ -59,7 +59,7 @@ router.post('/create', function(req, res) {
             title = req.body.poll.title;
             options = req.body.poll.options;
             type = req.body.poll.type;
-            closingTimestamp = req.body.poll.closeTimestamp
+            //closingTimestamp = req.body.poll.closeTimestamp
             //isOpen = true;
 
             var record = new Poll({
@@ -69,7 +69,7 @@ router.post('/create', function(req, res) {
               voteType: type,
               title: title,
               options: options,
-              close_at: closeTimestamp
+              //close_at: closeTimestamp
             });
 
             console.log(record);
@@ -180,12 +180,15 @@ router.post('/close'), function(req, pollInfores) {
 }
 
 router.post('/cast', function(req, res) {
+  console.log(req.body);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
-  let pollid = req.body.pollid;
-  let option = req.body.option;
+  let pollid = req.body.vote.pollid;
+  let option = req.body.vote.option;
 
-  User.findOne({userid:verifiedToken.userId}, function(err, user){
+  console.log(req);
+
+  User.findOne({userid:verifiedToken.userid}, function(err, user){
     if (err) return res.status(401).json({message: "User not found"});
     else if (user) {
       Poll.findOne({pollid: pollid}, function(err, poll) {
@@ -214,22 +217,23 @@ router.post('/cast', function(req, res) {
   }})
 })
 
-router.get('/result', function(req , res) {
+router.post('/result', function(req , res) {
+    console.log(req);
     Poll.findOne({pollid: req.body.id}, function(err, poll) {
       if (err) { throw err;}
       if (poll) {
-        vote.find({pollid: req.body.id}.toArray(function(err, result) {
+        Vote.find({pollid: req.body.id}, function(err, result) {
+          console.log(result);
           if (err) {throw err;}
           if (result) {
             var grouped = _.groupBy(result, 'option')
-
             Object.keys(grouped).map(function (key, index) {
               grouped[key] = grouped[key].length;
             });
-            return res.render(grouped);
+            return res.status(200).json({grouped: grouped});
           }
         }
-      ));
+      );
       }
       else {
         return res.status(404).json({message: "error"});

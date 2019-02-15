@@ -30,7 +30,7 @@ var pollSchema = new schema({
             },
     },
     options:{
-        type:[[Mixed]],
+        type:[],
         required:true
     },
     close_at: {

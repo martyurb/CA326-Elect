@@ -141,7 +141,11 @@ export class AuthenticationService {
     }
 
     castVote(voteObject: any) {
-        this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, voteObject)
+        const vote = {
+            vote: voteObject,
+            token: this._token
+        }
+        this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, vote)
             .subscribe((response) => {
                 console.log(response);
             });
