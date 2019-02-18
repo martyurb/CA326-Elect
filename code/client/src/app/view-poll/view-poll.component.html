@@ -1,5 +1,30 @@
-<p *ngIf="pollFound">{{title}}</p>
+<!-- <p *ngIf="pollFound">{{title}}</p>
 <div *ngIf="pollFound">
   <div *ngFor="let option of options"><p>{{option}}</p></div>
 </div>
-<p *ngIf="pollFound">{{id}}</p>
+<p *ngIf="pollFound">{{id}}</p> -->
+
+<div class="page-container">
+    <div class="form-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+                <label><strong>Poll Title</strong></label>
+                <p *ngIf="pollFound">{{title}}</p>
+                <br>
+                <label><strong>Poll Options</strong></label>
+                <div *ngIf="pollFound">
+                  <ol>
+                      <div *ngFor="let option of options"><li><p>{{option}}</p></li></div>
+                  </ol>
+                </div><br>
+                <button class="btn btn-primary" routerLink="/poll/{{id}}/cast">Cast Vote</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
