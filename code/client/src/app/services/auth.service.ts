@@ -61,9 +61,11 @@ export class AuthenticationService {
     setKey(publicKey: String) {
         const token = this._token;
         const keyInfo = {token, publicKey};
-        this._http.post<{message: String}>(this._apiAuth + this._apiSetKey, keyInfo)
+        this._http.post<{message: String, privKey: string}>(this._apiAuth + this._apiSetKey, keyInfo)
             .subscribe((response) => {
+                console.log(response);
                 if (response.message) {
+                    console.log(response.privKey);
                     this._router.navigate(['/users/keys']);
                 }
             });
