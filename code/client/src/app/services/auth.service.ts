@@ -138,14 +138,15 @@ export class AuthenticationService {
             token: this._token,
             pollid: id
         };
-        return this._http.post<{title: string, options: string[], id: string}>(this._baseUrl + this._apiPollFetch, pollInfo);
+        return this._http.post<{title: string, options: string[], id: string, isSecure: Boolean}>
+          (this._baseUrl + this._apiPollFetch, pollInfo);
     }
 
     getResults(pollid: string) {
         const vote = {
             id: pollid,
-            token:this._token
-        }
+            token: this._token
+        };
         return this._http.post<{grouped: any}>(this._baseUrl + this._apiResult, vote);
     }
 
@@ -153,7 +154,8 @@ export class AuthenticationService {
         const vote = {
             vote: voteObject,
             token: this._token
-        }
+        };
+
         this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, vote)
             .subscribe((response) => {
                 console.log(response);
@@ -161,7 +163,7 @@ export class AuthenticationService {
     }
 
     getPolls() {
-        return this._http.post<{message: boolean, polls: any}>(this._baseUrl + this._apiAllPolls, {token: this._token})
+        return this._http.post<{message: boolean, polls: any}>(this._baseUrl + this._apiAllPolls, {token: this._token});
     }
 
     // Set the authentication timer

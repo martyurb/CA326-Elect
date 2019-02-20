@@ -48,7 +48,12 @@ export class PollComponent implements OnInit {
     const title = this.pollForm.controls.title.value;
     const type = this.pollForm.controls.type.value;
     let options = this.pollForm.controls.options.value;
-    const secure = this.pollForm.controls.isExtraSecure.value;
+    let secure: Boolean;
+    if (this.pollForm.controls.isExtraSecure.untouched === true) {
+      secure = false;
+    } else {
+      secure = this.pollForm.controls.isExtraSecure.value;
+    }
     console.log(secure);
     const newOptions = [];
     let i = 0;
@@ -64,17 +69,17 @@ export class PollComponent implements OnInit {
       timestamp: timestamp,
       title: title,
       type: type,
-      options: options
+      options: options,
+      isSecure: secure,
     };
 
-    if ((secure === false) || (this.pollForm.controls.isExtraSecure.untouched === true)) {
-      this.authService.createPoll(poll)
+    this.authService.createPoll(poll)
       .subscribe((response) => {
         if (response.message === true) {
           this._router.navigate(['/poll/', response.pollid]);
         }
       });
-    }
+
 
   }
 
