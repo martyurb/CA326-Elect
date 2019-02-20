@@ -121,7 +121,7 @@ const pubkey = ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
 '=HZmp',
 '-----END PGP PUBLIC KEY BLOCK-----'].join('\r\n');
 
-        const privKeyObj = ( pgp.key.readArmored(privkey));
+        const privKeyObj = (pgp.key.readArmored(privkey));
         privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
 
         const options = {
@@ -137,6 +137,26 @@ const pubkey = ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
             publicKeys: pgp.key.readArmored(pubkey).keys,
           }).then((decrypted) => { console.log(decrypted); });
         });
+
+        // FOR SIGNING THE VOTE
+        // const options = {
+        //   data: voteObject.option,          // input as Message object
+        //   privateKeys: privKeyObj.keys[0],  // for signing
+        // };
+
+        // const pgpmsg = pgp.sign(options).then(function(signed) {
+        //   const cleartext = signed.data;
+        //   console.log(cleartext);
+        //   pgp.verify({
+        //     message: pgp.cleartext.readArmored(cleartext),
+        //     publicKeys: pgp.key.readArmored(pubkey).keys,
+        //   }).then((verified) => {
+        //     const validity = verified.signatures[0].valid;
+        //     if (validity) {
+        //       console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
+        //     }
+        //   });
+        // });
 
       }
 
