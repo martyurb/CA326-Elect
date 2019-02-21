@@ -22,6 +22,7 @@ router.post('/cast-secure', (req, res) => {
 
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
+  let pollid = req.body.pollid;
   User.findOne({userid: verifiedToken.userid}, function(err, user) {
 
     if (err) console.log(err);
@@ -69,6 +70,32 @@ router.post('/cast-secure', (req, res) => {
             if (validity) {
                 console.log(validity);
                 console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
+                console.log(verified);
+                Poll.findOne({pollid: pollid}, function(err, poll) {
+                  if (err) return res.status(401).json({message: "Poll not found"});
+                  else if (poll) {
+                    const date = new Date();
+                    const nowTimestamp = date.getTime();
+            
+                    var record = new Vote({
+                      created_at: nowTimestamp,
+                      pollid: pollid,
+                      author: user.userid,
+                      option: verified.data
+                    });
+            
+                    record.save( (err, vote) => {
+                      if(err){
+                        console.log(err);
+                        return res.status(500).json({message: "db error"});
+                      } else {
+                        return res.status(201).json({message: true});
+                      }
+                    });
+                  } else {
+                    console.log("no poll found");
+                  }
+                })
             } else {
               console.log("Invalid signature, sender can not be verified!");
             }

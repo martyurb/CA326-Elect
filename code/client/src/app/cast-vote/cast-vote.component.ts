@@ -158,7 +158,7 @@ const pubkey = ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
           };
 
           pgp.encrypt(eoptions).then((ciphertext) => {
-            this.authService.castSecure(ciphertext);
+            this.authService.castSecure(ciphertext, this.id);
           });
         });
       }

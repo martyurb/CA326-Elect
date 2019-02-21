@@ -165,8 +165,9 @@ export class AuthenticationService {
             });
     }
 
-    castSecure(ciphertext: any) {
+    castSecure(ciphertext: any, id: string) {
         const secureVote = {
+            pollid: id,
             encryptedVote: ciphertext.data,
             token: this._token
         };
