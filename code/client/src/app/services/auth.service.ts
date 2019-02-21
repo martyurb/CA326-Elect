@@ -74,7 +74,7 @@ export class AuthenticationService {
 
     // Generate users encryption key pair
     generateKey(token: string) {
-        return this._http.post<{message: boolean, privatekey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
+        return this._http.post<{message: boolean, privKey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
     }
 
     // Login user

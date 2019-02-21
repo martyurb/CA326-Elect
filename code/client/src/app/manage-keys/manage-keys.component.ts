@@ -14,6 +14,8 @@ export class ManageKeysComponent implements OnInit {
   keyText = '';
   keysForm: FormGroup;
   showKey = false;
+  keyGenerated = false;
+  privKey = '';
   public isKeySet;
   private key;
 
@@ -52,6 +54,13 @@ export class ManageKeysComponent implements OnInit {
     this.authService.generateKey(this.authService.getToken())
       .subscribe(response => {
         console.log(response);
+        const pkey = response.privKey;
+        const lines = pkey.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          lines[i].replace(/(\r\n|\n|\r)/gm, '');
+        }
+        this.privKey = lines.join('');
+        this.keyGenerated = true;
       });
   }
 

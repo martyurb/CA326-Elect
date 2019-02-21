@@ -43,7 +43,7 @@
                 </div>
 
 
-                <div *ngIf="!isKeySet">
+                <div *ngIf="!isKeySet && !keyGenerated">
                     <h4>Set up your PGP encryption keys</h4>
                     <p>This must be done in order to use Extra-Secure voting</p>
 
@@ -58,6 +58,11 @@
                     <br>
                     <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
                     <p><i>(We generate 1024 bit RSA encryption keys)</i></p>
+                </div>
+                <div *ngIf="keyGenerated">
+                    <h4>Your keys have been generated!</h4>
+                    <p>Here is your private key, copy it and save it somewhere safe!</p>
+                    <small>{{privKey}}</small>
                 </div>
             </div>
           </div>
