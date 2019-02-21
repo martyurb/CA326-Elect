@@ -32,8 +32,6 @@ router.post('/cast-secure', (req, res) => {
 
       const decryptVote = async(pr_key, pu_key, encryptedVote) => {
 
-        let signed_vote;
-
         const privKeyObj = (await pgp.key.readArmored(pr_key));
         await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
 
@@ -54,8 +52,34 @@ router.post('/cast-secure', (req, res) => {
       }
 
       decryptVote(pr_key, pu_key, encryptedVote).then(signedVote => {
-        console.log(signedVote);
+
+        const sender_pub_key = user.publicKey;
+
+        console.log(signedVote.data);
+
+        const verify_sig = async(sender_pub_key, signedVote) => {
+
+          options = {
+            message: await pgp.cleartext.readArmored(signedVote), // parse armored message
+            publicKeys: (await pgp.key.readArmored(sender_pub_key)).keys // for verification
+          };
+        
+          pgp.verify(options).then(function(verified) {
+            validity = verified.signatures[0].valid; // true
+            if (validity) {
+                console.log(validity);
+                console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
+            } else {
+              console.log("Invalid signature, sender can not be verified!");
+            }
+          });
+        }
+
+        verify_sig(sender_pub_key, signedVote.data);
+        
       });
+
+
       
     };
   });
