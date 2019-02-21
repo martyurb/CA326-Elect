@@ -6,6 +6,7 @@ cache:
 
 stages:
   - lint
+  - build
 
 lint:
   stage: lint
@@ -13,3 +14,10 @@ lint:
     - cd code/client
     - npm install
     - ./node_modules/@angular/cli/bin/ng lint
+
+build:
+  stage: build
+  script:
+    - cd code/client
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng build --prod --base-href ./
