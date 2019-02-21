@@ -22,8 +22,7 @@ export class UserPollsComponent implements OnInit {
         this.userPollsFound = true;
         this.userPolls = response.polls;
       }
-      
-    })
+    });
   }
 
   goToPoll(pollid: string) {
