@@ -6,6 +6,7 @@ var Poll = require('../models/Poll');
 var User = require('../models/User');
 var Vote = require('../models/Vote')
 const jwt = require('jsonwebtoken');
+const pgp = require('openpgp');
 
 
 const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
@@ -14,6 +15,10 @@ const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
 function verifyToken(token){
   return jwt.verify(token, secret);
 }
+
+router.post('/cast-secure', (req, res) => {
+
+});
 
 
 //Dynamic poll route
