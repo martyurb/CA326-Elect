@@ -12,6 +12,21 @@ export class ResultsComponent implements OnInit {
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
+  public pieChartOptions ="pieChartOptions"
+  public pieChartColors:Array<any> = [
+    {
+      backgroundColor: [
+        '#eb8385',
+        '#7ebbde',
+        '#f0d18d',
+        '#85c9c9',
+        '#de7edb',
+        '#93de7e',
+        '#53678a',
+      ]
+    }
+  ];
+
   // events
   public chartClicked(e: any): void {
     console.log(e);
