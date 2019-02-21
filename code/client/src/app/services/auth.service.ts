@@ -19,6 +19,7 @@ export class AuthenticationService {
     private _apiAllPolls = AppConfig.apiAllPolls;
     private _apiPollCast = AppConfig.apiPollCast;
     private _apiResult = AppConfig.apiResult;
+    private _apiPollCastSecure = AppConfig.apiPollCastSecure;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -159,6 +160,18 @@ export class AuthenticationService {
         };
 
         this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, vote)
+            .subscribe((response) => {
+                console.log(response);
+            });
+    }
+
+    castSecure(ciphertext: any) {
+        const secureVote = {
+            encryptedVote: ciphertext.data,
+            token: this._token
+        };
+
+        this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCastSecure, secureVote)
             .subscribe((response) => {
                 console.log(response);
             });

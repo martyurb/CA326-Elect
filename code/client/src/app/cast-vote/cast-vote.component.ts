@@ -144,20 +144,19 @@ const pubkey = ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
           privateKeys: privKeyObj.keys[0],  // for signing
         };
 
-        const pgpmsg = pgp.sign(options).then(function(signed) {
+        const sv = pgp.sign(options).then((signed) => {
           const cleartext = signed.data;
           console.log(cleartext);
-          pgp.verify({
-            message: pgp.cleartext.readArmored(cleartext),
-            publicKeys: pgp.key.readArmored(pubkey).keys,
-          }).then((verified) => {
-            const validity = verified.signatures[0].valid;
-            if (validity) {
-              console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
-            }
+
+          const eoptions = {
+            data: cleartext,
+            publicKeys: pgp.key.readArmored(pubkey).keys
+          };
+
+          const ct = pgp.encrypt(eoptions).then((ciphertext) => {
+            this.authService.castSecure(ciphertext);
           });
         });
-
       }
 
     }

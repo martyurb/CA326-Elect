@@ -12,5 +12,6 @@ export const AppConfig = {
     apiPollFetch: '/poll/fetch',
     apiAllPolls: '/poll/all',
     apiPollCast: '/poll/cast',
+    apiPollCastSecure: '/poll/cast-secure',
     apiResult: '/poll/result'
 };

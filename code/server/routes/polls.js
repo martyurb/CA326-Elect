@@ -17,7 +17,8 @@ function verifyToken(token){
 }
 
 router.post('/cast-secure', (req, res) => {
-
+  console.log(req.body.encryptedVote);
+  return res.status(200).json({message: true});
 });
 
 
