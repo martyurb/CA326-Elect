@@ -51,7 +51,7 @@ export class ManageKeysComponent implements OnInit {
   generateKey() {
     this.authService.generateKey(this.authService.getToken())
       .subscribe(response => {
-        console.log(response.message);
+        console.log(response);
       });
   }
 

@@ -59,6 +59,7 @@ router.post('/create', function(req, res) {
             title = req.body.poll.title;
             options = req.body.poll.options;
             type = req.body.poll.type;
+            isSecure = req.body.poll.isSecure;
             //closingTimestamp = req.body.poll.closeTimestamp
             //isOpen = true;
 
@@ -69,6 +70,7 @@ router.post('/create', function(req, res) {
               voteType: type,
               title: title,
               options: options,
+              isSecure: isSecure
               //close_at: closeTimestamp
             });
 
@@ -116,7 +118,8 @@ router.post('/fetch', function(req, res) {
             const title = poll.title;
             const options = poll.options;
             const id = poll.pollid;
-            return res.status(200).json({title: title, options: options, id: id});
+            const isSecure = poll.isSecure;
+            return res.status(200).json({title: title, options: options, id: id, isSecure: isSecure});
           } else {
             return res.status(500).json({message: "Something went wrong"});
             }

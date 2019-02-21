@@ -28,7 +28,8 @@ export class PollComponent implements OnInit {
       type: [this.voteTypes[0]],
       options: this.fb.array([
         this.fb.control('')
-      ])
+      ]),
+      isExtraSecure: ['']
     });
   }
 
@@ -41,12 +42,19 @@ export class PollComponent implements OnInit {
   }
 
   submit() {
+
     this.pollForm.controls['timestamp'].patchValue(Date.now());
     const timestamp = this.pollForm.controls.timestamp.value;
     const title = this.pollForm.controls.title.value;
     const type = this.pollForm.controls.type.value;
     let options = this.pollForm.controls.options.value;
-
+    let secure: Boolean;
+    if (this.pollForm.controls.isExtraSecure.untouched === true) {
+      secure = false;
+    } else {
+      secure = this.pollForm.controls.isExtraSecure.value;
+    }
+    console.log(secure);
     const newOptions = [];
     let i = 0;
     while (i < options.length) {
@@ -61,7 +69,8 @@ export class PollComponent implements OnInit {
       timestamp: timestamp,
       title: title,
       type: type,
-      options: options
+      options: options,
+      isSecure: secure,
     };
 
     this.authService.createPoll(poll)
@@ -70,6 +79,8 @@ export class PollComponent implements OnInit {
           this._router.navigate(['/poll/', response.pollid]);
         }
       });
+
+
   }
 
 

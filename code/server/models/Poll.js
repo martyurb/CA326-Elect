@@ -36,6 +36,10 @@ var pollSchema = new schema({
     close_at: {
       type: Number,
       requreired:false
+    },
+    isSecure: {
+        type: Boolean,
+        required: true,
     }
 })
 
