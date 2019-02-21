@@ -11,7 +11,7 @@ export class ViewPollComponent implements OnInit {
 
   private title;
   private options;
-  private id;
+  public id;
   pollFound: boolean;
 
   constructor(private authService: AuthenticationService,
