@@ -15,6 +15,9 @@ export class PollComponent implements OnInit {
   voteTypes = [{
     code: 1,
     name: 'Straw Poll'
+  },{
+    code: 2,
+    name: 'Majority Wins'
   }];
 
   constructor(private fb: FormBuilder,
