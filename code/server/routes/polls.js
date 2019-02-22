@@ -18,6 +18,46 @@ function verifyToken(token){
   return jwt.verify(token, secret);
 }
 
+function getGroupedVotes(poll){
+  Vote.find({pollid: poll.pollid}, function(err, result) {
+
+    if (err) {throw err;}
+    if (result) {
+      var grouped = _.groupBy(result, 'option')
+      console.log(grouped);
+      Object.keys(grouped).map(function (key, index) {
+        grouped[key] = grouped[key].length;
+      });
+      console.log(grouped);
+      return grouped;
+    }
+}
+
+function majorityWins(poll) {
+  const groupedVotes = getGroupedVotes(poll);
+  const values = Object.values(groupedVotes);
+  const summed = _.sum(values);
+  const maxOption = _.max(values);
+  if (summed/2 <= maxOption) {
+    Object.entries(groupedVotes).forEach(
+    ([key, value]) => {
+      if (value == maxOption)  {
+        return(key, value);
+        }
+      }
+    );
+  }
+}
+
+
+
+function resultByPollType(poll) {
+  if (poll.voteType.code === 1) {
+
+  }
+
+}
+
 router.post('/cast-secure', (req, res) => {
 
   let token = req.body.token;
