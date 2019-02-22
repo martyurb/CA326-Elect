@@ -417,6 +417,51 @@ router.post('/can-access', function(req, res) {
   })
 });
 
+router.post('/get-poll', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  User.findOne({userid: userid}, function(err, user) {
+    if (err) throw err;
+    if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+        if (err) throw err;
+        if (poll) {
+          return res.status(200).json({message: true, poll: poll});
+        } else {
+          return res.status(301).json({message: false, poll: null});
+        }
+      })
+    } else {
+      return res.status(301).json({message: false, poll: null});
+    }
+  })
+
+});
+
+router.post('/get-votes', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  User.findOne({userid: userid}, function(err, user) {
+    if (err) throw err;
+    if (user) {
+      Vote.find({pollid: pollid}, function(err, votes) {
+        if (err) throw err;
+        if (votes) {
+          return res.status(200).json({message: true, votes: votes});
+        } else {
+          return res.status(301).json({message: false, votes: null});
+        }
+      })
+    } else {
+      return res.status(301).json({message: false, votes: null});
+    }
+  });
+});
+
 
 
 module.exports = router;

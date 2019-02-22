@@ -21,6 +21,17 @@ export class StatisticsComponent implements OnInit {
           this.router.navigate(['/']);
         }
       });
+
+    // Get poll
+    this.authService.getPoll(pollid)
+      .subscribe((response) => {
+        console.log(response.poll);
+      });
+    // Get poll votes
+    this.authService.getVotes(pollid)
+      .subscribe((response) => {
+        console.log(response.votes);
+      });
   }
 
 }

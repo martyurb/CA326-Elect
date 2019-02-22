@@ -21,6 +21,8 @@ export class AuthenticationService {
     private _apiResult = AppConfig.apiResult;
     private _apiPollCastSecure = AppConfig.apiPollCastSecure;
     private _apiCanAccess = AppConfig.apiCanAccess;
+    private _apiGetPoll = AppConfig.apiGetPoll;
+    private _apiGetVotes = AppConfig.apiGetVotes;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -196,7 +198,23 @@ export class AuthenticationService {
         }, duration * 1000);
     }
 
+    getPoll(pollid: string) {
+        const info = {
+            token: this._token,
+            pollid: pollid
+        };
 
+        return this._http.post<{message: boolean, poll: any}>(this._baseUrl + this._apiGetPoll, info);
+    }
+
+    getVotes(pollid: string) {
+        const info = {
+            token: this._token,
+            pollid: pollid
+        };
+
+        return this._http.post<{message: boolean, votes: any}>(this._baseUrl + this._apiGetVotes, info);
+    }
     // Save authentication data to browser local storage
     private saveAuthenticationData(token: string, expirationDate: Date, id: string) {
         localStorage.setItem('token', token);
