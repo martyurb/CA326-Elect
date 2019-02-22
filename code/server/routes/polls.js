@@ -398,6 +398,25 @@ router.get('/result', function(req , res) {
     })
 })
 
+router.post('/can-access', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  Poll.findOne({pollid: pollid}, function(err, poll) {
+    if (err) throw err;
+    if (poll) {
+      if (poll.author == userid) {
+        return res.status(200).json({canAccess: true});
+      } else {
+        return res.status(200).json({canAccess: false});
+      }
+    } else {
+      return res.status(201).json({canAccess: false});
+    }
+  })
+});
+
 
 
 module.exports = router;
