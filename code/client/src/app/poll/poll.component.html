@@ -33,7 +33,7 @@
             <h5 class="card-title text-center">Create Poll</h5>
             <form [formGroup]="pollForm">
               <label>Poll Title</label>
-              <input class="form-control" formControlName="title"><br>
+              <input class="form-control" placeholder="Enter poll title" formControlName="title"><br>
               <label>Poll Type</label>
               <select class="form-control" formControlName="type">
                 <option [value]="type" *ngFor="let type of voteTypes">{{type.name}}</option>
@@ -43,9 +43,8 @@
                 <label>Poll options</label><br>
                 <button class="btn btn-primary" (click)="addOption()">Add Option</button><br><br>
                 <div *ngFor="let option of options.controls; let i=index">
-                  <label>
-                    Poll option:
-                    <input class="form-control" type="text" [formControlName]="i">
+                  <label class="poll-options">
+                    <input class="form-control" type="text" placeholder="Enter poll option" [formControlName]="i">
                   </label>
                 </div>
               </div>
