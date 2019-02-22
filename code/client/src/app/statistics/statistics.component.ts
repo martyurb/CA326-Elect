@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-statistics',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private authService: AuthenticationService) { }
 
   ngOnInit() {
+    const pollid = this.route.snapshot.paramMap.get('id');
+    this.authService.canAccess(pollid)
+      .subscribe((response) => {
+        if (response.canAccess === false) {
+          this.router.navigate(['/']);
+        }
+      });
   }
 
 }

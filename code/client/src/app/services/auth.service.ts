@@ -20,6 +20,7 @@ export class AuthenticationService {
     private _apiPollCast = AppConfig.apiPollCast;
     private _apiResult = AppConfig.apiResult;
     private _apiPollCastSecure = AppConfig.apiPollCastSecure;
+    private _apiCanAccess = AppConfig.apiCanAccess;
 
     private _isAuthenticated = false;
     private _token: string;
@@ -75,6 +76,12 @@ export class AuthenticationService {
     // Generate users encryption key pair
     generateKey(token: string) {
         return this._http.post<{message: boolean, privKey: string}>(this._apiAuth + this._apiKeyGen, {token: token});
+    }
+
+    canAccess(pollid) {
+        const token = this._token;
+        const accessInfo = {token, pollid};
+        return this._http.post<{canAccess: boolean}>(this._baseUrl + this._apiCanAccess, accessInfo);
     }
 
     // Login user
