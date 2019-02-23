@@ -53,11 +53,24 @@ function majorityWins(poll) {
 
 
 function resultByPollType(poll) {
-  if (poll.voteType.code === 1) {
-
+  if (poll.voteType.code === 2) {
+    return majorityWins(poll);
   }
 
 }
+
+router.post('/pollStats', function(req, res) {
+  let pollid = req.body.pollid;
+
+  //get all votes for the poll
+  Vote.find({pollid: pollid}, function(err, votes) {
+    if (err) throw err;
+    if (votes) {
+      console.log(votes);
+      return res.status(201).json({message: votes});
+    }
+  })  
+});
 
 router.post('/cast-secure', (req, res) => {
 
@@ -165,7 +178,7 @@ router.get('/:id', function(req , res){
   })
   res.render('poll' + req.body.id);
 
-})
+});
 
 // Create New poll
 router.post('/create', function(req, res) {
@@ -286,7 +299,7 @@ router.post('/all', function(req, res) {
 });
 
 // Close a poll
-router.post('/close'), function(req, pollInfores) {
+router.post('/close', function(req, pollInfores) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.pollid;
@@ -311,7 +324,7 @@ router.post('/close'), function(req, pollInfores) {
       })
     }
   })
-}
+});
 
 router.post('/cast', function(req, res) {
   console.log(req.body);
@@ -352,7 +365,7 @@ router.post('/cast', function(req, res) {
       return res.status(500).json({message: "db error"});
     }
   })
-})
+});
 
 router.post('/result', function(req , res) {
 
@@ -410,7 +423,7 @@ router.get('/:id/result', function(req , res) {
       }
     })
   }})
-})
+});
 
 router.get('/result', function(req , res) {
     Poll.findOne({pollid: req.body.id}, function(err, poll) {
@@ -433,7 +446,7 @@ router.get('/result', function(req , res) {
         return res.status(404).json({message: "error"});
       }
     })
-})
+});
 
 router.post('/can-access', function(req, res) {
   let token = req.body.token;
