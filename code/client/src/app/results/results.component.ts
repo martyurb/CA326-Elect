@@ -23,7 +23,7 @@ export class ResultsComponent implements OnInit {
       fontSize: 17
     }
   };
-  public pieChartColors:Array<any> = [
+  public pieChartColors: Array<any> = [
     {
       backgroundColor: [
         '#eb8385',
