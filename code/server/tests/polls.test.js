@@ -22,13 +22,10 @@ describe('Unit tests for poll controller', function() {
     it ('should reject requests with no token with response code 500', (done) => {
         const badRequest = {
             poll: {
-                created_at: 1,
-                pollid:"HkLmNoP",
-                author:"1111065436",
                 title:"Poll Title",
-                voteType: {
-                        code: 1,
-                        name: "Straw poll",
+                type: {
+                    code: 1,
+                    name: "Straw poll",
                 },
                 options:["option 1"],
                 isSecure: true
@@ -58,6 +55,29 @@ describe('Unit tests for poll controller', function() {
                 if (err) throw err;
                 assert.equal(res.body.message, "db error")
                 done();
-            })
-    })
+            });
+    });
+    it('should create a poll given valid poll object and token', (done) => {
+        const goodRequest = {
+            poll: {
+                title:"Poll Title",
+                type: {
+                    code: 1,
+                    name: "Straw poll"
+                },
+                options:["option 1"],
+                isSecure: true
+            },
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impha2Uua2dyb2dhbkBnbWFpbC5jb20iLCJ1c2VyaWQiOiIxMTE2MjUxODA2ODI0NDQxMzE4MTciLCJpYXQiOjE1NTA5MTg4MDAsImV4cCI6MTU1MDkyMjQwMH0.XsWXN9I8Spuf51S0W6WTopv0K9y6OV95o7fhLY8UQ1s"
+        };
+        request(HOST)
+            .post('/poll/create')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(201)
+            .end(function (err, res) {
+                if (err) throw err;
+                done();
+            });
+    });
 });
