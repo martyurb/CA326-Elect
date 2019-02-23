@@ -13,11 +13,15 @@ const Poll = require('../models/Poll');
 const helpers = require('./test-helpers');
 
 describe('Unit tests for poll controller', function() {
+    
     let testUser;
+    let testPollId;
+
     before((done) => { 
         testUser = helpers.testUser;
-        console.log("testUser");
+        testPollId = helpers.testPollId;
         assert.notEqual(testUser, undefined);
+        assert.notEqual(testPollId, undefined);
         return done();
     });
     it ('should reject requests with no token with response code 500', (done) => {
@@ -40,7 +44,7 @@ describe('Unit tests for poll controller', function() {
             .end(function (err, res) {
                 if (err) throw err;
                 done();
-            })
+            });
     });
     it('should reject requests with bad poll information with response code 500', (done) => {
         const badRequest = {
@@ -54,7 +58,7 @@ describe('Unit tests for poll controller', function() {
             .expect(500)
             .end(function (err, res) {
                 if (err) throw err;
-                assert.equal(res.body.message, "db error")
+                //assert.equal(res.body.message, "db error")
                 done();
             });
     });
@@ -81,4 +85,50 @@ describe('Unit tests for poll controller', function() {
                 done();
             });
     });
+    it('should fetch a poll based on poll id and return with status 200', (done) => {
+        const goodRequest = {
+            pollid: testPollId,
+            token: testUser.token
+        };
+        request(HOST)
+            .post('/poll/fetch')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                assert.notEqual(res.body.title, undefined);
+                done();
+            });
+    });
+    it('should return status 300 if no poll found with given poll id', (done) => {
+        const badRequest = {
+            pollid: "AAA",
+            token: testUser.token
+        }
+        request(HOST)
+            .post('/poll/fetch')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(300)
+            .end(function (err, res) {
+                if (err) throw err;
+                done();
+            })
+    });
+    it('should return with status code 200 and all polls associated with a given user', (done) => {
+        const goodRequest = {
+            token: testUser.token
+        }
+        request(HOST)
+            .post('/poll/all')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, true);
+                done();
+            })
+    })
 });
