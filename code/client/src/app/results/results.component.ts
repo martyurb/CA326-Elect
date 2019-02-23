@@ -12,7 +12,11 @@ export class ResultsComponent implements OnInit {
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
-  public pieChartOptions ="pieChartOptions"
+  public pieChartOptions = {
+    legend: {
+      position: 'right'
+    }
+  };
   public pieChartColors:Array<any> = [
     {
       backgroundColor: [
