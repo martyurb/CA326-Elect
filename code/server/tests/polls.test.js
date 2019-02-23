@@ -41,8 +41,23 @@ describe('Unit tests for poll controller', function() {
             .expect(500)
             .end(function (err, res) {
                 if (err) throw err;
-                console.log(res.body);
                 done();
             })
     });
+    it('should reject requests with bad poll information with response code 500', (done) => {
+        const badRequest = {
+            poll: "not a poll",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impha2Uua2dyb2dhbkBnbWFpbC5jb20iLCJ1c2VyaWQiOiIxMTE2MjUxODA2ODI0NDQxMzE4MTciLCJpYXQiOjE1NTA5MTg4MDAsImV4cCI6MTU1MDkyMjQwMH0.XsWXN9I8Spuf51S0W6WTopv0K9y6OV95o7fhLY8UQ1s"
+        };
+        request(HOST)
+            .post('/poll/create')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(500)
+            .end(function (err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, "db error")
+                done();
+            })
+    })
 });
