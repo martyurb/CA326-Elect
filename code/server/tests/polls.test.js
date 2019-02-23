@@ -150,6 +150,25 @@ describe('Unit tests for poll controller', function() {
                 if (err) throw err;
                 assert.equal(res.body.message, true);
                 done();
-            })
-    })
+            });
+    });
+    it('should return with response code 500 when casting vote with bad pollid', (done) => {
+        const badRequest = {
+            vote: {
+                pollid: "A",
+                option: testOption
+            },
+            token: testUser.token
+        };
+        request(HOST)
+            .post('/poll/cast')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(500)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, "db error");
+                done();
+            });
+    }).timeout(4000);
 });
