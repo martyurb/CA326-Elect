@@ -60,16 +60,24 @@ function resultByPollType(poll) {
 }
 
 router.post('/pollStats', function(req, res) {
-  let pollid = req.body.pollid;
+  let pollid = "8qpqjWO";
 
   //get all votes for the poll
   Vote.find({pollid: pollid}, function(err, votes) {
     if (err) throw err;
     if (votes) {
       console.log(votes);
-      return res.status(201).json({message: votes});
+      //find max and min timestamp (timestamps of first and last vote)
+      const maxtime = _.maxBy(votes, function(o) { return o.created_at; });
+      const mintime = _.minBy(votes, function(o) { return o.created_at; })
+      const difference = maxtime.created_at - mintime.created_at;
+      console.log(maxtime.created_at,mintime.created_at, difference);
+
+      //amount of data points to generate
+      const dataPoints = 7;
+
     }
-  })  
+  })
 });
 
 router.post('/cast-secure', (req, res) => {
