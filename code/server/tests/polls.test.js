@@ -3,6 +3,7 @@ const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../app');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 PORT = process.env.PORT || 3000;
 const HOST = `http://localhost:${PORT}`;
@@ -16,11 +17,16 @@ describe('Unit tests for poll controller', function() {
     
     let testUser;
     let testPollId;
+    let testToken;
+    let testOption;
+
+    const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
 
     before((done) => { 
         testUser = helpers.testUser;
         testPollId = helpers.testPollId;
         testOption = helpers.testOption;
+        testToken = jwt.sign({email: testUser.email, userid: testUser.userid}, secret);
         assert.notEqual(testUser, undefined);
         assert.notEqual(testPollId, undefined);
         assert.notEqual(testPollId, undefined);
@@ -51,7 +57,7 @@ describe('Unit tests for poll controller', function() {
     it('should reject requests with bad poll information with response code 500', (done) => {
         const badRequest = {
             poll: "not a poll",
-            token: testUser.token
+            token: testToken
         };
         request(HOST)
             .post('/poll/create')
@@ -75,7 +81,7 @@ describe('Unit tests for poll controller', function() {
                 options:["option 1"],
                 isSecure: true
             },
-            token: testUser.token
+            token: testToken
         };
         request(HOST)
             .post('/poll/create')
@@ -90,7 +96,7 @@ describe('Unit tests for poll controller', function() {
     it('should fetch a poll based on poll id and return with status 200', (done) => {
         const goodRequest = {
             pollid: testPollId,
-            token: testUser.token
+            token: testToken
         };
         request(HOST)
             .post('/poll/fetch')
@@ -106,7 +112,7 @@ describe('Unit tests for poll controller', function() {
     it('should return status 300 if no poll found with given poll id', (done) => {
         const badRequest = {
             pollid: "AAA",
-            token: testUser.token
+            token: testToken
         }
         request(HOST)
             .post('/poll/fetch')
@@ -120,7 +126,7 @@ describe('Unit tests for poll controller', function() {
     });
     it('should return with status code 200 and all polls associated with a given user', (done) => {
         const goodRequest = {
-            token: testUser.token
+            token: testToken
         }
         request(HOST)
             .post('/poll/all')
@@ -139,7 +145,7 @@ describe('Unit tests for poll controller', function() {
                 pollid: testPollId,
                 option: testOption,
             },
-            token: testUser.token
+            token: testToken
         };
         request(HOST)
             .post('/poll/cast')
@@ -158,7 +164,7 @@ describe('Unit tests for poll controller', function() {
                 pollid: "A",
                 option: testOption
             },
-            token: testUser.token
+            token: testToken
         };
         request(HOST)
             .post('/poll/cast')
