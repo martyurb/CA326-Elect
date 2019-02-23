@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var pgp = require('openpgp');
+var TestUser = require('../models/TestUser');
 
 const jwt = require('jsonwebtoken');
 

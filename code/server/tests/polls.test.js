@@ -10,13 +10,14 @@ const HOST = `http://localhost:${PORT}`;
 const polls = require('../routes/polls');
 const Poll = require('../models/Poll');
 
-describe('Unit tests for poll controller', function() {
+const helpers = require('./test-helpers');
 
-    before((done) => {
-        mongoose.connection.db.dropDatabase(() => {
-            console.log("Cleaning...");
-            console.log("Test database dropped");
-        });
+describe('Unit tests for poll controller', function() {
+    let testUser;
+    before((done) => { 
+        testUser = helpers.testUser;
+        console.log("testUser");
+        assert.notEqual(testUser, undefined);
         return done();
     });
     it ('should reject requests with no token with response code 500', (done) => {
@@ -44,7 +45,7 @@ describe('Unit tests for poll controller', function() {
     it('should reject requests with bad poll information with response code 500', (done) => {
         const badRequest = {
             poll: "not a poll",
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impha2Uua2dyb2dhbkBnbWFpbC5jb20iLCJ1c2VyaWQiOiIxMTE2MjUxODA2ODI0NDQxMzE4MTciLCJpYXQiOjE1NTA5MTg4MDAsImV4cCI6MTU1MDkyMjQwMH0.XsWXN9I8Spuf51S0W6WTopv0K9y6OV95o7fhLY8UQ1s"
+            token: testUser.token
         };
         request(HOST)
             .post('/poll/create')
@@ -68,7 +69,7 @@ describe('Unit tests for poll controller', function() {
                 options:["option 1"],
                 isSecure: true
             },
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impha2Uua2dyb2dhbkBnbWFpbC5jb20iLCJ1c2VyaWQiOiIxMTE2MjUxODA2ODI0NDQxMzE4MTciLCJpYXQiOjE1NTA5MTg4MDAsImV4cCI6MTU1MDkyMjQwMH0.XsWXN9I8Spuf51S0W6WTopv0K9y6OV95o7fhLY8UQ1s"
+            token: testUser.token
         };
         request(HOST)
             .post('/poll/create')

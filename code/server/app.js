@@ -10,7 +10,7 @@ var authRouter = require('./routes/auth');
 var pollRouter = require('./routes/polls');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://34.241.192.136:27017');
 
 var app = express();
 

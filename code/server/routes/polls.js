@@ -4,7 +4,7 @@ var randomstring = require("randomstring");
 var _ = require('lodash');
 var Poll = require('../models/Poll');
 var User = require('../models/User');
-var Vote = require('../models/Vote')
+var Vote = require('../models/Vote');
 const jwt = require('jsonwebtoken');
 const pgp = require('openpgp');
 const priv_key = require('../conf/keys').privKey;
@@ -126,19 +126,13 @@ router.get('/:id', function(req , res){
 
 })
 
-// router.post('/create', function(req, res) {
-//   let token = req.body.token;
-//   let poll = req.body.poll;
-//   console.log(token, poll);
-// })
-
 // Create New poll
 router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
   console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
-  
+
   User.findOne({userid:verifiedToken.userid}, function(err, user) {
     if (err) return res.status(401).json({message: "User not found"});
       else if (user) {
