@@ -18,7 +18,7 @@ function verifyToken(token){
   return jwt.verify(token, secret);
 }
 
-function getGroupedVotes(poll){
+function getGroupedVotes(poll) {
   Vote.find({pollid: poll.pollid}, function(err, result) {
 
     if (err) {throw err;}
@@ -31,6 +31,7 @@ function getGroupedVotes(poll){
       console.log(grouped);
       return grouped;
     }
+  })
 }
 
 function majorityWins(poll) {
@@ -104,7 +105,7 @@ router.post('/cast-secure', (req, res) => {
             message: await pgp.cleartext.readArmored(signedVote), // parse armored message
             publicKeys: (await pgp.key.readArmored(sender_pub_key)).keys // for verification
           };
-        
+
           pgp.verify(options).then(function(verified) {
             validity = verified.signatures[0].valid; // true
             if (validity) {
@@ -116,14 +117,14 @@ router.post('/cast-secure', (req, res) => {
                   else if (poll) {
                     const date = new Date();
                     const nowTimestamp = date.getTime();
-            
+
                     var record = new Vote({
                       created_at: nowTimestamp,
                       pollid: pollid,
                       author: user.userid,
                       option: verified.data
                     });
-            
+
                     record.save( (err, vote) => {
                       if(err){
                         console.log(err);
@@ -143,11 +144,11 @@ router.post('/cast-secure', (req, res) => {
         }
 
         verify_sig(sender_pub_key, signedVote.data);
-        
+
       });
 
 
-      
+
     };
   });
 });
