@@ -138,7 +138,7 @@ router.post('/create', function(req, res) {
   console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
-
+  
   User.findOne({userid:verifiedToken.userid}, function(err, user) {
     if (err) return res.status(401).json({message: "User not found"});
       else if (user) {
