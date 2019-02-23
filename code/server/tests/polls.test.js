@@ -20,7 +20,9 @@ describe('Unit tests for poll controller', function() {
     before((done) => { 
         testUser = helpers.testUser;
         testPollId = helpers.testPollId;
+        testOption = helpers.testOption;
         assert.notEqual(testUser, undefined);
+        assert.notEqual(testPollId, undefined);
         assert.notEqual(testPollId, undefined);
         return done();
     });
@@ -125,6 +127,25 @@ describe('Unit tests for poll controller', function() {
             .send(goodRequest)
             .set('Accept', 'application/json')
             .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, true);
+                done();
+            })
+    });
+    it('should return with response code 201 and cast a vote given the token and an option', (done) => {
+        const goodRequest = {
+            vote: {
+                pollid: testPollId,
+                option: testOption,
+            },
+            token: testUser.token
+        };
+        request(HOST)
+            .post('/poll/cast')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(201)
             .end(function (err, res) {
                 if (err) throw err;
                 assert.equal(res.body.message, true);

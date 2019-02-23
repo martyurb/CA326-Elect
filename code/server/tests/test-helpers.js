@@ -6,3 +6,4 @@ module.exports.testUser = {"_id":"5c71402a9f80364f33546c95",
                             "fullname":"elect test"}
 
 module.exports.testPollId = "Z7pnj8e";
+module.exports.testOption = "Test Option 1"
