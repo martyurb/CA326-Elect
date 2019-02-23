@@ -13,5 +13,8 @@ export const AppConfig = {
     apiAllPolls: '/poll/all',
     apiPollCast: '/poll/cast',
     apiPollCastSecure: '/poll/cast-secure',
-    apiResult: '/poll/result'
+    apiResult: '/poll/result',
+    apiCanAccess: '/poll/can-access',
+    apiGetPoll: '/poll/get-poll',
+    apiGetVotes: '/poll/get-votes',
 };

@@ -30,4 +30,8 @@ export class UserPollsComponent implements OnInit {
     this.router.navigate(['/poll', pollid]);
   }
 
+  goToStats(pollid: string) {
+    this.router.navigate(['/poll', pollid, 'statistics']);
+  }
+
 }

@@ -4,7 +4,7 @@ var randomstring = require("randomstring");
 var _ = require('lodash');
 var Poll = require('../models/Poll');
 var User = require('../models/User');
-var Vote = require('../models/Vote')
+var Vote = require('../models/Vote');
 const jwt = require('jsonwebtoken');
 const pgp = require('openpgp');
 const priv_key = require('../conf/keys').privKey;
@@ -167,12 +167,6 @@ router.get('/:id', function(req , res){
 
 })
 
-// router.post('/create', function(req, res) {
-//   let token = req.body.token;
-//   let poll = req.body.poll;
-//   console.log(token, poll);
-// })
-
 // Create New poll
 router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
@@ -272,7 +266,6 @@ router.post('/fetch', function(req, res) {
 
 router.post('/all', function(req, res) {
   let token = req.body.token;
-  console.log("Here");
   let verifiedToken = verifyToken(token);
   User.findOne({userid: verifiedToken.userid}, function(err, user) {
     if (err) return res.status(401).json({message: false});
@@ -327,35 +320,38 @@ router.post('/cast', function(req, res) {
   let pollid = req.body.vote.pollid;
   let option = req.body.vote.option;
 
-  console.log(req);
+  User.findOne({userid:verifiedToken.userid}, (err, user) => {
+    if (err) throw err;
+    if (user) {
+      Poll.findOne({pollid: pollid}, (err, poll) => {
+        if (err) throw err;
+        if (poll) {
+          const date = new Date();
+          const nowTimestamp = date.getTime();
 
-  User.findOne({userid:verifiedToken.userid}, function(err, user){
-    if (err) return res.status(401).json({message: "User not found"});
-    else if (user) {
-      Poll.findOne({pollid: pollid}, function(err, poll) {
-      if (err) return res.status(401).json({message: "Poll not found"});
-      else if (poll) {
-        const date = new Date();
-        const nowTimestamp = date.getTime();
+          var record = new Vote({
+            created_at: nowTimestamp,
+            pollid: pollid,
+            author: user.userid,
+            option: option
+          });
 
-        var record = new Vote({
-          created_at: nowTimestamp,
-          pollid: pollid,
-          author: user.userid,
-          option: option
-        });
-
-        record.save( (err, vote) => {
-          if(err){
-            console.log(err);
-            return res.status(500).json({message: "db error"});
-          } else {
-            return res.status(201).json({message: true});
-          }
-        });
-      }
-    })
-  }})
+          record.save((err, vote) => {
+            if (err) return res.status(500).json({message: "db error"});;
+            if (vote) {
+              return res.status(201).json({message: true});
+            } else if (!vote) {
+              return res.status(500).json({message: "db error"});
+            }
+          });
+        } else if (!poll){
+          return res.status(500).json({message: "db error"});
+        }
+      });
+    } else if (!user) {
+      return res.status(500).json({message: "db error"});
+    }
+  })
 })
 
 router.post('/result', function(req , res) {
@@ -438,6 +434,70 @@ router.get('/result', function(req , res) {
       }
     })
 })
+
+router.post('/can-access', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  Poll.findOne({pollid: pollid}, function(err, poll) {
+    if (err) throw err;
+    if (poll) {
+      if (poll.author == userid) {
+        return res.status(200).json({canAccess: true});
+      } else {
+        return res.status(200).json({canAccess: false});
+      }
+    } else {
+      return res.status(201).json({canAccess: false});
+    }
+  })
+});
+
+router.post('/get-poll', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  User.findOne({userid: userid}, function(err, user) {
+    if (err) throw err;
+    if (user) {
+      Poll.findOne({pollid: pollid}, function(err, poll) {
+        if (err) throw err;
+        if (poll) {
+          return res.status(200).json({message: true, poll: poll});
+        } else {
+          return res.status(301).json({message: false, poll: null});
+        }
+      })
+    } else {
+      return res.status(301).json({message: false, poll: null});
+    }
+  })
+
+});
+
+router.post('/get-votes', function(req, res) {
+  let token = req.body.token;
+  let verifiedToken = verifyToken(token);
+  let userid = verifiedToken.userid;
+  let pollid = req.body.pollid;
+  User.findOne({userid: userid}, function(err, user) {
+    if (err) throw err;
+    if (user) {
+      Vote.find({pollid: pollid}, function(err, votes) {
+        if (err) throw err;
+        if (votes) {
+          return res.status(200).json({message: true, votes: votes});
+        } else {
+          return res.status(301).json({message: false, votes: null});
+        }
+      })
+    } else {
+      return res.status(301).json({message: false, votes: null});
+    }
+  });
+});
 
 
 

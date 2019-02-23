@@ -27,6 +27,7 @@ import { HomeComponent } from './home/home.component';
 import { UserPollsComponent } from './user-polls/user-polls.component';
 import { CastVoteComponent } from './cast-vote/cast-vote.component';
 import { ResultsComponent } from './results/results.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -53,6 +54,7 @@ export function getAuthServiceConfigs() {
     UserPollsComponent,
     CastVoteComponent,
     ResultsComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,

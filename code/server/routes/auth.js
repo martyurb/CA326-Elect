@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var pgp = require('openpgp');
+var TestUser = require('../models/TestUser');
 
 const jwt = require('jsonwebtoken');
 
@@ -136,7 +137,7 @@ router.post('/login', function(req, res) {
           else {
             if(doc) {
               user = doc;
-              const retToken = jwt.sign({email: user.email, userid: user.userid}, secret, { expiresIn: "1h"});
+              const retToken = jwt.sign({email: user.email, userid: user.userid}, secret);
               return res.status(200).json({
                 token: retToken,
                 expiresIn: 3600,

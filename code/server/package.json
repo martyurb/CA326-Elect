@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -20,5 +21,10 @@
     "openpgp": "^4.4.6",
     "randomstring": "^1.1.5",
     "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.1",
+    "supertest": "^3.4.2"
   }
 }

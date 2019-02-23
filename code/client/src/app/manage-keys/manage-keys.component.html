@@ -47,15 +47,6 @@
                     <h4>Set up your PGP encryption keys</h4>
                     <p>This must be done in order to use Extra-Secure voting</p>
 
-                    <form [formGroup]="keysForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
-                        <label>
-                            <textarea placeholder="Paste your PGP RSA public key here.." type="text" formControlName="publicKey"></textarea>
-                        </label>
-                        <button type="submit" class="btn btn-primary">Add Public Key</button>
-                    </form>
-                    <br>
-                    <h4>OR</h4>
-                    <br>
                     <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
                     <p><i>(We generate 1024 bit RSA encryption keys)</i></p>
                 </div>
