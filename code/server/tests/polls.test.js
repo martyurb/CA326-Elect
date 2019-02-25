@@ -254,6 +254,40 @@ describe('Unit tests for poll controller', function() {
                 assert.equal(res.body.message, true);
                 assert.notEqual(res.body.poll, undefined);
                 done();
-            })
-    })
+            });
+    });
+    it('should return with status code 201 when requesting entire poll with invalid body data', (done) => {
+        const badRequest = {
+            token: testToken,
+            pollid: "A"
+        };
+        request(HOST)
+            .post('/poll/get-poll')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(301)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, false);
+                assert.equal(res.body.poll, undefined);
+                done();
+            });
+    });
+    it('should return with status code 200 when requesting all of a polls votes with valid data', (done) => {
+        const goodRequest = {
+            token: testToken,
+            pollid: testPollId
+        };
+        request(HOST)
+            .post('/poll/get-votes')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, true);
+                assert.notEqual(res.body.votes, undefined);
+                done();
+            });
+    });
 });
