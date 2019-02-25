@@ -22,7 +22,7 @@ describe('Unit testing the auth route', function() {
         return done();
     });
 
-    it('should return status code 201', (done) => {
+    it('should return status code 201 after key generation', (done) => {
         const goodRequest = {
             token: testToken
         }
@@ -30,9 +30,40 @@ describe('Unit testing the auth route', function() {
             .post('/auth/keys/generate')
             .send(goodRequest)
             .set('Accept', 'application/json')
+            .expect(201)
             .end(function(err, res) {
                 if (err) throw err;
                 assert.equal(res.body.message, true);
+                done();
+            })
+    });
+    it('should return status code 500 with faulty data', (done) => {
+        const goodRequest = {
+            token: "ddklasfa"
+        }
+        request(HOST)
+            .post('/auth/keys/generate')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(500)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, undefined);
+                done();
+            });
+    });
+    it('should return status code 200 if users keys are set', (done) => {
+        const goodRequest = {
+            token: testToken
+        }
+        request(HOST)
+            .post('/auth/keys')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.isKeySet, true);
                 done();
             })
     });
