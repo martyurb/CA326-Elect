@@ -223,4 +223,20 @@ describe('Unit tests for poll controller', function() {
                 done();
             });
     });
+    it('should return with status code 301 when checking if author of poll can access when poll not found', (done) => {
+        const badRequest = {
+            token: testToken,
+            pollid: "A"
+        };
+        request(HOST)
+            .post('/poll/can-access')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(301)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.canAccess, false);
+                done();
+            });
+    });
 });
