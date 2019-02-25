@@ -120,7 +120,7 @@ router.post('/cast-secure', (req, res) => {
   let pollid = req.body.pollid;
   User.findOne({userid: verifiedToken.userid}, function(err, user) {
 
-    if (err) console.log(err);
+    if (err) throw err;
     else if (user) {
       let encryptedVote = req.body.encryptedVote;
       let pr_key = priv_key;
@@ -130,7 +130,7 @@ router.post('/cast-secure', (req, res) => {
 
         const privKeyObj = (await pgp.key.readArmored(pr_key));
         await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-
+        
         msg = await pgp.message.readArmored(encryptedVote);
 
         let doptions = {
@@ -138,7 +138,7 @@ router.post('/cast-secure', (req, res) => {
           privateKeys: [privKeyObj.keys[0]],
           publicKeys: pgp.key.readArmored(pu_key).keys,
         };
-
+        console.log("NOW EERE");
         let decypted_vote = await pgp.decrypt(doptions).then((signedVote) => {
           return signedVote
         });
@@ -150,8 +150,6 @@ router.post('/cast-secure', (req, res) => {
       decryptVote(pr_key, pu_key, encryptedVote).then(signedVote => {
 
         const sender_pub_key = user.publicKey;
-
-        console.log(signedVote.data);
 
         const verify_sig = async(sender_pub_key, signedVote) => {
 
@@ -181,7 +179,6 @@ router.post('/cast-secure', (req, res) => {
 
                     record.save( (err, vote) => {
                       if(err){
-                        console.log(err);
                         return res.status(500).json({message: "db error"});
                       } else {
                         return res.status(201).json({message: true});
@@ -224,7 +221,6 @@ router.get('/:id', function(req , res){
 // Create New poll
 router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
-  console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -264,7 +260,6 @@ router.post('/create', function(req, res) {
 
             record.save( (err, poll) => {
               if(err){
-                console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
                 return res.status(201).json({message: true, pollid: pollid})
@@ -327,7 +322,6 @@ router.post('/all', function(req, res) {
       Poll.find({author: verifiedToken.userid}, function(err, polls) {
         if (err) return res.status(401).json({message: false});
         else if (polls) {
-          console.log(polls)
           return res.status(200).json({message: true, polls: polls});
         } else {
           return res.status(401).json({message: false});
@@ -368,7 +362,6 @@ router.post('/close', function(req, pollInfores) {
 });
 
 router.post('/cast', function(req, res) {
-  console.log(req.body);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.vote.pollid;
@@ -418,15 +411,12 @@ router.post('/result', function(req , res) {
           if (err) {throw err;}
           if (result) {
             var grouped = _.groupBy(result, 'option')
-            console.log(grouped);
             Object.keys(grouped).map(function (key, index) {
               grouped[key] = grouped[key].length;
             });
-            console.log(grouped);
             return res.status(200).json({grouped: grouped});
           }
-        }
-      );
+        });
       }
       else {
         return res.status(404).json({message: "error"});
@@ -436,58 +426,58 @@ router.post('/result', function(req , res) {
 
 
 
-router.get('/:id/result', function(req , res) {
-  User.findOne({userid:verifiedToken.userId}, function(err, user){
-    if (err) return res.status(401).json({message: "User not found"});
-    else if (user) {
-      Poll.findOne({pollid: pollid}, function(err, poll) {
-      if (err) return res.status(401).json({message: "Poll not found"});
-      else if (poll) {
-        const date = new Date();
-        const nowTimestamp = date.getTime();
+// router.get('/:id/result', function(req , res) {
+//   User.findOne({userid:verifiedToken.userId}, function(err, user){
+//     if (err) return res.status(401).json({message: "User not found"});
+//     else if (user) {
+//       Poll.findOne({pollid: pollid}, function(err, poll) {
+//       if (err) return res.status(401).json({message: "Poll not found"});
+//       else if (poll) {
+//         const date = new Date();
+//         const nowTimestamp = date.getTime();
 
-        var record = new Vote({
-          created_at: nowTimestamp,
-          pollid: pollid,
-          author: user.userid,
-          option: option
-        });
+//         var record = new Vote({
+//           created_at: nowTimestamp,
+//           pollid: pollid,
+//           author: user.userid,
+//           option: option
+//         });
 
-        record.save( (err, vote) => {
-          if(err){
-            console.log(err);
-            return res.status(500).json({message: "db error"});
-          } else {
-            return res.status(201).json({message: true});
-          }
-        });
-      }
-    })
-  }})
-});
+//         record.save( (err, vote) => {
+//           if(err){
+//             console.log(err);
+//             return res.status(500).json({message: "db error"});
+//           } else {
+//             return res.status(201).json({message: true});
+//           }
+//         });
+//       }
+//     })
+//   }})
+// })
 
-router.get('/result', function(req , res) {
-    Poll.findOne({pollid: req.body.id}, function(err, poll) {
-      if (err) { throw err;}
-      if (poll) {
-        vote.find({pollid: req.body.id}.toArray(function(err, result) {
-          if (err) {throw err;}
-          if (result) {
-            var grouped = _.groupBy(result, 'option')
+// router.get('/result', function(req , res) {
+//     Poll.findOne({pollid: req.body.id}, function(err, poll) {
+//       if (err) throw err;
+//       if (poll) {
+//         vote.find({pollid: req.body.id}.toArray(function(err, result) {
+//           if (err) {throw err;}
+//           if (result) {
+//             var grouped = _.groupBy(result, 'option')
 
-            Object.keys(grouped).map(function (key, index) {
-              grouped[key] = grouped[key].length;
-            });
-            return res.render(grouped);
-          }
-        }
-      ));
-      }
-      else {
-        return res.status(404).json({message: "error"});
-      }
-    })
-});
+//             Object.keys(grouped).map(function (key, index) {
+//               grouped[key] = grouped[key].length;
+//             });
+//             return res.render(grouped);
+//           }
+//         }
+//       ));
+//       }
+//       else {
+//         return res.status(404).json({message: "error"});
+//       }
+//     })
+// })
 
 router.post('/can-access', function(req, res) {
   let token = req.body.token;
@@ -503,7 +493,7 @@ router.post('/can-access', function(req, res) {
         return res.status(200).json({canAccess: false});
       }
     } else {
-      return res.status(201).json({canAccess: false});
+      return res.status(301).json({canAccess: false});
     }
   })
 });
@@ -536,6 +526,7 @@ router.post('/get-votes', function(req, res) {
   let verifiedToken = verifyToken(token);
   let userid = verifiedToken.userid;
   let pollid = req.body.pollid;
+
   User.findOne({userid: userid}, function(err, user) {
     if (err) throw err;
     if (user) {
@@ -543,7 +534,7 @@ router.post('/get-votes', function(req, res) {
         if (err) throw err;
         if (votes) {
           return res.status(200).json({message: true, votes: votes});
-        } else {
+        } else if (!votes) {
           return res.status(301).json({message: false, votes: null});
         }
       })
