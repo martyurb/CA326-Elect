@@ -21,6 +21,7 @@ export class AuthenticationService {
     private _apiResult = AppConfig.apiResult;
     private _apiPollCastSecure = AppConfig.apiPollCastSecure;
     private _apiCanAccess = AppConfig.apiCanAccess;
+    private _apiGetStatsLine = AppConfig.apiGetStatsLine;
     private _apiGetPoll = AppConfig.apiGetPoll;
     private _apiGetVotes = AppConfig.apiGetVotes;
 
@@ -196,6 +197,15 @@ export class AuthenticationService {
         this._tokenTimer = setTimeout(() => {
             this.logout();
         }, duration * 1000);
+    }
+
+    getStatsLine(pollid: string) {
+        const info = {
+          token: this._token,
+          pollid: pollid
+        };
+        
+        return this._http.post<[any]>(this._baseUrl + this._apiGetStatsLine, info);
     }
 
     getPoll(pollid: string) {

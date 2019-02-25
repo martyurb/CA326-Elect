@@ -59,15 +59,14 @@ function resultByPollType(poll) {
 
 }
 
-router.post('/getLineChartData', function(req, res) {
+router.post('/getStatsLine', function(req, res) {
   let pollid = req.body.pollid;
 
   //get all votes for the poll
   Vote.find({pollid: pollid}, function(err, votes) {
     if (err) throw err;
     if (votes) {
-      console.log(pollid);
-      console.log(votes);
+
 
       //find max and min timestamp (timestamps of first and last vote)
       const maxtime = _.maxBy(votes, function(o) { return o.created_at; }).created_at;
