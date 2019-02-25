@@ -81,4 +81,19 @@ describe('Unit testing the auth route', function() {
                 done();
             })
     });
+    it('should return status code 200 if user exists when fetching account', (done) => {
+        const goodRequest = {
+            token: testToken
+        }
+        request(HOST)
+            .post('/auth/account')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.email, "electprojectuser@gmail.com");
+                done();
+            })
+    });
 });
