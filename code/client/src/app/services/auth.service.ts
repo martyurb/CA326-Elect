@@ -204,7 +204,7 @@ export class AuthenticationService {
           token: this._token,
           pollid: pollid
         };
-        
+
         return this._http.post<[any]>(this._baseUrl + this._apiGetStatsLine, info);
     }
 
