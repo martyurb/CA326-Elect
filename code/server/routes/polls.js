@@ -25,7 +25,7 @@ router.post('/cast-secure', (req, res) => {
   let pollid = req.body.pollid;
   User.findOne({userid: verifiedToken.userid}, function(err, user) {
 
-    if (err) console.log(err);
+    if (err) throw err;
     else if (user) {
       let encryptedVote = req.body.encryptedVote;
       let pr_key = priv_key;
@@ -35,9 +35,9 @@ router.post('/cast-secure', (req, res) => {
 
         const privKeyObj = (await pgp.key.readArmored(pr_key));
         await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-        console.log("IM HERE")
+        
         msg = await pgp.message.readArmored(encryptedVote);
-        console.log("Now here");
+
         let doptions = {
           message: msg,
           privateKeys: [privKeyObj.keys[0]],
@@ -55,8 +55,6 @@ router.post('/cast-secure', (req, res) => {
       decryptVote(pr_key, pu_key, encryptedVote).then(signedVote => {
 
         const sender_pub_key = user.publicKey;
-
-        console.log(signedVote.data);
 
         const verify_sig = async(sender_pub_key, signedVote) => {
 
@@ -86,7 +84,6 @@ router.post('/cast-secure', (req, res) => {
             
                     record.save( (err, vote) => {
                       if(err){
-                        console.log(err);
                         return res.status(500).json({message: "db error"});
                       } else {
                         return res.status(201).json({message: true});
@@ -129,7 +126,6 @@ router.get('/:id', function(req , res){
 // Create New poll
 router.post('/create', function(req, res) {
   //check if a valid user is creating a new poll
-  console.log(req.body.poll);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -169,7 +165,6 @@ router.post('/create', function(req, res) {
 
             record.save( (err, poll) => {
               if(err){
-                console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
                 return res.status(201).json({message: true, pollid: pollid})
@@ -232,7 +227,6 @@ router.post('/all', function(req, res) {
       Poll.find({author: verifiedToken.userid}, function(err, polls) {
         if (err) return res.status(401).json({message: false});
         else if (polls) {
-          console.log(polls)
           return res.status(200).json({message: true, polls: polls});
         } else {
           return res.status(401).json({message: false});
@@ -273,7 +267,6 @@ router.post('/close'), function(req, pollInfores) {
 }
 
 router.post('/cast', function(req, res) {
-  console.log(req.body);
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.vote.pollid;
@@ -323,11 +316,9 @@ router.post('/result', function(req , res) {
           if (err) {throw err;}
           if (result) {
             var grouped = _.groupBy(result, 'option')
-            console.log(grouped);
             Object.keys(grouped).map(function (key, index) {
               grouped[key] = grouped[key].length;
             });
-            console.log(grouped);
             return res.status(200).json({grouped: grouped});
           }
         });
@@ -440,7 +431,7 @@ router.post('/get-votes', function(req, res) {
   let verifiedToken = verifyToken(token);
   let userid = verifiedToken.userid;
   let pollid = req.body.pollid;
-  console.log("HEREERERERERE", pollid);
+
   User.findOne({userid: userid}, function(err, user) {
     if (err) throw err;
     if (user) {
