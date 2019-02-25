@@ -330,8 +330,7 @@ router.post('/result', function(req , res) {
             console.log(grouped);
             return res.status(200).json({grouped: grouped});
           }
-        }
-      );
+        });
       }
       else {
         return res.status(404).json({message: "error"});
@@ -341,58 +340,58 @@ router.post('/result', function(req , res) {
 
 
 
-router.get('/:id/result', function(req , res) {
-  User.findOne({userid:verifiedToken.userId}, function(err, user){
-    if (err) return res.status(401).json({message: "User not found"});
-    else if (user) {
-      Poll.findOne({pollid: pollid}, function(err, poll) {
-      if (err) return res.status(401).json({message: "Poll not found"});
-      else if (poll) {
-        const date = new Date();
-        const nowTimestamp = date.getTime();
+// router.get('/:id/result', function(req , res) {
+//   User.findOne({userid:verifiedToken.userId}, function(err, user){
+//     if (err) return res.status(401).json({message: "User not found"});
+//     else if (user) {
+//       Poll.findOne({pollid: pollid}, function(err, poll) {
+//       if (err) return res.status(401).json({message: "Poll not found"});
+//       else if (poll) {
+//         const date = new Date();
+//         const nowTimestamp = date.getTime();
 
-        var record = new Vote({
-          created_at: nowTimestamp,
-          pollid: pollid,
-          author: user.userid,
-          option: option
-        });
+//         var record = new Vote({
+//           created_at: nowTimestamp,
+//           pollid: pollid,
+//           author: user.userid,
+//           option: option
+//         });
 
-        record.save( (err, vote) => {
-          if(err){
-            console.log(err);
-            return res.status(500).json({message: "db error"});
-          } else {
-            return res.status(201).json({message: true});
-          }
-        });
-      }
-    })
-  }})
-})
+//         record.save( (err, vote) => {
+//           if(err){
+//             console.log(err);
+//             return res.status(500).json({message: "db error"});
+//           } else {
+//             return res.status(201).json({message: true});
+//           }
+//         });
+//       }
+//     })
+//   }})
+// })
 
-router.get('/result', function(req , res) {
-    Poll.findOne({pollid: req.body.id}, function(err, poll) {
-      if (err) { throw err;}
-      if (poll) {
-        vote.find({pollid: req.body.id}.toArray(function(err, result) {
-          if (err) {throw err;}
-          if (result) {
-            var grouped = _.groupBy(result, 'option')
+// router.get('/result', function(req , res) {
+//     Poll.findOne({pollid: req.body.id}, function(err, poll) {
+//       if (err) throw err;
+//       if (poll) {
+//         vote.find({pollid: req.body.id}.toArray(function(err, result) {
+//           if (err) {throw err;}
+//           if (result) {
+//             var grouped = _.groupBy(result, 'option')
 
-            Object.keys(grouped).map(function (key, index) {
-              grouped[key] = grouped[key].length;
-            });
-            return res.render(grouped);
-          }
-        }
-      ));
-      }
-      else {
-        return res.status(404).json({message: "error"});
-      }
-    })
-})
+//             Object.keys(grouped).map(function (key, index) {
+//               grouped[key] = grouped[key].length;
+//             });
+//             return res.render(grouped);
+//           }
+//         }
+//       ));
+//       }
+//       else {
+//         return res.status(404).json({message: "error"});
+//       }
+//     })
+// })
 
 router.post('/can-access', function(req, res) {
   let token = req.body.token;
@@ -408,7 +407,7 @@ router.post('/can-access', function(req, res) {
         return res.status(200).json({canAccess: false});
       }
     } else {
-      return res.status(201).json({canAccess: false});
+      return res.status(301).json({canAccess: false});
     }
   })
 });

@@ -177,4 +177,50 @@ describe('Unit tests for poll controller', function() {
                 done();
             });
     }).timeout(4000);
+    it('should return with response code 200 when requesting a polls results with valid id', (done) => {
+        const goodRequest = {
+            id: testPollId
+        }
+        request(HOST)
+            .post('/poll/result')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.notEqual(res.body.grouped, undefined);
+                done();
+            });
+    });
+    it('should return with response code 404 when requesting a polls results with invalid id', (done) => {
+        const badRequest = {
+            id: "A"
+        }
+        request(HOST)
+            .post('/poll/result')
+            .send(badRequest)
+            .set('Accept', 'application/json')
+            .expect(404)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, "error");
+                done();
+            });
+    });
+    it('should return with status code 200 when checking if author of the poll can access its statistics', (done) => {
+        const goodRequest = {
+            token: testToken,
+            pollid: testPollId
+        }
+        request(HOST)
+            .post('/poll/can-access')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.canAccess, true);
+                done();
+            });
+    });
 });
