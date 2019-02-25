@@ -36,7 +36,7 @@ describe('Unit testing the auth route', function() {
                 assert.equal(res.body.message, true);
                 done();
             })
-    });
+    }).timeout(5000);
     it('should return status code 500 with faulty data', (done) => {
         const goodRequest = {
             token: "ddklasfa"
