@@ -67,4 +67,18 @@ describe('Unit testing the auth route', function() {
                 done();
             })
     });
+    it('should return status code 500 if user doesnt exist', (done) => {
+        const goodRequest = {
+            token: "lkajfla"
+        }
+        request(HOST)
+            .post('/auth/keys')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(500)
+            .end(function(err, res) {
+                if (err) throw err;
+                done();
+            })
+    });
 });
