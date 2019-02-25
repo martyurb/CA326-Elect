@@ -14,6 +14,7 @@ export class StatisticsComponent implements OnInit {
   public lineChartLabels: Array<any> = ['0', '1', '2', '3', '4', '5', '6', '7'];
   public lineChartOptions: any = {
     responsive: true
+
   };
 
   // events
@@ -41,7 +42,7 @@ export class StatisticsComponent implements OnInit {
         }
       });
     this.authService.getStatsLine(pollid).subscribe((response) => {
-      
+
         this.lineChartData = response;
 
       });
