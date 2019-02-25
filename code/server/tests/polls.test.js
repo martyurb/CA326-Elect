@@ -239,4 +239,21 @@ describe('Unit tests for poll controller', function() {
                 done();
             });
     });
+    it('should return with status code 200 when requesting entire poll with valid body data', (done) => {
+        const goodRequest = {
+            token: testToken,
+            pollid: testPollId
+        };
+        request(HOST)
+            .post('/poll/get-poll')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.message, true);
+                assert.notEqual(res.body.poll, undefined);
+                done();
+            })
+    })
 });
