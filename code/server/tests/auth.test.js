@@ -96,4 +96,19 @@ describe('Unit testing the auth route', function() {
                 done();
             })
     });
+    it('should return status code 500 if user doesnt exists when fetching account', (done) => {
+        const goodRequest = {
+            token: "jlkadshfka"
+        }
+        request(HOST)
+            .post('/auth/account')
+            .send(goodRequest)
+            .set('Accept', 'application/json')
+            .expect(500)
+            .end(function(err, res) {
+                if (err) throw err;
+                assert.equal(res.body.email, undefined);
+                done();
+            })
+    });
 });
