@@ -19,6 +19,8 @@ describe('Unit tests for poll controller', function() {
     let testPollId;
     let testToken;
     let testOption;
+    let testPrivKey;
+    let testPubKey;
 
     const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
 

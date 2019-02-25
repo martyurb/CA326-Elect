@@ -35,15 +35,15 @@ router.post('/cast-secure', (req, res) => {
 
         const privKeyObj = (await pgp.key.readArmored(pr_key));
         await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-
+        console.log("IM HERE")
         msg = await pgp.message.readArmored(encryptedVote);
-
+        console.log("Now here");
         let doptions = {
           message: msg,
           privateKeys: [privKeyObj.keys[0]],
           publicKeys: pgp.key.readArmored(pu_key).keys,
         };
-
+        console.log("NOW EERE");
         let decypted_vote = await pgp.decrypt(doptions).then((signedVote) => {
           return signedVote
         });
@@ -440,6 +440,7 @@ router.post('/get-votes', function(req, res) {
   let verifiedToken = verifyToken(token);
   let userid = verifiedToken.userid;
   let pollid = req.body.pollid;
+  console.log("HEREERERERERE", pollid);
   User.findOne({userid: userid}, function(err, user) {
     if (err) throw err;
     if (user) {
@@ -447,7 +448,7 @@ router.post('/get-votes', function(req, res) {
         if (err) throw err;
         if (votes) {
           return res.status(200).json({message: true, votes: votes});
-        } else {
+        } else if (!votes) {
           return res.status(301).json({message: false, votes: null});
         }
       })
