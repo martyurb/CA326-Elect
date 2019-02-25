@@ -59,23 +59,57 @@ function resultByPollType(poll) {
 
 }
 
-router.post('/pollStats', function(req, res) {
-  let pollid = "8qpqjWO";
+router.post('/getLineChartData', function(req, res) {
+  let pollid = req.body.pollid;
 
   //get all votes for the poll
   Vote.find({pollid: pollid}, function(err, votes) {
     if (err) throw err;
     if (votes) {
+      console.log(pollid);
       console.log(votes);
+
       //find max and min timestamp (timestamps of first and last vote)
-      const maxtime = _.maxBy(votes, function(o) { return o.created_at; });
-      const mintime = _.minBy(votes, function(o) { return o.created_at; })
-      const difference = maxtime.created_at - mintime.created_at;
-      console.log(maxtime.created_at,mintime.created_at, difference);
+      const maxtime = _.maxBy(votes, function(o) { return o.created_at; }).created_at;
+      const mintime = _.minBy(votes, function(o) { return o.created_at; }).created_at;
+      const difference = maxtime - mintime;
+
+      //group data by vote option
+      let grouped = _.groupBy(votes, function(o) { return o.option; });
 
       //amount of data points to generate
-      const dataPoints = 7;
+      const dataPoints = 8;
+      const step = difference / dataPoints;
 
+      //gen array with values from min to max time in step intervals
+      let timestamps = new Array(dataPoints).fill(0).map((e,i)=> mintime+(step * (i + 1)));
+
+      //[obj's] for results
+      let chartData = new Array(Object.keys(grouped).length);
+
+      var k = 0;
+      Object.entries(grouped).forEach(([key, value]) => {
+        var obj = {};
+        var curTime = mintime + step;
+        var dataArray = new Array(dataPoints);
+        var i = 0;
+        timestamps.forEach((timestamp) => {
+          var p = 0;
+          value.forEach((vote) => {
+            if (vote.created_at <= timestamp) {
+              p = p + 1;
+            }
+          })
+          dataArray[i] = p;
+          i = i + 1;
+        });
+        obj["data"] = dataArray;
+        obj["label"] = value[0].option;
+        chartData[k] = obj;
+        k = k + 1;
+        }
+      );
+    return res.status(201).json(chartData);
     }
   })
 });
