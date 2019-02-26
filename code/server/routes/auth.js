@@ -21,7 +21,6 @@ function verifyToken(token){
   return jwt.verify(token, secret);
 }
 
-
 // Generate a PGP key pair for given user
 router.post('/keys/generate', function(req, res) {
   console.log("HERE");

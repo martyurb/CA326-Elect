@@ -334,7 +334,7 @@ router.post('/all', function(req, res) {
 });
 
 // Close a poll
-router.post('/close', function(req, pollInfores) {
+router.post('/close', function(req, res) {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.pollid;
