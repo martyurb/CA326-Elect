@@ -11,16 +11,11 @@ export class StatisticsComponent implements OnInit {
   // lineChart
   chartSet = false;
   public lineChartType = 'line';
-
-  // public lineChartData:  = [
-  //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-  //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-  //   {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'},
-  // ];
-  public lineChartLabels: Array<any> = ['Options 1', 'Option 2', 'Option 3', '3', '4', '5', '6', '7'];
-  public lineChartData  = [[3, 346, 60, 4], [8, 76, 6, 90], [7, 35, 220, 110]];
+  public lineChartData: Array<any> = [];
+  public lineChartLabels: Array<any> = ['0', '1', '2', '3', '4', '5', '6', '7'];
   public lineChartOptions: any = {
     responsive: true
+
   };
 
   // events
@@ -37,6 +32,7 @@ export class StatisticsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private authService: AuthenticationService) { }
+
 
   ngOnInit() {
     const pollid = this.route.snapshot.paramMap.get('id');
