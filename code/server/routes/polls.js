@@ -260,9 +260,10 @@ router.post('/create', function(req, res) {
 
             record.save( (err, poll) => {
               if(err){
+                console.log(err);
                 return res.status(500).json({message: "db error"});
               } else {
-                return res.status(201).json({message: true, pollid: pollid})
+                return res.status(201).json({message: true, pollid: poll.pollid})
               }
             });
           }

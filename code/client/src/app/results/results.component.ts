@@ -11,7 +11,7 @@ export class ResultsComponent implements OnInit {
   // Pie
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
-  public pieChartType = 'line';
+  public pieChartType = 'doughnut';
   public pieChartOptions = {
     legend: {
       position: 'right',

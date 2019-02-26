@@ -76,6 +76,8 @@ export class PollComponent implements OnInit {
       isSecure: secure,
     };
 
+    console.log(poll);
+
     this.authService.createPoll(poll)
       .subscribe((response) => {
         if (response.message === true) {
