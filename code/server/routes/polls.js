@@ -96,7 +96,7 @@ router.post('/getStatsLine', function(req, res) {
           var p = 0;
           value.forEach((vote) => {
             if (vote.created_at <= timestamp) {
-              p = p + 3;
+              p = p + 1;
             }
           })
           dataArray[i] = p;

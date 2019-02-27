@@ -1,5 +1,6 @@
 <div class="page-container">
   <div class="form-wrapper">
+    <br><br>
   <div class="container">
     <div class="row">
       <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
@@ -14,11 +15,22 @@
                   [chartType]="lineChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
-                </div>
+              </div>
+              <h5 class="card-title text-center">Vote Results</h5>
+              <div style="display: block">
+                <canvas baseChart
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [colors]="pieChartColors"
+                        [options]="pieChartOptions"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+              </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  </div>
 </div>

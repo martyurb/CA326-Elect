@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StatisticsComponent implements OnInit {
   // lineChart
-  chartSet = false;
   public lineChartType = 'line';
   public lineChartData: Array<any> = [];
   public lineChartLabels: Array<any> = ['0', '1', '2', '3', '4', '5', '6', '7'];
@@ -17,6 +16,34 @@ export class StatisticsComponent implements OnInit {
     responsive: true
 
   };
+
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
+  public pieChartType = 'doughnut';
+  public pieChartOptions = {
+    legend: {
+      position: 'right',
+      onClick: false
+    },
+    title: {
+      display: true,
+      text: 'Vote for Oscars Actress in a leading role #Placeholder',
+      fontSize: 17
+    }
+  };
+  public pieChartColors: Array<any> = [
+    {
+      backgroundColor: [
+        '#eb8385',
+        '#7ebbde',
+        '#f0d18d',
+        '#85c9c9',
+        '#de7edb',
+        '#93de7e',
+        '#53678a',
+      ]
+    }
+  ];
 
   // events
   public chartClicked(e: any): void {
@@ -40,16 +67,30 @@ export class StatisticsComponent implements OnInit {
       .subscribe((response) => {
         if (response.canAccess === false) {
           this.router.navigate(['/']);
-        } else {
-          this.authService.getStatsLine(pollid).subscribe((data) => {
-            console.log('data', data);
-            this.lineChartData[0] = [1, 2, 3, 4, 5, 6, 7, 8];
-            this.chartSet = true;
-            console.log(this.lineChartData);
-          });
         }
       });
+    this.authService.getStatsLine(pollid).subscribe((response) => {
 
+        this.lineChartData = response;
+
+      });
+
+    this.authService.getResults(pollid).subscribe((response) => {
+      console.log(response.grouped);
+      const keyarr = [];
+      const valarr = [];
+
+      for (let i = 0; i < Object.keys(response.grouped).length; i++) {
+        const key = Object.keys(response.grouped)[i];
+        this.pieChartLabels.push(key);
+        valarr.push(response.grouped[key]);
+      }
+      this.pieChartData = valarr;
+
+      console.log('here', keyarr);
+      console.log(valarr);
+
+    });
 
 
     // Get poll
