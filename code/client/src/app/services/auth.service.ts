@@ -172,6 +172,7 @@ export class AuthenticationService {
         this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCast, vote)
             .subscribe((response) => {
                 console.log(response);
+                this._router.navigate(['/']);
             });
     }
 

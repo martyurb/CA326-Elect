@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ResultsComponent implements OnInit {
   // Pie
+  pollid = '';
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
@@ -17,11 +18,6 @@ export class ResultsComponent implements OnInit {
       position: 'right',
       onClick: false
     },
-    title: {
-      display: true,
-      text: 'Vote for Oscars Actress in a leading role #Placeholder',
-      fontSize: 17
-    }
   };
   public pieChartColors: Array<any> = [
     {
@@ -51,6 +47,7 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit() {
     const pollid = this.route.snapshot.paramMap.get('id');
+    this.pollid = pollid;
     this.authService.getResults(pollid).subscribe((response) => {
       console.log(response.grouped);
       const keyarr = [];

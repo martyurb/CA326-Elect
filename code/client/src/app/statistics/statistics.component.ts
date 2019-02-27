@@ -17,6 +17,29 @@ export class StatisticsComponent implements OnInit {
 
   };
 
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
+  public pieChartType = 'doughnut';
+  public pieChartOptions = {
+    legend: {
+      position: 'right',
+      onClick: false
+    },
+  };
+  public pieChartColors: Array<any> = [
+    {
+      backgroundColor: [
+        '#eb8385',
+        '#7ebbde',
+        '#f0d18d',
+        '#85c9c9',
+        '#de7edb',
+        '#93de7e',
+        '#53678a',
+      ]
+    }
+  ];
+
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -46,6 +69,23 @@ export class StatisticsComponent implements OnInit {
         this.lineChartData = response;
 
       });
+
+    this.authService.getResults(pollid).subscribe((response) => {
+      console.log(response.grouped);
+      const keyarr = [];
+      const valarr = [];
+
+      for (let i = 0; i < Object.keys(response.grouped).length; i++) {
+        const key = Object.keys(response.grouped)[i];
+        this.pieChartLabels.push(key);
+        valarr.push(response.grouped[key]);
+      }
+      this.pieChartData = valarr;
+
+      console.log('here', keyarr);
+      console.log(valarr);
+
+    });
 
 
     // Get poll

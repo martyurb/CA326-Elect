@@ -1,11 +1,13 @@
 <div class="page-container">
   <div class="form-wrapper">
+    <br><br>
   <div class="container">
     <div class="row">
       <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Poll Statistics</h5>
+            <h4 class="card-title text-center">Poll Statistics</h4>
+            <h5 class="text-center">Total votes over time per option</h5>
               <div style="display: block" *ngIf="lineChartData.length > 0">
                 <canvas baseChart
                   [datasets]="lineChartData"
@@ -14,11 +16,23 @@
                   [chartType]="lineChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
-                </div>
+              </div>
+              <br><br>
+              <h4 class="card-title text-center">Poll Results</h4>
+              <div style="display: block">
+                <canvas baseChart
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [colors]="pieChartColors"
+                        [options]="pieChartOptions"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+              </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  </div>
 </div>

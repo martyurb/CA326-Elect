@@ -46,7 +46,7 @@
   }
   
   .form-wrapper {
-    position: absolute;
+    position: relative;
     width: 60%;
     display: table;
     top: 0;
