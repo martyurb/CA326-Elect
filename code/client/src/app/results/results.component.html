@@ -18,7 +18,9 @@
                           [options]="pieChartOptions"
                           (chartHover)="chartHovered($event)"
                           (chartClick)="chartClicked($event)"></canvas>
-                </div>
+              </div>
+              <button class="btn btn-primary" routerLink="/user/polls">My Polls</button>&nbsp;
+              <button class="btn btn-danger" routerLink="/poll/{{pollid}}/statistics">View Statistics</button>
             </div>
           </div>
         </div>

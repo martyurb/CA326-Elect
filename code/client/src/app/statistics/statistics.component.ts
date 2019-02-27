@@ -25,11 +25,6 @@ export class StatisticsComponent implements OnInit {
       position: 'right',
       onClick: false
     },
-    title: {
-      display: true,
-      text: 'Vote for Oscars Actress in a leading role #Placeholder',
-      fontSize: 17
-    }
   };
   public pieChartColors: Array<any> = [
     {
