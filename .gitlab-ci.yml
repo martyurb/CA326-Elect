@@ -10,32 +10,31 @@ stages:
   - expresstests
   - angulartests
 
-lint:
-  stage: lint
-  script:
-    - cd code/client
-    - npm install
-    - ./node_modules/@angular/cli/bin/ng lint
+# lint:
+#   stage: lint
+#   script:
+#     - cd code/client
+#     - npm install
+#     - ./node_modules/@angular/cli/bin/ng lint
 
-build:
-  stage: build
-  script:
-    - cd code/client
-    - npm install
-    - ./node_modules/@angular/cli/bin/ng build --prod --base-href ./
+# build:
+#   stage: build
+#   script:
+#     - cd code/client
+#     - npm install
+#     - ./node_modules/@angular/cli/bin/ng build --prod --base-href ./
 
-expresstests:
-  stage: expresstests
-  script:
-    - cd code/server
-    - npm install
-    - npm start &
-    - npm test ./tests
+# expresstests:
+#   stage: expresstests
+#   script:
+#     - cd code/server
+#     - npm install
+#     - npm start &
+#     - npm test ./tests
 
 angulartests:
   stage: angulartests
   script:
     - cd code/client
     - npm install
-    - ng tests
     - ./node_modules/@angular/cli/bin/ng test
