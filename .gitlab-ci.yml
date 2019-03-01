@@ -33,7 +33,10 @@ stages:
 #     - npm test ./tests
 
 angulartests:
+  variables:
+    CLI_VERSION: 6.1.0
   stage: angulartests
+  image: trion/ng-cli-karma:${CLI_VERSION}
   script:
     - cd code/client
     - npm install
