@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { ChartModule } from 'chart.js';
 
 @Component({
   selector: 'app-results',
