@@ -166,7 +166,7 @@ To install Express generator follow the steps below:
 1. In the server directory, run `npm install`. This will install all dependencies for the server application.
 2. Run `npm start`. This will start the application at `http://localhost:3000/`.
 3. Ensure you are connecting to the correct MongoDB by updating the mongoose connection string in `app.js`.
-4. [OPTION] To run unit tests, you will need to configure mongoose to connect to a remote MongoDB instance ("mongodb://34.241.192.136:27017"). The reason for this is, we need a test account as we will need to generate an authorization token and encryption keys. Having a test account on a remote database has removed some major issues encountered with testing.
+4. [OPTION] To run unit tests, you will need to configure mongoose to connect to a remote MongoDB instance ("mongodb://34.241.192.136:27017"). The reason for this is, we need a test account as we will need to generate an authorization token and encryption keys. Having a test account on a remote database has removed some major issues encountered with testing. To run the tests, run `npm test ./tests`
 
 ### Database Installation
 
@@ -190,9 +190,74 @@ To install MongoDB follow the steps below:
 - Check that MongoDB has been started on port 27017 
   - `sudo netstat -plntu`
 
-If you have experienced any issues installing dependencies, please check the following documentation:
+If you have experienced any issues installing dependencies, please check the following links for troubleshooting:
 
 - Angular CLI - https://cli.angular.io/
 
 - Node.js - https://nodejs.org/en/
-- 
+- Express Generator - https://expressjs.com/en/starter/generator.html
+- MongoDB - https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu/
+
+The application should be up and running. 
+
+## 6. Testing
+
+### 6.1 - Front-End Testing
+
+---
+
+> When testing the front end we ran into a couple of minor issues and as a result we have done a mix of unit testing and manual adhoc testing. 
+>
+> The issue was OAuth. We are using a wrapper around OAuth to make the Google signin process in angular as simple as possible. 
+>
+> For unit tests we check that each component loads and initialises data correctly. These tests may be run using `ng test`.
+>
+> In terms of coverage, we have 100% component coverage. 
+>
+> We have 12 unit tests in total and use Jasmin and Karma to write and run our unit tests. These frameworks come with angular. 
+>
+> Unit tests for each component can be found in the _name_.component.spec.ts file in each component directory.
+>
+> As of current, all unit tests are passing.
+
+### 6.2 - Back-End Testing
+
+---
+
+> When testing the backend we also ran into issues which were discussed in the installation guide. We needed to set up a test account on a remote mongoDB instance.
+>
+> For unit tests we test each route with both positive and negative test cases. The tests check that the expected responses and data are returned based on what data was in the request to the route.
+>
+> In terms of coverage, we have ~90% code coverage for the routes.
+>
+> We have 22 unit tests in total for the back-end and use supertest for mocking requests to the route as well as chai and mocha for writing and running the tests cases.
+>
+> Unit tests can be found in the tests folder.
+>
+> As of current, all unit tests are passing.
+
+### 6.3 - User Tests
+
+---
+
+> We also believed that getting feedback from users was equally important. The aim of the user tests was to gain an understanding of the usability of the system as well as how accessible it is.
+>
+> To do this we set up a user test account and invited participants to carry out a set of scenarios that covered the systems main functions. We then gave the participants a short anonymous questionnaire. 
+>
+> The results of this are as follows and marked out of 5:
+>
+> Trying to log in: 5/5
+>
+> Create a non-secure poll: 4.5/5
+>
+> Cast a vote on the non-secure poll: 4.5/5
+>
+> Viewing and understanding vote results: 5/5
+>
+> Viewing the polls statistics: 5/5
+>
+> Generating your encryption keys: 3/5
+>
+> Creating a secure poll: 4/5
+>
+> Voting on a secure poll: 4/5
