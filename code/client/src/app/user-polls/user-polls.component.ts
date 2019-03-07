@@ -21,6 +21,7 @@ export class UserPollsComponent implements OnInit {
       if (response.message === true) {
         this.userPollsFound = true;
         this.userPolls = response.polls;
+        (console.log(this.userPolls))
       }
     });
   }
@@ -32,6 +33,14 @@ export class UserPollsComponent implements OnInit {
 
   goToStats(pollid: string) {
     this.router.navigate(['/poll', pollid, 'statistics']);
-  }
+  };
 
+  closePoll(pollid: string) {
+    this.authService.closePoll(pollid)
+      .subscribe((response) => {
+        if (response.success === true) {
+          window.location.reload();
+        }
+      })
+    };
 }

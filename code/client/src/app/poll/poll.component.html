@@ -48,10 +48,13 @@
                   </label>
                 </div>
               </div>
+              <label>Close at</label>
+              <input class="form-control" placeholder="Month DD, YEAR HH:MM:SS" formControlName="close_at"><br>
               <br>
               <label>Xtra-Secure Poll &nbsp;</label>
               <input type="checkbox" formControlName="isExtraSecure">
               <br>
+
               <br>
               <button class="btn btn-primary" (click)="submit()">Submit</button>
             </form>

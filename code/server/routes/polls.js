@@ -130,7 +130,7 @@ router.post('/cast-secure', (req, res) => {
 
         const privKeyObj = (await pgp.key.readArmored(pr_key));
         await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-        
+
         msg = await pgp.message.readArmored(encryptedVote);
 
         let doptions = {
@@ -169,6 +169,10 @@ router.post('/cast-secure', (req, res) => {
                   else if (poll) {
                     const date = new Date();
                     const nowTimestamp = date.getTime();
+
+                    if (poll.close_at < nowTimestamp) {
+                      return res.status(500).json({message: false});
+                    }
 
                     var record = new Vote({
                       created_at: nowTimestamp,
@@ -242,7 +246,9 @@ router.post('/create', function(req, res) {
             options = req.body.poll.options;
             type = req.body.poll.type;
             isSecure = req.body.poll.isSecure;
-            //closingTimestamp = req.body.poll.closeTimestamp
+
+            closingDate = new Date(req.body.poll.close_at);
+            close_at = closingDate.getTime();
             //isOpen = true;
 
             var record = new Poll({
@@ -252,7 +258,9 @@ router.post('/create', function(req, res) {
               voteType: type,
               title: title,
               options: options,
-              isSecure: isSecure
+              isSecure: isSecure,
+              close_at: close_at
+
               //close_at: closeTimestamp
             });
 
@@ -292,7 +300,7 @@ router.post('/fetch', function(req, res) {
 
       //check if current time is past close time. If true then poll is over and redirect to result page
       if (nowTimestamp > closeTimestamp) {
-        return res.redirect('result');
+        return res.status(300).json({message: "Poll closed"});
       } else {
         User.findOne({userid: verifiedToken.userid}, function(err, user) {
           if (err) { throw err; }
@@ -341,19 +349,19 @@ router.post('/close', function(req, res) {
   let pollid = req.body.pollid;
 
   User.findOne({userid:verifiedToken.userid}, function(err, user) {
-    if (err) return res.status(401).json({message: "User not found"});
+    if (err) return res.status(401).json({success: false, message: "User not found"});
     else if (user) {
       Poll.findOne({pollid:pollid}, function(err, poll) {
-        if (err) return res.status(401).json({message: "Poll not found"});
+        if (err) return res.status(401).json({success: false, message: "Poll not found"});
         else if (poll.author === user.userid) {
           const date = new Date();
           const nowTimestamp = date.getTime();
           Poll.findOneAndUpdate({pollid:pollid}, {close_at:nowTimestamp})
             .then((updatedPoll) => {
               if (updatedPoll) {
-                return res.status(201).json({success: true});
+                return res.status(201).json({success: true, message: "Poll closed"});
               } else {
-                return res.status(500).json({message: "error"});
+                return res.status(500).json({success: false, message: "error"});
               }
             })
         }
@@ -376,6 +384,10 @@ router.post('/cast', function(req, res) {
         if (poll) {
           const date = new Date();
           const nowTimestamp = date.getTime();
+          //if poll is closed return 500
+          if (poll.close_at < nowTimestamp) {
+            return res.status(500).json({message: false});
+          }
 
           var record = new Vote({
             created_at: nowTimestamp,

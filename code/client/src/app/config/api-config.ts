@@ -18,4 +18,5 @@ export const AppConfig = {
     apiGetStatsLine: '/poll/getStatsLine',
     apiGetPoll: '/poll/get-poll',
     apiGetVotes: '/poll/get-votes',
+    apiClosePoll: '/poll/close',
 };
