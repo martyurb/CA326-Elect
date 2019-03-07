@@ -4,21 +4,21 @@
     border-radius: 1rem;
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   }
-  
+
   .card-signin .card-title {
     margin-bottom: 2rem;
     font-weight: 300;
     font-size: 1.5rem;
   }
-  
+
   .card-signin .card-body {
     padding: 2rem;
   }
-  
+
   .form-signin {
     width: 100%;
   }
-  
+
   .form-signin .btn {
     font-size: 80%;
     border-radius: 5rem;
@@ -27,27 +27,27 @@
     padding: 1rem;
     transition: all 0.2s;
   }
-  
-  
-  
+
+
+
   .btn-google {
     color: white;
     background-color: #ea4335;
   }
-  
-  
-  
-  
+
+
+
+
   .page-container {
     position: absolute;
-    background: url(https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+    background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
     background-size: cover;
-    /* background-color: rgb(51, 167, 245); */
+    
     width: 100%;
     bottom: 0;
     top: 60px;
   }
-  
+
   .form-wrapper {
     position: absolute;
     width: 60%;
@@ -57,6 +57,5 @@
     right: 0;
     left: 0;
     margin: auto;
-  
+
   }
-  

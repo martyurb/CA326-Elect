@@ -2,7 +2,7 @@
 .card-signin {
     border: 0;
     border-radius: 1rem;
-    box-shadow: 0 0.5rem 1rem 0 rgba(0.3, 0.3, 0.3, 0.3);
+    box-shadow: 0 0.5rem 1rem 0 rgba(0.5, 0.5, 0.5, 0.5);
   }
 
   .card-signin .card-title {
@@ -30,9 +30,9 @@
 
   .page-container {
     position: absolute;
-    background: url(https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+    background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
     background-size: cover;
-    /* background-color: rgb(51, 167, 245); */
+    
     width: 100%;
     bottom: 0;
     top: 60px;
