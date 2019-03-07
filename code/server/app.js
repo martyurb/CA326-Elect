@@ -9,8 +9,13 @@ var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var pollRouter = require('./routes/polls');
 
+var mongoProdConnString = require('./conf/keys').mongoProdConnString;
+var mongoDevConnString = require('./conf/keys').mongoDevConnString;
+
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://34.241.192.136:27017');
+
+// Use mongoProdConnString for production
+mongoose.connect(mongoDevConnString);
 
 var app = express();
 
