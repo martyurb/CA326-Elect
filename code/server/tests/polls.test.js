@@ -43,6 +43,7 @@ describe('Unit tests for poll controller', function() {
                     name: "Straw poll",
                 },
                 options:["option 1"],
+                close_at:"April 06, 2060 05:00:00",
                 isSecure: true
             }
         };
@@ -81,6 +82,7 @@ describe('Unit tests for poll controller', function() {
                     name: "Straw poll"
                 },
                 options:["option 1"],
+                close_at:"April 06, 2060 05:00:00",
                 isSecure: true
             },
             token: testToken

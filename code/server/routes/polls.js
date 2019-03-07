@@ -246,9 +246,12 @@ router.post('/create', function(req, res) {
             options = req.body.poll.options;
             type = req.body.poll.type;
             isSecure = req.body.poll.isSecure;
+            close_at = "32511473755000";
 
-            closingDate = new Date(req.body.poll.close_at);
-            close_at = closingDate.getTime();
+            if (req.body.poll.close_at != "") {
+              closingDate = new Date(req.body.poll.close_at);
+              close_at = closingDate.getTime();
+            }
             //isOpen = true;
 
             var record = new Poll({
