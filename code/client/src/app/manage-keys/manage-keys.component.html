@@ -52,8 +52,9 @@
                 </div>
                 <div *ngIf="keyGenerated">
                     <h4>Your keys have been generated!</h4>
-                    <p>Here is your private key, copy it and save it somewhere safe!</p>
-                    <small>{{privKey}}</small>
+                    <p style="color:red">Here is your private key, download it and save it somewhere safe! This is like your password for Xtra-Secure Voting</p>
+                    <!-- <small>{{privKey}}</small> -->
+                    <button class="btn btn-primary" (click)="download()">Download Private Key</button>
                 </div>
             </div>
           </div>

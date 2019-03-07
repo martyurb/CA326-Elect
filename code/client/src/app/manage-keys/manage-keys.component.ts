@@ -73,4 +73,17 @@ export class ManageKeysComponent implements OnInit {
     }
   }
 
+  download() {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.privKey));
+    element.setAttribute('download', 'Elect-Private-Key.txt');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
 }
