@@ -1,15 +1,39 @@
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 80%;
+
+.card-signin {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0.3, 0.3, 0.3, 0.3);
   }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+
+  .card-signin .card-title {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 1.5rem;
   }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
+
+  .card-signin .card-body {
+    padding: 2rem;
+  }
+
+  .form-signin {
+    width: 100%;
+  }
+
+  .form-signin .btn {
+    font-size: 80%;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+  }
+
+  .page-container {
+    position: absolute;
+    background: url(https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+    background-size: cover;
+    /* background-color: rgb(51, 167, 245); */
+    width: 100%;
+    bottom: 0;
+    top: 60px;
   }
