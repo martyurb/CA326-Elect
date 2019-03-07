@@ -152,7 +152,7 @@ export class AuthenticationService {
             token: this._token,
             pollid: id
         };
-        return this._http.post<{title: string, options: string[], id: string, isSecure: Boolean}>
+        return this._http.post<{title: string, options: string[], id: string, isSecure: Boolean, isOpen: Boolean}>
           (this._baseUrl + this._apiPollFetch, pollInfo);
     }
 

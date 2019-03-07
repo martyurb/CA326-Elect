@@ -301,10 +301,7 @@ router.post('/fetch', function(req, res) {
       const date = new Date();
       const nowTimestamp = date.getTime();
 
-      //check if current time is past close time. If true then poll is over and redirect to result page
-      if (nowTimestamp > closeTimestamp) {
-        return res.status(300).json({message: "Poll closed"});
-      } else {
+
         User.findOne({userid: verifiedToken.userid}, function(err, user) {
           if (err) { throw err; }
           if (user) {
@@ -312,12 +309,15 @@ router.post('/fetch', function(req, res) {
             const options = poll.options;
             const id = poll.pollid;
             const isSecure = poll.isSecure;
-            return res.status(200).json({title: title, options: options, id: id, isSecure: isSecure});
+            if (nowTimestamp > closeTimestamp) {
+              return res.status(200).json({title: title, options: options, id: id, isSecure: isSecure, isOpen: false});
+            }
+            return res.status(200).json({title: title, options: options, id: id, isSecure: isSecure, isOpen: true});
           } else {
             return res.status(500).json({message: "Something went wrong"});
             }
         })
-      }
+
     }
     else {
       return res.status(300).json({message: "Couldn't find poll with id: " + pollid});
