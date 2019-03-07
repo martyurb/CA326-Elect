@@ -77,6 +77,16 @@
 
 ---
 
+#### Operational Environment
+
+![](/home/jakegrogan/Documents/2019-ca326-jgrogan-elect/technical_manual/images/AWSArchitecture2.png)
+
+---
+
+#### Component Dataflow
+
+![](/home/jakegrogan/Documents/2019-ca326-jgrogan-elect/technical_manual/images/ComponentDataflow.png)
+
 ## 3. High-Level Design
 
 ### 3.1 Initial Design
@@ -228,7 +238,7 @@ The application should be up and running.
 >
 > For unit tests we test each route with both positive and negative test cases. The tests check that the expected responses and data are returned based on what data was in the request to the route.
 >
-> In terms of coverage, we have ~90% code coverage for the routes.
+> In terms of coverage, we have ~90% coverage for the routes.
 >
 > We have 22 unit tests in total for the back-end and use supertest for mocking requests to the route as well as chai and mocha for writing and running the tests cases.
 >
