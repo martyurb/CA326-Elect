@@ -22,7 +22,6 @@ function verifyToken(token){
 
 // Generate a PGP key pair for given user
 router.post('/keys/generate', function(req, res) {
-  console.log("HERE");
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -150,8 +149,6 @@ router.post('/login', function(req, res) {
                 photo: image,
                 fullname: name,
               });
-
-              console.log(record);
 
               record.save( (err,user) => {
                 if(err){

@@ -21,12 +21,12 @@ function getGroupedVotes(poll) {
 
     if (err) {throw err;}
     if (result) {
-      var grouped = _.groupBy(result, 'option')
-      console.log(grouped);
+      var grouped = _.groupBy(result, 'option');
+
       Object.keys(grouped).map(function (key, index) {
         grouped[key] = grouped[key].length;
       });
-      console.log(grouped);
+
       return grouped;
     }
   })
@@ -136,7 +136,7 @@ router.post('/cast-secure', (req, res) => {
           privateKeys: [privKeyObj.keys[0]],
           publicKeys: pgp.key.readArmored(pu_key).keys,
         };
-        console.log("NOW EERE");
+
         let decypted_vote = await pgp.decrypt(doptions).then((signedVote) => {
           return signedVote
         });

@@ -185,6 +185,7 @@ export class AuthenticationService {
 
         this._http.post<{message: boolean}>(this._baseUrl + this._apiPollCastSecure, secureVote)
             .subscribe((response) => {
+                this._router.navigate(['/']);
                 console.log(response);
             });
     }
