@@ -3,10 +3,9 @@ var router = express.Router();
 var User = require('../models/User');
 var pgp = require('openpgp');
 var TestUser = require('../models/TestUser');
+var secret = require('../conf/keys').secret;
 
 const jwt = require('jsonwebtoken');
-
-const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
 
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
@@ -23,7 +22,6 @@ function verifyToken(token){
 
 // Generate a PGP key pair for given user
 router.post('/keys/generate', function(req, res) {
-  console.log("HERE");
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
 
@@ -33,7 +31,7 @@ router.post('/keys/generate', function(req, res) {
       var options = {
         userIds: [{userid: verifiedToken.userid, }],
         numBits: 1024,
-        passphrase: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks"
+        passphrase: secret
       }
 
       pgp.generateKey(options).then(function(key) {
@@ -151,8 +149,6 @@ router.post('/login', function(req, res) {
                 photo: image,
                 fullname: name,
               });
-
-              console.log(record);
 
               record.save( (err,user) => {
                 if(err){

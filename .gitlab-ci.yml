@@ -7,7 +7,8 @@ cache:
 stages:
   - lint
   - build
-  - unittests
+  - expresstests
+  - angulartests
 
 lint:
   stage: lint
@@ -23,10 +24,20 @@ build:
     - npm install
     - ./node_modules/@angular/cli/bin/ng build --prod --base-href ./
 
-unittests:
-  stage: unittests
+expresstests:
+  stage: expresstests
   script:
     - cd code/server
     - npm install
     - npm start &
     - npm test ./tests
+
+angulartests:
+  variables:
+    CLI_VERSION: 6.1.0
+  stage: angulartests
+  image: trion/ng-cli-karma:${CLI_VERSION}
+  script:
+    - cd code/client
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng test --progress false --watch false

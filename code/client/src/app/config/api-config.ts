@@ -1,7 +1,11 @@
 // API endpoint definitions
 export const AppConfig = {
     apiUrl: 'http://localhost:3000',
+    // apiUrl: 'http://34.254.194.245:3000',
+
     apiAuth: 'http://localhost:3000/auth',
+    // apiAuth: 'http://34.254.194.245:3000/auth',
+
     apiSignup: '/signup',
     apiLogin: '/login',
     apiAccount: '/account',

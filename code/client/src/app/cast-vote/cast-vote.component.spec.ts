@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { CastVoteComponent } from './cast-vote.component';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CastVoteComponent', () => {
   let component: CastVoteComponent;
@@ -8,7 +11,8 @@ describe('CastVoteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CastVoteComponent ]
+      declarations: [ CastVoteComponent ],
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
   }));

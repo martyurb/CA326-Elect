@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -9,7 +8,11 @@ import { Router } from '@angular/router';
 })
 export class AccountComponent implements OnInit {
 
-  public userData;
+  public userData: any = {
+    photo: '',
+    name: '',
+    email: ''
+  };
 
   constructor(private authService: AuthenticationService) { }
 

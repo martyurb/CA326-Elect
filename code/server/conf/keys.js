@@ -1,5 +1,5 @@
 module.exports = {
-    privKey: ['-----BEGIN PGP PRIVATE KEY BLOCK-----',
+        priv_key: ['-----BEGIN PGP PRIVATE KEY BLOCK-----',
             'Version: OpenPGP.js v4.4.7',
             'Comment: https://openpgpjs.org',
             '',
@@ -37,7 +37,7 @@ module.exports = {
             '=OsQs/',
             '-----END PGP PRIVATE KEY BLOCK-----'].join('\r\n').replace(/\r/, ''),
 
-    pub_key: ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
+        pub_key: ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
             'Version: OpenPGP.js v4.4.7',
             'Comment: https://openpgpjs.org',
             '',
@@ -57,5 +57,9 @@ module.exports = {
             'P0lx4PJcdhIn7+voq5X+4S8GFPGO4viyvX27OlaDjadbGHPDbKvJ1VIy/k6v',
             'D88=',
             '=HZmp',
-            '-----END PGP PUBLIC KEY BLOCK-----'].join('\r\n')
+            '-----END PGP PUBLIC KEY BLOCK-----'].join('\r\n'),
+
+        secret: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k",
+        mongoProdConnString: 'mongodb://34.241.192.136:27017',
+        mongoDevConnString: 'mongodb://localhost:27017'
 }

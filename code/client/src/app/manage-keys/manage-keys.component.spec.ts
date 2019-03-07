@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ManageKeysComponent } from './manage-keys.component';
 
 describe('ManageKeysComponent', () => {
@@ -8,7 +10,12 @@ describe('ManageKeysComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManageKeysComponent ]
+      declarations: [ ManageKeysComponent ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule
+      ]
     })
     .compileComponents();
   }));

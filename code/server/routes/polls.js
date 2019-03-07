@@ -7,11 +7,9 @@ var User = require('../models/User');
 var Vote = require('../models/Vote');
 const jwt = require('jsonwebtoken');
 const pgp = require('openpgp');
-const priv_key = require('../conf/keys').privKey;
+const priv_key = require('../conf/keys').priv_key;
 const pub_key = require('../conf/keys').pub_key;
-
-
-const secret = "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k";
+const secret = require('../conf/keys').secret;
 
 // Verify the JWT
 function verifyToken(token){
@@ -23,12 +21,12 @@ function getGroupedVotes(poll) {
 
     if (err) {throw err;}
     if (result) {
-      var grouped = _.groupBy(result, 'option')
-      console.log(grouped);
+      var grouped = _.groupBy(result, 'option');
+
       Object.keys(grouped).map(function (key, index) {
         grouped[key] = grouped[key].length;
       });
-      console.log(grouped);
+
       return grouped;
     }
   })
@@ -129,8 +127,8 @@ router.post('/cast-secure', (req, res) => {
       const decryptVote = async(pr_key, pu_key, encryptedVote) => {
 
         const privKeyObj = (await pgp.key.readArmored(pr_key));
-        await privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-
+        await privKeyObj.keys[0].decrypt(secret);
+        
         msg = await pgp.message.readArmored(encryptedVote);
 
         let doptions = {
@@ -138,7 +136,7 @@ router.post('/cast-secure', (req, res) => {
           privateKeys: [privKeyObj.keys[0]],
           publicKeys: pgp.key.readArmored(pu_key).keys,
         };
-        console.log("NOW EERE");
+
         let decypted_vote = await pgp.decrypt(doptions).then((signedVote) => {
           return signedVote
         });
