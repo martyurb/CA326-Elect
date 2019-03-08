@@ -27,11 +27,11 @@
 
 ---
 
-> The idea for this project came about after this years Redbrick EGM, we noticed a problem. When people were voting to elect new committee members, all the votes had to be written on paper then tallied up. This was a long and arduous process to sit through. We assume Redbrick are not the only society which face this issue.
->
-> We propose a system that will combat this problem. The premise of this web application is to allow clubs, societies, groups and organisations to carry out votes for elections. Users who wish to conduct a vote or election will also have the option to digitally sign the votes, giving them peace of mind that whoever said they voted, did. Once a vote is created, the creator is given a unique, shareable url that may be distributed to whoever they wish to participate in the vote. Results will be available to voters and statistics available to the poll creators in the form of charts and graphs. 
->
-> You can think of this as the Doodle for voting and elections.
+The idea for this project came about after this years Redbrick EGM, we noticed a problem. When people were voting to elect new committee members, all the votes had to be written on paper then tallied up. This was a long and arduous process to sit through. We assume Redbrick are not the only society which face this issue.
+
+We propose a system that will combat this problem. The premise of this web application is to allow clubs, societies, groups and organisations to carry out votes for elections. Users who wish to conduct a vote or election will also have the option to digitally sign the votes, giving them peace of mind that whoever said they voted, did. Once a vote is created, the creator is given a unique, shareable url that may be distributed to whoever they wish to participate in the vote. Results will be available to voters and statistics available to the poll creators in the form of charts and graphs. 
+
+You can think of this as the Doodle for voting and elections.
 
 ### 1.2 - Glossary
 
@@ -67,11 +67,11 @@
 
 ---
 
-> For this project we decided on using the MEAN Stack. The MEAN stack uses MongoDB, Express.js, Angular and Node.js to build scalable, fullstack web applications. We decided to use this stack as javascript stacks are quickly becoming the norm for building modern web application. The fact that Javascript is used across the entire stack also makes working with the stack far more simplistic which benefits us as we were unfamiliar with most of the technologies used on this project in the beginning.
->
-> This stack is also very easy to pick up once you are familiar with javascript.
->
-> We chose Angular 6 as it was the latest release of Angular at the time of starting this project (Angular is now on version 7). We are using node version 8 as it is an LTS (Long term support) version. We are using the latest versions of MongoDB and Express.
+For this project we decided on using the MEAN Stack. The MEAN stack uses MongoDB, Express.js, Angular and Node.js to build scalable, fullstack web applications. We decided to use this stack as javascript stacks are quickly becoming the norm for building modern web application. The fact that Javascript is used across the entire stack also makes working with the stack far more simplistic which benefits us as we were unfamiliar with most of the technologies used on this project in the beginning.
+
+This stack is also very easy to pick up once you are familiar with javascript.
+
+We chose Angular 6 as it was the latest release of Angular at the time of starting this project (Angular is now on version 7). We are using node version 8 as it is an LTS (Long term support) version. We are using the latest versions of MongoDB and Express.
 
 ### 2.2 System Architecture
 
@@ -87,50 +87,56 @@
 
 ![](./images/ComponentDataflow.png)
 
+---
+
+#### Backend Routes
+
+![](./images/bearch.png)
+
 ## 3. High-Level Design
 
 ### 3.1 Initial Design
 
 ---
 
-> This system will be hosted online and so it will be accessible to anybody with internet access. The target audience will be societies, clubs, students and other organisations/groups who wish to conduct a vote and don't have their own system to do it.
+The target audience will be societies, clubs, students and other organisations/groups who wish to conduct a vote and don't have their own system to do it.
 
-> The application will be hosted on AWS. We will set up a VPC with both public and private facing subnets. The front-end will be accessible through these public subnets. The back-end and database will be hosted on EC2 Linux instances in the private facing subnets. There will be an elastic load balancer in front of the public subnet which will distribute the traffic to the public facing server fleet.
-> These public facing servers will be placed in an auto-scaling group and will horizontally scale based on certain server metrics. The front-end will be developed using Angular 6. The back-end will be developed with Express.js, on top of a Node.js server. We have decided to use MongoDB as our database as the data is not strongly related and our stack is javascript so storing JSON like objects makes sense.
+The application will be hosted on AWS. We will set up a VPC with both public and private facing subnets. The front-end will be accessible through these public subnets. The back-end and database will be hosted on EC2 Linux instances in the private facing subnets. There will be an elastic load balancer in front of the public subnet which will distribute the traffic to the public facing server fleet.
+These public facing servers will be placed in an auto-scaling group and will horizontally scale based on certain server metrics. The front-end will be developed using Angular 6. The back-end will be developed with Express.js, on top of a Node.js server. We have decided to use MongoDB as our database as the data is not strongly related and our stack is javascript so storing JSON like objects makes sense.
 
-> With most web applications, they should be prepared to deal with high user volume and growth. With this application we have potential scenarios such as a celebrity creating some type of poll and sharing that with hundreds of thousands, potentially millions, of people. Although unlikely for this project, we still need to design our system in such a way that it can scale to that level with little trouble. This is where AWS comes in.
-> Thanks to the elastic nature of most AWS services, we have no trouble scaling to meet these demands. Our front-end and back-end application servers will be placed in auto-scaling groups. This allows us to set triggers to start horizontally scaling our servers out to handle an increase in load. These triggers will be based on server metrics such as CPU utilization.
-> We can also create read replicas of our mongoDB instance. This allows us to hand off read requests to these instances during times of high load.
+With most web applications, they should be prepared to deal with high user volume and growth. With this application we have potential scenarios such as a celebrity creating some type of poll and sharing that with hundreds of thousands, potentially millions, of people. Although unlikely for this project, we still need to design our system in such a way that it can scale to that level with little trouble. This is where AWS comes in.
+Thanks to the elastic nature of most AWS services, we have no trouble scaling to meet these demands. Our front-end and back-end application servers will be placed in auto-scaling groups. This allows us to set triggers to start horizontally scaling our servers out to handle an increase in load. These triggers will be based on server metrics such as CPU utilization.
+We can also create read replicas of our mongoDB instance. This allows us to hand off read requests to these instances during times of high load.
 
-> Security is of utmost importance on the web. We can't afford data leaks, or be open to potential hacks.
-> Our application servers and databases will be in a private subnet that will only be able to be accessed through servers in the public subnets. We can restrict what IP addresses can access these servers.
-> We can also set up security groups and network access control lists. The security groups will act on an instance basis while the NACLs will act on a subnet basis. This adds an extra layer of protection to both servers and subnets.
-> Placing servers in autoscaling groups also helps mitigate against DDoS attack
-> The use of AWS Identity & Access Management (IAM) gives us fine-grained access to our AWS resources. We can enable multi-factor authentication on users associated with the project to add an additional layer of security so that if anyone trys to access our resources via API calls or through the management console they will need to use 2FA.
+Security is of utmost importance on the web. We can't afford data leaks, or be open to potential hacks.
+Our application servers and databases will be in a private subnet that will only be able to be accessed through servers in the public subnets. We can restrict what IP addresses can access these servers.
+We can also set up security groups and network access control lists. The security groups will act on an instance basis while the NACLs will act on a subnet basis. This adds an extra layer of protection to both servers and subnets.
+Placing servers in autoscaling groups also helps mitigate against DDoS attack
+The use of AWS Identity & Access Management (IAM) gives us fine-grained access to our AWS resources. We can enable multi-factor authentication on users associated with the project to add an additional layer of security so that if anyone trys to access our resources via API calls or through the management console they will need to use 2FA.
 
 ### 3.2 - Current Design
 
 ---
 
-> Following some problems we encountered along the way, we have had to change the design of the system slightly. The main problem was the amount of features we said we would have implemented in the final version. We discovered during development that although the features we had planned to include in the final release sounded relatively simple and straightforward to implement actually took some time. There were a lot more moving parts than we had first expected. 
+The main problem was the amount of features we said we would have implemented in the final version. We discovered during development that although the features we had planned to include in the final release sounded relatively simple and straightforward to implement actually took some time. There were a lot more moving parts than we had first expected. 
 
-> Due to this we have had to cut back some of the features we planned on implementing. We have only included a single vote type in the final release. However, we have designed how adding extra voting types is done in such a way as to make it much more straight forward than the first implementation of a voting type.
+Due to this we have had to cut back some of the features we planned on implementing. We have only included a single vote type in the final release. However, we have designed how adding extra voting types is done in such a way as to make it much more straight forward than the first implementation of a voting type.
 
-> Some other features such as IP duplication checking and displaying who voted have also been removed due to data protection and privacy concerns.
+Some other features such as IP duplication checking and displaying who voted have also been removed due to data protection and privacy concerns.
 
-> Everything else including the operational environment remains unchanged.
+Everything else including the operational environment remains unchanged.
 
 ## 4. Problems and Resolution
 
-> - When generating encryption keys, we faced some issues with the javascript implementation of openpgp. As a result of openpgp being implemented in javascript it was slower compared to implementations in other languages. To work around this we have had to resort to generation 1024 bit keys as opposed to 2048 bit keys we had originally planned.
+- When generating encryption keys, we faced some issues with the javascript implementation of openpgp. As a result of openpgp being implemented in javascript it was slower compared to implementations in other languages. To work around this we have had to resort to generation 1024 bit keys as opposed to 2048 bit keys we had originally planned.
 
-> - When signing the votes we faced some issues with how vote signing should be implemented. The first issues was the documentation for the openpgpjs library. It wasn't very clear as to how things should be done. With some messing around with documentation from previous versions and playing with some of the configurable options for signing, we managed to get it working.
+- When signing the votes we faced some issues with how vote signing should be implemented. The first issues was the documentation for the openpgpjs library. It wasn't very clear as to how things should be done. With some messing around with documentation from previous versions and playing with some of the configurable options for signing, we managed to get it working.
 
-> - When verifying the signed votes on the backend we faced some issues too. These were mainly caused by the asynchronous nature of Node.JS. We did not have to worry about asynchronous function calls on the front-end. On the backend, this was an issue and we had to design the code in such a way as to cater for these asynchronous calls. This has led to a waterfall style of code in which vote verification has had to happen in the callback function of the vote decryption.
+- When verifying the signed votes on the backend we faced some issues too. These were mainly caused by the asynchronous nature of Node.JS. We did not have to worry about asynchronous function calls on the front-end. On the backend, this was an issue and we had to design the code in such a way as to cater for these asynchronous calls. This has led to a waterfall style of code in which vote verification has had to happen in the callback function of the vote decryption.
 
-> - Problems arose when attempting to display vote results and statistics as charts. When the statistics component (or result component) is initialized, a call is made to fetch the data necessary to generate the graphs from the back-end. The line chart was not updating appropriately when the data arrived at the front end whereas the doughnut chart was updating perfectly fine. We soon discovered this was an issue a lot of others using the library faced. To combat this we fetched the data for the line chart before the doughnut chart. This has seemed to fix the issue. We are still unaware as to why this was causing problems.
+- Problems arose when attempting to display vote results and statistics as charts. When the statistics component (or result component) is initialized, a call is made to fetch the data necessary to generate the graphs from the back-end. The line chart was not updating appropriately when the data arrived at the front end whereas the doughnut chart was updating perfectly fine. We soon discovered this was an issue a lot of others using the library faced. To combat this we fetched the data for the line chart before the doughnut chart. This has seemed to fix the issue. We are still unaware as to why this was causing problems.
 
-> - When deploying to AWS, we found that if either the front-end or back-end servers encountered an error, they were not able to recover. This would in turn cause our load balancers health checks on the front-end server to fail and cause the entire site to go down. This is a problem we never experienced while testing locally. To combat this we needed some way of automatically restarting a server if it encountered an error. We found a library called pm2 worked well for us. Pm2 is an advanced production process manager for Node.js. Pm2 monitors processes (Node.js web apps in this case) and will automatically restart them when they exit unexpectedly. As a result our load balancers health checks are no longer failing and the site has a higher availability.
+- When deploying to AWS, we found that if either the front-end or back-end servers encountered an error, they were not able to recover. This would in turn cause our load balancers health checks on the front-end server to fail and cause the entire site to go down. This is a problem we never experienced while testing locally. To combat this we needed some way of automatically restarting a server if it encountered an error. We found a library called pm2 worked well for us. Pm2 is an advanced production process manager for Node.js. Pm2 monitors processes (Node.js web apps in this case) and will automatically restart them when they exit unexpectedly. As a result our load balancers health checks are no longer failing and the site has a higher availability.
 
 ## 5. Installation Guide
 
@@ -216,58 +222,75 @@ The application should be up and running.
 
 ---
 
-> When testing the front end we ran into a couple of minor issues and as a result we have done a mix of unit testing and manual adhoc testing. 
->
-> The issue was OAuth. We are using a wrapper around OAuth to make the Google signin process in angular as simple as possible. 
->
-> For unit tests we check that each component loads and initialises data correctly. These tests may be run using `ng test`.
->
-> In terms of coverage, we have 100% component coverage. 
->
-> We have 12 unit tests in total and use Jasmin and Karma to write and run our unit tests. These frameworks come with angular. 
->
-> Unit tests for each component can be found in the _name_.component.spec.ts file in each component directory.
->
-> As of current, all unit tests are passing.
+When testing the front end we ran into a couple of minor issues and as a result we have done a mix of unit testing and manual adhoc testing. 
+
+The issue was OAuth. We are using a wrapper around OAuth to make the Google signin process in angular as simple as possible. 
+
+For unit tests we check that each component loads and initialises data correctly. These tests may be run using `ng test`.
+
+In terms of coverage, we have 100% component coverage. 
+
+We have 12 unit tests in total and use Jasmin and Karma to write and run our unit tests. These frameworks come with angular. 
+
+Unit tests for each component can be found in the _name_.component.spec.ts file in each component directory.
+
+As of current, all unit tests are passing.
 
 ### 6.2 - Back-End Testing
 
 ---
 
-> When testing the backend we also ran into issues which were discussed in the installation guide. We needed to set up a test account on a remote mongoDB instance.
->
-> For unit tests we test each route with both positive and negative test cases. The tests check that the expected responses and data are returned based on what data was in the request to the route.
->
-> In terms of coverage, we have ~90% coverage for the routes.
->
-> We have 22 unit tests in total for the back-end and use supertest for mocking requests to the route as well as chai and mocha for writing and running the tests cases.
->
-> Unit tests can be found in the tests folder.
->
-> As of current, all unit tests are passing.
+When testing the backend we also ran into issues which were discussed in the installation guide. We needed to set up a test account on a remote mongoDB instance.
+
+For unit tests we test each route with both positive and negative test cases. The tests check that the expected responses and data are returned based on what data was in the request to the route.
+
+In terms of coverage, we have ~90% coverage for the routes.
+
+We have 22 unit tests in total for the back-end and use supertest for mocking requests to the route as well as chai and mocha for writing and running the tests cases.
+
+Unit tests can be found in the tests folder.
+
+As of current, all unit tests are passing.
 
 ### 6.3 - User Tests
 
 ---
 
-> We also believed that getting feedback from users was equally important. The aim of the user tests was to gain an understanding of the usability of the system as well as how accessible it is.
->
-> To do this we set up a user test account and invited participants to carry out a set of scenarios that covered the systems main functions. We then gave the participants a short anonymous questionnaire. 
->
-> The results of this are as follows and marked out of 5:
->
-> Trying to log in: 5/5
->
-> Create a non-secure poll: 4.5/5
->
-> Cast a vote on the non-secure poll: 4.5/5
->
-> Viewing and understanding vote results: 5/5
->
-> Viewing the polls statistics: 5/5
->
-> Generating your encryption keys: 3/5
->
-> Creating a secure poll: 4/5
->
-> Voting on a secure poll: 4/5
+We also believed that getting feedback from users was equally important. The aim of the user tests was to gain an understanding of the usability of the system as well as how accessible it is.
+
+To do this we set up a user test account and invited participants to carry out a set of scenarios that covered the systems main functions. We then gave the participants a short anonymous questionnaire. 
+
+The results of this are as follows and marked out of 5:
+
+Trying to log in: 5/5
+
+Create a non-secure poll: 4.5/5
+
+Cast a vote on the non-secure poll: 4.5/5
+
+Viewing and understanding vote results: 5/5
+
+Viewing the polls statistics: 5/5
+
+Generating your encryption keys: 3/5
+
+Creating a secure poll: 4/5
+
+Voting on a secure poll: 4/5
+
+### 6.4 - CI/CD
+
+---
+
+We have a continuous integration pipeline set up on the Gitlab repository. There are four stages to the pipeline.
+
+1. Lint tests
+   - In this stage, our front end angular code is put through lint tests to make sure the code follows style guides. This helps us keep our code consistent from developer to developer
+2. Build stage
+   - In this stage we build the client code for production. We deemed this necessary to do each time as Angular has a habbit of running fine on a dev server but failing to build for production
+3. Angular unit tests
+   - In this stage we run our angular unit tests, the details of which can be found in section 6.1
+4. Backend unit tests
+   - In this stage we run our backend unit tests, the details of which can be found in section 6.2
+
+![](./images/commitdiagram.png)
