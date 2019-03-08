@@ -15,7 +15,7 @@ var mongoDevConnString = require('./conf/keys').mongoDevConnString;
 var mongoose = require('mongoose');
 
 // Use mongoProdConnString for production
-mongoose.connect(mongoProdConnString);
+mongoose.connect(mongoDevConnString);
 
 var app = express();
 

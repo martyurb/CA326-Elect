@@ -31,7 +31,7 @@ router.post('/keys/generate', function(req, res) {
       var options = {
         userIds: [{userid: verifiedToken.userid, }],
         numBits: 1024,
-        passphrase: secret
+        passphrase: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks"
       }
 
       pgp.generateKey(options).then(function(key) {

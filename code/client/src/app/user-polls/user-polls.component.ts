@@ -26,6 +26,17 @@ export class UserPollsComponent implements OnInit {
     });
   }
 
+  toDate(createdAt: string) {
+    const createdAtNum = parseInt(createdAt, 10);
+    const a = new Date(createdAtNum);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const year = a.getFullYear();
+    const month = months[a.getMonth()];
+    const date = a.getDate();
+    const time = date + ' ' + month + ' ' + year ;
+    return time;
+  }
+
   goToPoll(pollid: string) {
     console.log(pollid);
     this.router.navigate(['/poll', pollid]);

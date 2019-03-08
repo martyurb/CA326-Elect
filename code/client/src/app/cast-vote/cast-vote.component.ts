@@ -88,7 +88,6 @@ const pubkey = ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
 
         const privKeyObj = (pgp.key.readArmored(privkey));
         privKeyObj.keys[0].decrypt('oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks');
-
         // FOR SIGNING THE VOTE
         const options = {
           data: voteObject.option,

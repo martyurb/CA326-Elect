@@ -116,19 +116,21 @@ router.post('/cast-secure', (req, res) => {
   let token = req.body.token;
   let verifiedToken = verifyToken(token);
   let pollid = req.body.pollid;
+  console.log(pollid)
   User.findOne({userid: verifiedToken.userid}, function(err, user) {
 
     if (err) throw err;
+
     else if (user) {
       let encryptedVote = req.body.encryptedVote;
       let pr_key = priv_key;
       let pu_key = pub_key;
 
       const decryptVote = async(pr_key, pu_key, encryptedVote) => {
-
+        console.log("HERE");
         const privKeyObj = (await pgp.key.readArmored(pr_key));
-        await privKeyObj.keys[0].decrypt(secret);
-        
+        await privKeyObj.keys[0].decrypt("oiwerl43ksmpoq5wieurxmzcvnb9843lj3459ks");
+        console.log("ALSO HER");
         msg = await pgp.message.readArmored(encryptedVote);
 
         let doptions = {
