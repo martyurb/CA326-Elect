@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-poll',
@@ -13,9 +13,11 @@ export class ViewPollComponent implements OnInit {
   private options;
   public id;
   pollFound: boolean;
+  isOpen: Boolean;
 
   constructor(private authService: AuthenticationService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private router: Router
             ) { }
 
   ngOnInit() {
@@ -27,7 +29,14 @@ export class ViewPollComponent implements OnInit {
         this.options = response.options;
         this.id = response.id;
         this.pollFound = true;
+
+        if (response.isOpen === false) {
+          this.router.navigate(['/poll', this.id, 'result']);
+        }
       });
+
+
+
   }
 
 }

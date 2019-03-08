@@ -32,6 +32,7 @@ export class PollComponent implements OnInit {
       options: this.fb.array([
         this.fb.control('')
       ]),
+      close_at: [''],
       isExtraSecure: ['']
     });
   }
@@ -50,6 +51,7 @@ export class PollComponent implements OnInit {
     const timestamp = this.pollForm.controls.timestamp.value;
     const title = this.pollForm.controls.title.value;
     const type = this.pollForm.controls.type.value;
+    const close_at = this.pollForm.controls.close_at.value;
     let options = this.pollForm.controls.options.value;
     let secure: Boolean;
     if (this.pollForm.controls.isExtraSecure.untouched === true) {
@@ -74,6 +76,7 @@ export class PollComponent implements OnInit {
       type: type,
       options: options,
       isSecure: secure,
+      close_at: close_at,
     };
 
     console.log(poll);

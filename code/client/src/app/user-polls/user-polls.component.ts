@@ -21,6 +21,7 @@ export class UserPollsComponent implements OnInit {
       if (response.message === true) {
         this.userPollsFound = true;
         this.userPolls = response.polls;
+
       }
     });
   }
@@ -48,4 +49,12 @@ export class UserPollsComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
+  closePoll(pollid: string) {
+    this.authService.closePoll(pollid)
+      .subscribe((response) => {
+        if (response.success === true) {
+          window.location.reload();
+        }
+      });
+    }
 }

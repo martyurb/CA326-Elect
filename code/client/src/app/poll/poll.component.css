@@ -35,9 +35,10 @@
 
 .page-container {
   position: absolute;
-  background-color: rgb(51, 167, 245);
+  background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
+  background-size: cover;
   width: 100%;
-
+  bottom: 0;
   top: 60px;
 }
 
