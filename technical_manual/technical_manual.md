@@ -1,3 +1,15 @@
+__Student Name__: Jake Grogan
+__Student Number__: 16456346
+
+__Student Name__: Martynas Urbanavicius
+__Student Number__: 16485084
+
+__Supervisor__: Stephen Blott
+
+__Date__: 8th March 2019
+
+---
+
 # Elect Technical Manual
 
 ## 0 - Table of Contents
@@ -293,4 +305,4 @@ We have a continuous integration pipeline set up on the Gitlab repository. There
 4. Backend unit tests
    - In this stage we run our backend unit tests, the details of which can be found in section 6.2
 
-![](./images/commitdiagram.png)
+![](./images/comits.png)
