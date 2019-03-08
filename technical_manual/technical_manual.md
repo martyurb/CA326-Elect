@@ -79,13 +79,13 @@
 
 #### Operational Environment
 
-![](/home/jakegrogan/Documents/2019-ca326-jgrogan-elect/technical_manual/images/AWSArchitecture2.png)
+![](./images/AWSArchitecture2.png)
 
 ---
 
 #### Component Dataflow
 
-![](/home/jakegrogan/Documents/2019-ca326-jgrogan-elect/technical_manual/images/ComponentDataflow.png)
+![](./images/ComponentDataflow.png)
 
 ## 3. High-Level Design
 
