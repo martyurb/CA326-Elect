@@ -1,0 +1,29 @@
+<div class="page-container">
+    <div class="form-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">Cast Vote</h5>
+              <h6 class="text-center" *ngIf="isSecure">This is an extra-secure poll!</h6><br>
+              <form [formGroup]="pollCastForm">
+                <label>Poll Title</label>
+                <p>{{title}}</p>
+                <label>Poll options</label>
+                <div *ngFor="let option of options">
+                    <input type="radio" formControlName="voteOption" [value]="option"> {{option}}
+                </div><br>
+                <div *ngIf="isSecure">
+                  <textarea class="form-control" formControlName="privKey" placeholder="Paste your PGP RSA private key here..."></textarea>
+                  <small>Don't worry, your private key is never sent anywhere!</small>
+                </div><br>
+                <button class="btn btn-primary" (click)="submit()" >Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,66 @@
+<!-- <div class="container">
+<h1>Manage Your PGP Keys</h1>
+
+<div *ngIf="isKeySet">
+    <h4>You have set your PGP encryption keys</h4>
+    <button class="btn btn-primary" (click)="displayKey()">Show Key</button>
+    <br><br>
+    <p [textContent]="keyText"></p>
+</div>
+
+
+<div *ngIf="!isKeySet">
+    <h4>Set up your PGP encryption keys</h4>
+    <p>This must be done in order to use Extra-Secure voting</p>
+
+    <form [formGroup]="keysForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+        <label>
+            <textarea placeholder="Paste your PGP RSA public key here.." type="text" formControlName="publicKey"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Add Public Key</button>
+    </form>
+    <br>
+    <h4>OR</h4>
+    <br>
+    <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
+</div>
+</div> -->
+
+<div class="page-container">
+    <div class="form-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">My Keys</h5>
+
+                <div *ngIf="isKeySet">
+                    <h4>You have set your PGP encryption keys</h4>
+                    <button class="btn btn-primary" (click)="displayKey()">Show Key</button>
+                    <br><br>
+                    <p [textContent]="keyText"></p>
+                </div>
+
+
+                <div *ngIf="!isKeySet && !keyGenerated">
+                    <h4>Set up your PGP encryption keys</h4>
+                    <p>This must be done in order to use Extra-Secure voting</p>
+
+                    <button class="btn btn-primary" (click)="generateKey()">Generate Key Pair</button>
+                    <p><i>(We generate 1024 bit RSA encryption keys)</i></p>
+                </div>
+                <div *ngIf="keyGenerated">
+                    <h4>Your keys have been generated!</h4>
+                    <p style="color:red">Here is your private key, download it and save it somewhere safe! This is like your password for Xtra-Secure Voting</p>
+                    <p style="color: red"><strong>THIS IS A ONE TIME DOWNLOAD!</strong></p>
+                    <!-- <small>{{privKey}}</small> -->
+                    <button class="btn btn-primary" (click)="download()">Download Private Key</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,31 @@
+<div class="page-container">
+  <div class="form-wrapper">
+    <div class="container">
+      <div *ngIf="userPollsFound">
+        <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+          <div class="card card-signin my-5">
+            <br>
+            <table class="table table-hover">
+                <tr>
+                  <th>Poll Title</th>
+                  <th>Created At</th>
+                  <th>Share Poll</th>
+                  <th>View</th>
+                  <th>Statistics</th>
+                  <th>Close Poll</th>
+                </tr>
+              <tr *ngFor="let poll of userPolls">
+                <td>{{poll.title}}</td>
+                <td>{{poll.created_at}}</td>
+                <td><button class="btn btn-danger" (click)="copy(poll.pollid)">Copy Link</button></td>
+                <td><button class="btn btn-primary" (click)="goToPoll(poll.pollid)">View</button></td>
+                <td><button class="btn btn-success" (click)="goToStats(poll.pollid)" >Statistics</button></td>
+                <td><button class="btn btn-warning" (click)="closePoll(poll.pollid)" >Close</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

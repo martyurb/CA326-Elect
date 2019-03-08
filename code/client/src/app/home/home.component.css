@@ -1,0 +1,39 @@
+header .master {
+  background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-weight:700
+}
+
+header.masthead {
+  position:relative;
+  background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
+  background-size:cover;
+  padding-top:8rem;
+  padding-bottom:8rem;
+}
+
+header.masthead .overlay {
+  position:absolute;
+  background-color:#212529;
+  height:100%;
+  width:100%;
+  top:0;
+  left:0;
+  opacity:.0
+}
+header.masthead h1 {
+  font-size:2rem
+}
+
+@media (min-width:768px) {
+  header.masthead {
+    padding-top:12rem;
+    padding-bottom:12rem
+  }
+  header.masthead h1
+  {
+    font-size:3rem
+  }
+}

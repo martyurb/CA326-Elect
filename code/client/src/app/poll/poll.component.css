@@ -1,0 +1,59 @@
+.form-container {
+  margin: 4rem;
+  width: 40%;
+}
+
+
+.card-signin {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-signin .card-title {
+  margin-bottom: 2rem;
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+
+.card-signin .card-body {
+  padding: 2rem;
+}
+
+.form-signin {
+  width: 100%;
+}
+
+.form-signin .btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.page-container {
+  position: absolute;
+  background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
+  background-size: cover;
+  width: 100%;
+  bottom: 0;
+  top: 60px;
+}
+
+.form-wrapper {
+  position: relative;
+  width: 60%;
+  display: table;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+
+}
+
+.poll-options {
+  width: 100%;
+}

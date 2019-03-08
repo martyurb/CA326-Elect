@@ -1,0 +1,24 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/img/logo.png" class="logo" width="120px" height="34px" alt="">
+    </a>
+    <ul class="nav">
+            <li *ngIf="userIsAuthenticated" class="nav-item">
+              <a class="nav-link" routerLink="/poll/create">Create Poll</a>
+            </li>
+            <li *ngIf="userIsAuthenticated" class="nav-item">
+              <a class="nav-link" routerLink="/user/polls">My Polls</a>
+            </li>
+            <li *ngIf="userIsAuthenticated" class="nav-item">
+              <a class="nav-link" routerLink="/user/account">My Account</a>
+            </li>
+            <li *ngIf="userIsAuthenticated" class="nav-item">
+              <a class="nav-link" (click)="onLogout()">Logout</a>
+            </li>
+            <li *ngIf="!userIsAuthenticated" class="nav-item" >
+              <a class="nav-link" routerLink="/signin">Sign In</a>
+            </li>
+          </ul>
+  </div>
+</nav>

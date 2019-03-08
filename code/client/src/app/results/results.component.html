@@ -1,0 +1,31 @@
+<!-- <div id="chartContainer" style="height: 370px; width: 100%;"></div> -->
+
+
+<div class="page-container">
+    <div class="form-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">Poll Results</h5>
+              <div style="display: block">
+                  <canvas baseChart
+                          [data]="pieChartData"
+                          [labels]="pieChartLabels"
+                          [chartType]="pieChartType"
+                          [colors]="pieChartColors"
+                          [options]="pieChartOptions"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"></canvas>
+              </div>
+              <br>
+              <button class="btn btn-primary" routerLink="/user/polls">My Polls</button>&nbsp;
+              <button class="btn btn-danger" routerLink="/poll/{{pollid}}/statistics">View Statistics</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
