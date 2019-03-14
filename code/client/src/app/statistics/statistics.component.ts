@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StatisticsComponent implements OnInit {
 
-  private title;
+  public title;
   // lineChart
   public lineChartType = 'line';
   public lineChartData: Array<any> = [];

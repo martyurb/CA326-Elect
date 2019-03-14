@@ -11,7 +11,7 @@ import { ChartModule } from 'chart.js';
 export class ResultsComponent implements OnInit {
   // Pie
   pollid = '';
-  private title;
+  public title;
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
