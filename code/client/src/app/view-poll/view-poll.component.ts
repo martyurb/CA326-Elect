@@ -36,9 +36,9 @@ export class ViewPollComponent implements OnInit {
       });
   }
 
-  //copied from user polls component
+  // copied from user polls component
   copy() {
-    const pollid = this.route.snapshot.paramMap.get('id')
+    const pollid = this.route.snapshot.paramMap.get('id');
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';

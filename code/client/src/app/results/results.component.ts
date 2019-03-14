@@ -67,7 +67,7 @@ export class ResultsComponent implements OnInit {
 
     });
 
-    //moved from view poll component
+    // moved from view poll component
     this.authService.getPollInformation(pollid)
       .subscribe((response) => {
         this.title = response.title;

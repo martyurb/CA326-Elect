@@ -100,7 +100,7 @@ export class StatisticsComponent implements OnInit {
       .subscribe((response) => {
         console.log(response.votes);
       });
-      //moved from view poll component
+      // moved from view poll component
       this.authService.getPollInformation(pollid)
         .subscribe((response) => {
           this.title = response.title;
