@@ -7,6 +7,9 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h4 class="card-title text-center">Poll Statistics</h4>
+            <br>
+            <h5 class="text-center">{{title}}</h5>
+            <br>
             <h5 class="text-center">Total votes over time per option</h5>
               <div style="display: block" *ngIf="lineChartData.length > 0">
                 <canvas baseChart
@@ -18,7 +21,7 @@
                   (chartClick)="chartClicked($event)"></canvas>
               </div>
               <br><br>
-              <h4 class="card-title text-center">Poll Results</h4>
+              <h5 class="card-title text-center">Pie chart vote distribution</h5>
               <div style="display: block">
                 <canvas baseChart
                         [data]="pieChartData"

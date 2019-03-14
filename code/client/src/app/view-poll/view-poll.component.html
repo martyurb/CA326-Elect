@@ -22,6 +22,8 @@
                 </div><br>
                 <button class="btn btn-primary" routerLink="/poll/{{id}}/cast">Cast Vote</button>
                 &nbsp;
+                <button class="btn btn-success" (click)="copy()">Copy Poll Link</button>
+                &nbsp;
                 <button class="btn btn-danger" routerLink="/poll/{{id}}/result">View Results</button>
             </div>
           </div>

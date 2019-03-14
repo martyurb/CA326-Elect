@@ -75,7 +75,7 @@ router.post('/getStatsLine', function(req, res) {
       let grouped = _.groupBy(votes, function(o) { return o.option; });
 
       //amount of data points to generate
-      const dataPoints = 8;
+      const dataPoints = 7;
       const step = difference / dataPoints;
 
       //gen array with values from min to max time in step intervals
@@ -100,6 +100,9 @@ router.post('/getStatsLine', function(req, res) {
           dataArray[i] = p;
           i = i + 1;
         });
+        dataArray = [0].concat(dataArray);
+        console.log('thishere', dataArray);
+        console.log(value[0].option);
         obj["data"] = dataArray;
         obj["label"] = value[0].option;
         chartData[k] = obj;

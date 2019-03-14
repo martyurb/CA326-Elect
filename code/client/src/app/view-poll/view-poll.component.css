@@ -1,3 +1,8 @@
+.form-container {
+  margin: 4rem;
+  width: 40%;
+}
+
 
 .card-signin {
     border: 0;
@@ -42,7 +47,7 @@
     position: absolute;
     background-image: linear-gradient(#ec77ab 0%, #7873f5 100%);
     background-size: cover;
-    
+
     width: 100%;
     bottom: 0;
     top: 60px;

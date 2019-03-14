@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
+
+  private title;
   // lineChart
   public lineChartType = 'line';
   public lineChartData: Array<any> = [];
@@ -97,6 +99,11 @@ export class StatisticsComponent implements OnInit {
     this.authService.getVotes(pollid)
       .subscribe((response) => {
         console.log(response.votes);
+      });
+      //moved from view poll component
+      this.authService.getPollInformation(pollid)
+        .subscribe((response) => {
+          this.title = response.title;
       });
   }
 

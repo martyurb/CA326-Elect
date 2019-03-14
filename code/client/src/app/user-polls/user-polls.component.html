@@ -10,8 +10,8 @@
                   <th>Poll Title</th>
                   <th>Created At</th>
                   <th>Share Poll</th>
-                  <th>View</th>
-                  <th>Statistics</th>
+                  <th>View Poll</th>
+                  <th>View Statistics</th>
                   <th>Close Poll</th>
                 </tr>
               <tr *ngFor="let poll of userPolls">
@@ -20,7 +20,8 @@
                 <td><button class="btn btn-danger" (click)="copy(poll.pollid)">Copy Link</button></td>
                 <td><button class="btn btn-primary" (click)="goToPoll(poll.pollid)">View</button></td>
                 <td><button class="btn btn-success" (click)="goToStats(poll.pollid)" >Statistics</button></td>
-                <td><button class="btn btn-warning" (click)="closePoll(poll.pollid)" >Close</button></td>
+                <td *ngIf="pollClosedStatus(poll.close_at)"><button class="btn btn-warning" (click)="closePoll(poll.pollid)" >Close</button></td>
+                <td *ngIf="!pollClosedStatus(poll.close_at)"><button class="btn btn-outline-secondary" disabled>Closed</button></td>
               </tr>
             </table>
           </div>

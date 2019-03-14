@@ -68,4 +68,9 @@ export class UserPollsComponent implements OnInit {
         }
       });
     }
+
+  pollClosedStatus(close_at: any) {
+    const curDate = new Date().getTime();
+    return close_at > curDate;
+  }
 }

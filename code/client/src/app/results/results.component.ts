@@ -11,6 +11,7 @@ import { ChartModule } from 'chart.js';
 export class ResultsComponent implements OnInit {
   // Pie
   pollid = '';
+  private title;
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType = 'doughnut';
@@ -65,6 +66,12 @@ export class ResultsComponent implements OnInit {
       console.log(valarr);
 
     });
+
+    //moved from view poll component
+    this.authService.getPollInformation(pollid)
+      .subscribe((response) => {
+        this.title = response.title;
+      });
   }
 
 }

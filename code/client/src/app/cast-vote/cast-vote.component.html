@@ -8,9 +8,10 @@
               <h5 class="card-title text-center">Cast Vote</h5>
               <h6 class="text-center" *ngIf="isSecure">This is an extra-secure poll!</h6><br>
               <form [formGroup]="pollCastForm">
-                <label>Poll Title</label>
+                <label><strong>Poll Title</strong></label>
                 <p>{{title}}</p>
-                <label>Poll options</label>
+                <br>
+                <label><strong>Poll options</strong></label>
                 <div *ngFor="let option of options">
                     <input type="radio" formControlName="voteOption" [value]="option"> {{option}}
                 </div><br>

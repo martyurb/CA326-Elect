@@ -34,9 +34,22 @@ export class ViewPollComponent implements OnInit {
           this.router.navigate(['/poll', this.id, 'result']);
         }
       });
+  }
 
-
-
+  //copied from user polls component
+  copy() {
+    const pollid = this.route.snapshot.paramMap.get('id')
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = 'http://www.elect-project.com/poll/' + pollid;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 
 }
