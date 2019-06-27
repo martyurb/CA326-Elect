@@ -8,13 +8,10 @@ __Student 1__:
 
 Name: Jake Grogan
 
-ID Number: 16456346
 
 __Student 2__: 
 
 Name: Martynas Urbanavicius
-
-ID Number: 15485084
 
 
 

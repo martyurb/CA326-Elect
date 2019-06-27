@@ -46,11 +46,16 @@ export class PollComponent implements OnInit {
   }
 
   submit() {
-
     this.pollForm.controls['timestamp'].patchValue(Date.now());
     const timestamp = this.pollForm.controls.timestamp.value;
     const title = this.pollForm.controls.title.value;
-    const type = this.pollForm.controls.type.value;
+    let type = this.pollForm.controls.type.value;
+    if (type === '1') {
+      type = this.pollForm.controls['type'].patchValue(this.voteTypes[0]);
+    } else {
+      type = this.pollForm.controls['type'].patchValue(this.voteTypes[1]);
+    }
+    const typef = this.pollForm.controls.type.value;
     const close_at = this.pollForm.controls.close_at.value;
     let options = this.pollForm.controls.options.value;
     let secure: Boolean;
@@ -59,7 +64,6 @@ export class PollComponent implements OnInit {
     } else {
       secure = this.pollForm.controls.isExtraSecure.value;
     }
-    console.log(secure);
     const newOptions = [];
     let i = 0;
     while (i < options.length) {
@@ -73,7 +77,7 @@ export class PollComponent implements OnInit {
     const poll = {
       timestamp: timestamp,
       title: title,
-      type: type,
+      type: typef,
       options: options,
       isSecure: secure,
       close_at: close_at,
@@ -89,6 +93,11 @@ export class PollComponent implements OnInit {
       });
 
 
+  }
+
+  update(type: any) {
+    console.log(type);
+    this.pollForm.controls['type'].patchValue(type);
   }
 
 

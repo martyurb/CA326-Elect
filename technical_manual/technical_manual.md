@@ -1,8 +1,6 @@
 __Student Name__: Jake Grogan
-__Student Number__: 16456346
 
 __Student Name__: Martynas Urbanavicius
-__Student Number__: 16485084
 
 __Supervisor__: Stephen Blott
 

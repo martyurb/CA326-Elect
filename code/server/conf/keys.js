@@ -60,6 +60,6 @@ module.exports = {
             '-----END PGP PUBLIC KEY BLOCK-----'].join('\r\n'),
 
         secret: "oiwerl43ksmpoq5wieurxmzcvnb9843lj3459k",
-        mongoProdConnString: 'mongodb://34.241.192.136:27017',
+        mongoProdConnString: 'mongodb://REMOVED',
         mongoDevConnString: 'mongodb://localhost:27017'
 }

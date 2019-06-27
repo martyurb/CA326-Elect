@@ -36,7 +36,7 @@
               <input class="form-control" placeholder="Enter poll title" formControlName="title"><br>
               <label>Poll Type</label>
               <select class="form-control" formControlName="type">
-                <option [value]="type" *ngFor="let type of voteTypes">{{type.name}}</option>
+                <option [value]="type.code" *ngFor="let type of voteTypes">{{type.name}}</option>
               </select>
               <br>
               <div formArrayName="options">
