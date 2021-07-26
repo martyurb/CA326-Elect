@@ -1,2 +1,7 @@
-# 2019 CA326 Third Year Project Elect
+# Elect - 2019 CA326 Third Year Project
 
+The premise of this web application is to allow clubs, societies, groups and organisations to carry out votes for elections. Users who wish to conduct a vote or election will have many options including straw polls, plurality electoral systems and single transferable vote. Users will also have the option to make these extra secure with the use of PGP Cryptography to sign the votes. You can think of this as the Doodle for voting and elections.
+
+Creators of polls/elections will also have the option to customise the voting environment. For example, creators will have the option to restrict the votes to only accept votes from certain email addresses. They will also have the option to display to everyone in the vote, who voted but not who they voted for, this gives a degree of transparency and helps ensure people who aren't supposed to vote haven't. It also ensures there isn’t any cheating in the votes (People haven’t voted twice or made fake email accounts). Creators will also have the option to enable IP duplication checking on open straw polls so that voters should be deterred from voting more than once. Once a vote is created a unique shareable URL will be given which will be used to access the voting page.
+
+When a vote has concluded, statistics of the vote will be available to the creators in the form of graphs.
